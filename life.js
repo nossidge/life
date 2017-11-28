@@ -52,7 +52,10 @@ function rand(max, min, _int) {
 function css(selector, prop, val) {
   for (var i=0; i<document.styleSheets.length; i++) {
     try {
-      document.styleSheets[i].insertRule(selector+ ' {'+prop+':'+val+'}', document.styleSheets[i].cssRules.length);
+      document.styleSheets[i].insertRule(
+        selector+ ' {'+prop+':'+val+'}',
+        document.styleSheets[i].cssRules.length
+      );
     } catch(e) {
       try {
         document.styleSheets[i].addRule(selector, prop+':'+val);
@@ -594,17 +597,22 @@ function updateRuleByName(name) {
 
   // Turn checkboxes on if needed.
   for (var i = 0; i < lifeRules[currentRuleType]['birth'].length; i++) {
-    document.getElementById('birth_' + lifeRules[currentRuleType]['birth'][i]).checked = true;
+    document.getElementById(
+      'birth_' + lifeRules[currentRuleType]['birth'][i]
+    ).checked = true;
   }
   for (var i = 0; i < lifeRules[currentRuleType]['survival'].length; i++) {
-    document.getElementById('survival_' + lifeRules[currentRuleType]['survival'][i]).checked = true;
+    document.getElementById(
+      'survival_' + lifeRules[currentRuleType]['survival'][i]
+    ).checked = true;
   }
 
   // Show the description, if it has one.
+  let elem = document.getElementById('rules_desc');
   if (lifeRules[currentRuleType].hasOwnProperty('description')) {
-    document.getElementById('rules_desc').innerHTML = lifeRules[currentRuleType]['description'];
+    elem.innerHTML = lifeRules[currentRuleType]['description'];
   } else {
-    document.getElementById('rules_desc').innerHTML = '';
+    elem.innerHTML = '';
   }
 
   // Epilepsy Life Rules checkboxes.
@@ -630,10 +638,11 @@ function updateLoopType(value) {
     document.getElementById('loop_rule_1').value = loopRules[1];
 
     // Show the description, if it has one.
+    let elem = document.getElementById('loop_type_desc');
     if (loopTypes[loopType].hasOwnProperty('description')) {
-      document.getElementById('loop_type_desc').innerHTML = loopTypes[loopType]['description'];
+      elem.innerHTML = loopTypes[loopType]['description'];
     } else {
-      document.getElementById('loop_type_desc').innerHTML = '';
+      elem.innerHTML = '';
     }
 
     // Change the rule, if it is not one of the loop rules.
@@ -921,7 +930,8 @@ function initCanvas() {
 function clickRedrawButton() {
   cellCount.x = parseInt(document.getElementById('range_width').value);
   cellCount.y = parseInt(document.getElementById('range_height').value);
-  cellPixels.x = cellPixels.y = parseInt(document.getElementById('range_pixels').value);
+  cellPixels.x = parseInt(document.getElementById('range_pixels').value);
+  cellPixels.y = cellPixels.x;
   initCanvas();
 }
 
