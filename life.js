@@ -91,14 +91,7 @@ var ANIMATION;
 var frameRate = 8;
 var frameCount = 0;
 
-var cellCount  = {x: 99, y: 99};
-var cellPixels = {x: 8,  y: 8};
-var centreCell = {x: 49, y: 49};
-
 var blur = 1;
-
-var fillColourDead  = '#000000';
-var fillColourAlive = '#E0B0FF';
 
 var currentRuleType = 'Conway';
 var loopType = '(none)';
@@ -112,7 +105,6 @@ var lastCustomRuleName = '(custom 1)';
 
 var paused = false;
 var epilepsySafe = true;
-
 
 //##############################################################################
 
@@ -688,20 +680,22 @@ function updateFramerate(inputFramerate) {
 //##############################################################################
 
 function updateColourLive(inputColour) {
-  fillColourAlive = String(inputColour);
+  let fillColourAlive = String(inputColour);
   if (fillColourAlive.charAt(0) != '#') {
     fillColourAlive = '#' + fillColourAlive;
   }
+  Cell.set_fillColourAlive(fillColourAlive);
   document.getElementById('jscolor_live').jscolor.fromString(fillColourAlive);
   if (colourLiveIsBackground) {
     document.body.style.backgroundColor = fillColourAlive;
   }
 }
 function updateColourDead(inputColour) {
-  fillColourDead = String(inputColour);
+  let fillColourDead = String(inputColour);
   if (fillColourDead.charAt(0) != '#') {
     fillColourDead = '#' + fillColourDead;
   }
+  Cell.set_fillColourDead(fillColourDead);
   document.getElementById('jscolor_dead').jscolor.fromString(fillColourDead);
   if (colourDeadIsText) {
     document.body.style.color = fillColourDead;
@@ -835,9 +829,12 @@ function checkLifeRules() {
 
 // Initialize a fraction of the cells to start in their "alive" state.
 function randomise() {
-  var limit = {x: cellCount.x, y: cellCount.y};
-  if (mirrorNS) { limit.y = cellCount.y / 2; }
-  if (mirrorEW) { limit.x = cellCount.x / 2; }
+  var limit = {
+    x: Cell.get_cellCount().x,
+    y: Cell.get_cellCount().y
+  };
+  if (mirrorNS) { limit.y = limit.y / 2; }
+  if (mirrorEW) { limit.x = limit.x / 2; }
 
   for(var i = 0; i < limit.x; i++) {
     for(var j = 0; j < limit.y; j++) {
@@ -846,7 +843,7 @@ function randomise() {
       // Change based on mirror variables.
       var coords = getMirrorCellCoords(i, j);
       for (var k = 0; k < coords.length; k++) {
-        cells[ coords[k][0] ][ coords[k][1] ].setState(state);
+        cells[ coords[k][0] ][ coords[k][1] ].setState(c, state);
       }
     }
   }
@@ -857,7 +854,7 @@ function randomise() {
 function randomiseCentralBlock() {
 
   // Radius of central cells.
-  var r = rand(2,Math.min(cellCount.x,cellCount.y)/2-10,1);
+  var r = rand(2,Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y)/2-10,1);
 
   // Set all the cells in the radius to live.
   var theCell = {x: 0,  y: 0};
@@ -865,22 +862,22 @@ function randomiseCentralBlock() {
     for(var j = -r; j <= r; j++) {
       theCell.x = parseInt(centreCell.x) + parseInt(i);
       theCell.y = parseInt(centreCell.y) + parseInt(j);
-      cells[theCell.x][theCell.y].stateNext = 1;
-      cells[theCell.x][theCell.y].render();
+      cells[theCell.x][theCell.y].setStateNext(1);
+      cells[theCell.x][theCell.y].render(c);
     }
   }
 }
 
 // Kill them all, or revive them all.
 function setAllCellsToState(state) {
-  for(var i = 0; i < cellCount.x; i++) {
-    for(var j = 0; j < cellCount.y; j++) {
-      cells[i][j].stateNext = state;
-      cells[i][j].render();
+  for(var i = 0; i < Cell.get_cellCount().x; i++) {
+    for(var j = 0; j < Cell.get_cellCount().y; j++) {
+      cells[i][j].setStateNext(state);
+      cells[i][j].render(c);
     }
   }
   if (state == 0) {
-    c.fillStyle = fillColourDead;
+    c.fillStyle = Cell.get_fillColourDead();
     c.fillRect(0,0,w,h);
   }
 }
@@ -888,8 +885,8 @@ function setAllCellsToState(state) {
 //##############################################################################
 
 function resizeCanvas() {
-  a.width  = cellCount.x * cellPixels.x;
-  a.height = cellCount.y * cellPixels.y;
+  a.width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
+  a.height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
   w = a.width;
   h = a.height;
 }
@@ -897,6 +894,7 @@ function resizeCanvas() {
 //##############################################################################
 
 // Draw the first scene.
+wee = 1
 function initCanvas() {
   cancelAnimationFrame(ANIMATION);
   then = Date.now();
@@ -905,6 +903,7 @@ function initCanvas() {
   resizeCanvas();
 
   // Create empty cell object.
+  let cellCount = Cell.get_cellCount();
   cells = [cellCount.x];
   for (var i = 0; i < cellCount.x; i++) {
     cells[i] = new Array(cellCount.y);
@@ -928,10 +927,14 @@ function initCanvas() {
 
 // Redraw the whole canvas.
 function clickRedrawButton() {
-  cellCount.x = parseInt(document.getElementById('range_width').value);
-  cellCount.y = parseInt(document.getElementById('range_height').value);
-  cellPixels.x = parseInt(document.getElementById('range_pixels').value);
-  cellPixels.y = cellPixels.x;
+  Cell.set_cellCount({
+    x: parseInt(document.getElementById('range_width').value),
+    y: parseInt(document.getElementById('range_height').value)
+  });
+  Cell.set_cellPixels({
+    x: parseInt(document.getElementById('range_pixels').value),
+    y: parseInt(document.getElementById('range_pixels').value)
+  });
   initCanvas();
 }
 
@@ -958,24 +961,24 @@ function drawScene() {
     then = now - (delta % interval);
     stepToNextFrame = false;
 
-    dead = hexToRgb(fillColourDead);
+    dead = hexToRgb(Cell.get_fillColourDead());
     c.fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + blur + ')';
     c.fillRect(0,0,w,h);
 
     // Display cells.
-    for(var i = 0; i < cellCount.x; i++) {
-      for(var j = 0; j < cellCount.y; j++) {
-        cells[i][j].render();
+    for(var i = 0; i < Cell.get_cellCount().x; i++) {
+      for(var j = 0; j < Cell.get_cellCount().y; j++) {
+        cells[i][j].render(c);
       }
     }
 
     // Calculate next state.
     globalStateStatic = true;
-    for(var i = 0; i < cellCount.x; i++) {
-      for(var j = 0; j < cellCount.y; j++) {
+    for(var i = 0; i < Cell.get_cellCount().x; i++) {
+      for(var j = 0; j < Cell.get_cellCount().y; j++) {
         var state = !nextStateAccordingToNeighbours(i,j) ? 0 : 1;
-        if (cells[i][j].stateNext != state) {
-          cells[i][j].stateNext = state;
+        if (cells[i][j].getStateNext() != state) {
+          cells[i][j].setStateNext(state);
           globalStateStatic = false;
         }
       }
@@ -1029,11 +1032,11 @@ function toggleMirrorNWSE() {
 
 // Same above as below. (X is the same)
 function getMirrorNS(_x, _y) {
-  return [_x , (cellCount.y - 1) - _y];
+  return [_x , (Cell.get_cellCount().y - 1) - _y];
 }
 // Same left as right. (Y is the same)
 function getMirrorEW(_x, _y) {
-  return [(cellCount.x - 1) - _x , _y];
+  return [(Cell.get_cellCount().x - 1) - _x , _y];
 }
 
 //######################################
@@ -1058,6 +1061,7 @@ function getMirrorDiagonal(_x, _y, posOrNeg) {
   var yValue = centreCell.y + (xDiff * posOrNeg);
 
   // If it's not in a drawable region, then just return the original.
+  cellCount = Cell.get_cellCount();
   if (xValue >= 0 && xValue < cellCount.x && yValue >= 0 && yValue < cellCount.y) {
     return [xValue, yValue];
   } else {
@@ -1123,13 +1127,13 @@ function drawCellFromMousePos(e) {
     // Determine cell x/y from mouse x/y
     mouse.x = e.pageX - a.offsetLeft;
     mouse.y = e.pageY - a.offsetTop;
-    _x = Math.max(0,Math.floor(mouse.x / cellPixels.x));
-    _y = Math.max(0,Math.floor(mouse.y / cellPixels.y));
+    _x = Math.max(0,Math.floor(mouse.x / Cell.get_cellPixels().x));
+    _y = Math.max(0,Math.floor(mouse.y / Cell.get_cellPixels().y));
 
     // Change based on mirror variables.
     var coords = getMirrorCellCoords(_x, _y);
     for (var i = 0; i < coords.length; i++) {
-      cells[ coords[i][0] ][ coords[i][1] ].setState(state);
+      cells[ coords[i][0] ][ coords[i][1] ].setState(c, state);
     }
   }
 }
@@ -1217,6 +1221,9 @@ function clearCanvas() {
 
 // Init function.
 (function() {
+  let cellCount  = Cell.get_cellCount();
+  let cellPixels = Cell.get_cellPixels();
+
   a.width  = cellCount.x * cellPixels.x;
   a.height = cellCount.y * cellPixels.y;
   updateRuleByName(currentRuleType);
@@ -1227,8 +1234,8 @@ function clearCanvas() {
   epilepsyToggle();
   HtmlLifeRulesDropDowns();
   HtmlLoopTypeDropDown();
-  updateDOMInnerHTML('span_width',cellCount.x);
-  updateDOMInnerHTML('span_height',cellCount.y);
+  updateDOMInnerHTML('span_width', cellCount.x);
+  updateDOMInnerHTML('span_height', cellCount.y);
   setColourLiveIsBackground(true);
   setColourDeadIsText(true);
 //  addEventListener('resize', initCanvas, false);
@@ -1238,10 +1245,13 @@ function clearCanvas() {
 
 // Get state of all cells.
 function stateSave() {
-  states = 'cellState='
+  let cellCount  = Cell.get_cellCount();
+  let cellPixels = Cell.get_cellPixels();
+
+  states = 'cellState=';
   for(var i = 0; i < cellCount.x; i++) {
     for(var j = 0; j < cellCount.y; j++) {
-      states += cells[i][j].stateNow;
+      states += cells[i][j].getState();
     }
   }
 
@@ -1251,8 +1261,8 @@ function stateSave() {
   states += ',cellPixels.y=' + cellPixels.y;
   states += ',frameRate=' + frameRate;
   states += ',blurPercent=' + blurPercent;
-  states += ',fillColourDead=' + fillColourDead;
-  states += ',fillColourAlive=' + fillColourAlive;
+  states += ',fillColourDead=' + Cell.get_fillColourDead();
+  states += ',fillColourAlive=' + Cell.get_fillColourAlive();
   states += ',currentRuleType=' + currentRuleType;
 
   states = lzw_encode(states);
@@ -1321,12 +1331,12 @@ function stateLoad() {
   cellStateString = String( states[0].split('=')[1] );
 
   // Loop through all the cells.
-  for(var i = 0; i < cellCount.x; i++) {
-    for(var j = 0; j < cellCount.y; j++) {
+  for(var i = 0; i < Cell.get_cellCount().x; i++) {
+    for(var j = 0; j < Cell.get_cellCount().y; j++) {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
-      cells[i][j].setState(state);
+      cells[i][j].setState(c, state);
 
       // Remove the first character of the string.
       cellStateString = cellStateString.substring(1)

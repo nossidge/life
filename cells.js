@@ -1,46 +1,102 @@
 
 //##############################################################################
+// Module to store all the Cell objects.
+//##############################################################################
 
-function Cell(_x, _y) {
-  this.x = _x * cellPixels.x;
-  this.y = _y * cellPixels.y;
-  this.stateNow = 0;
-  this.stateNext = 0;
-}
+// OOP-similar behavior in JavaScript.
+// https://stackoverflow.com/a/1114121/139299
+var Cell = (function () {
 
-Cell.prototype.render = function() {
-  this.stateNow = this.stateNext;
-  // Don't render dead cells, to preserve the blur effect.
-  if (this.stateNow != 0) {
-    c.fillStyle = fillColourAlive;
-    c.fillRect(this.x, this.y, cellPixels.x, cellPixels.y);
-  }
-}
+  // Private static variables.
+  var cellCount  = {x: 99, y: 99};
+  var cellPixels = {x: 8,  y: 8};
+  var centreCell = {x: 49, y: 49};
+  var fillColourDead  = '#000000';
+  var fillColourAlive = '#E0B0FF';
 
-// 'state' should be 0 or 1 for alive or dead.
-Cell.prototype.setState = function(state) {
-  c.fillStyle = (state == 0) ? fillColourDead : fillColourAlive;
-  c.fillRect(this.x, this.y, cellPixels.x, cellPixels.y);
-  this.stateNext = state;
-  this.render();
-}
+  // Instance constructor.
+  var klass = function (_x, _y) {
+
+    // Private variables.
+    var x = _x * cellPixels.x;
+    var y = _y * cellPixels.y;
+    var stateNow = 0;
+    var stateNext = 0;
+
+    // Public functions.
+    this.get_xy = function () {
+      return [x, y];
+    };
+
+    // Render the cell to the canvas, c.
+    this.render = function(c) {
+      stateNow = stateNext;
+      // Don't render dead cells, to preserve the blur effect.
+      if (stateNow != 0) {
+        c.fillStyle = fillColourAlive;
+        c.fillRect(x, y, cellPixels.x, cellPixels.y);
+      }
+    }
+
+    // 'state' should be 0 or 1 for alive or dead.
+    this.setState = function(c, state) {
+      c.fillStyle = (state == 0) ? fillColourDead : fillColourAlive;
+      c.fillRect(x, y, cellPixels.x, cellPixels.y);
+      stateNext = state;
+      this.render(c);
+    }
+    this.getState = function() {
+      return stateNow;
+    }
+    this.setStateNext = function(state) {
+      stateNext = state;
+    }
+    this.getStateNext = function() {
+      return stateNext;
+    }
+  };
+
+  // Public static functions.
+  klass.set_cellCount = function (val) { cellCount = val; };
+  klass.get_cellCount = function () { return cellCount; };
+  klass.set_cellPixels = function (val) { cellPixels = val; };
+  klass.get_cellPixels = function () { return cellPixels; };
+  klass.set_centreCell = function (val) { centreCell = val; };
+  klass.get_centreCell = function () { return centreCell; };
+  klass.set_fillColourDead = function (val) { fillColourDead = val; };
+  klass.get_fillColourDead = function () { return fillColourDead; };
+  klass.set_fillColourAlive = function (val) { fillColourAlive = val; };
+  klass.get_fillColourAlive = function () { return fillColourAlive; };
+
+  // Public (shared across instances).
+  klass.prototype = {
+    announce: function () {
+      var example = 'Hi there! My id is ' + this.get_xy();
+      console.log(example);
+    }
+  };
+
+  return klass;
+})();
 
 //##############################################################################
 
 // Run the neighbor check on each cell.
 function nextStateAccordingToNeighbours(_x, _y) {
+  let cc = Cell.get_cellCount();
+
   var neighbors = [8];
-  neighbors[0] = cells[(_x-1+cellCount.x)%cellCount.x][(_y-1+cellCount.y)%cellCount.y];
-  neighbors[1] = cells[(_x-1+cellCount.x)%cellCount.x][_y];
-  neighbors[2] = cells[(_x-1+cellCount.x)%cellCount.x][(_y+1)%cellCount.y];
-  neighbors[3] = cells[_x][(_y-1+cellCount.y)%cellCount.y];
-  neighbors[4] = cells[_x][(_y+1)%cellCount.y];
-  neighbors[5] = cells[(_x+1)%cellCount.x][(_y-1+cellCount.y)%cellCount.y];
-  neighbors[6] = cells[(_x+1)%cellCount.x][_y];
-  neighbors[7] = cells[(_x+1)%cellCount.x][(_y+1)%cellCount.y];
+  neighbors[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[1] = cells[ (_x-1+cc.x) % cc.x ][ _y ];
+  neighbors[2] = cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
+  neighbors[3] = cells[ _x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[4] = cells[ _x ][ (_y+1) % cc.y ];
+  neighbors[5] = cells[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[6] = cells[ (_x+1) % cc.x ][ _y ];
+  neighbors[7] = cells[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
   var n = 0;
   for(var i=0; i<8; i++) {
-    if(neighbors[i].stateNow != 0) { n++; }
+    if(neighbors[i].getState() != 0) { n++; }
   }
 
   // Survival
@@ -51,7 +107,7 @@ function nextStateAccordingToNeighbours(_x, _y) {
   if(!booFound) { return false; }
 
   // Birth
-  if (cells[_x][_y].stateNow == 0) {
+  if (cells[_x][_y].getState() == 0) {
     booFound = false;
     for(var i=0; i<lifeRules[currentRuleType]['birth'].length; i++) {
       if(n==lifeRules[currentRuleType]['birth'][i]) { booFound = true; }
