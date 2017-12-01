@@ -108,262 +108,6 @@ var epilepsySafe = true;
 
 //##############################################################################
 
-// Defined Rules and Loops.
-
-lifeRules = {
-  "Conway": {
-    "description": "Classic.",
-    "character": "Chaotic",
-    "birth": [3],
-    "survival": [2,3]
-  },
-  "HighLife": {
-    "description": 'Similar to life, but "richer in nice things".',
-    "character": "Chaotic",
-    "birth": [3,6],
-    "survival": [2,3]
-  },
-  "MazeOfficial": {
-    "description": "Complex growing maze-like structures with well-defined walls outlining corridors.",
-    "character": "Explosive",
-    "birth": [3],
-    "survival": [1,2,3,4,5]
-  },
-  "Mazectric": {
-    "description": "Maze patterns that tend to have longer and straighter corridors.",
-    "character": "Explosive",
-    "birth": [3],
-    "survival": [1,2,3,4]
-  },
-  "Flakes": {
-    "description": "Life without death. Ever expanding immortality.",
-    "character": "Explosive",
-    "birth": [3],
-    "survival": [0,1,2,3,4,5,6,7,8]
-  },
-
-
-
-
-
-
-
-
-  "34 Life": {
-    "birth": [3,4],
-    "survival": [3,4]
-  },
-  "Dry Life": {
-    "birth": [3,7],
-    "survival": [2,3]
-  },
-  "Coral": {
-    "birth": [3],
-    "survival": [4,5,6,7,8]
-  },
-  "Move": {
-    "birth": [3,6,8],
-    "survival": [2,4,5]
-  },
-
-
-  "Quick Maze": {
-    "description": "Rapidly spreading, loop terminating.",
-    "birth": [3],
-    "survival": [1,2,3,4,5,8]
-  },
-  "Static Maze": {
-    "description": "Terminating.",
-    "birth": [3],
-    "survival": [1,2,3,4,5,6]
-  },
-  "Static Maze 2": {
-    "description": "",
-    "birth": [0,2],
-    "survival": [1,2,3,4,5]
-  },
-
-
-  "Vote": {
-    "birth": [5,6,7,8],
-    "survival": [4,5,6,7,8]
-  },
-  "Coagulations": {
-    "birth": [3,7,8],
-    "survival": [2,3,5,6,7,8]
-  },
-  "Walled Cities": {
-    "birth": [4,5,6,7,8],
-    "survival": [2,3,4,5]
-  },
-
-
-  "Spiky Vote": {
-    "birth": [5,6,7,8],
-    "survival": [3,5,6,7,8]
-  },
-  "Spiky Shrink": {
-    "birth": [5,6,7,8],
-    "survival": [2,5,6,7,8]
-  },
-  "Accumulation": {
-    "description": "Fill up the grid with live cells, very gradually.",
-    "birth": [2],
-    "survival": [2,4,5,6,7,8]
-  },
-
-
-  "Epilepsy1": {
-    "epilepsy": true,
-    "birth": [0],
-    "survival": [0,3,7,8]
-  },
-  "Epilepsy2": {
-    "epilepsy": true,
-    "birth": [0],
-    "survival": [0,7,8]
-  },
-  "Epilepsy3": {
-    "epilepsy": true,
-    "birth": [0],
-    "survival": [0,7]
-  },
-  "Epilepsy4": {
-    "epilepsy": true,
-    "birth": [0],
-    "survival": [0,8]
-  },
-
-
-  "Wiggle Life": {
-    "description": "Kind of like worms squiggling?",
-    "birth": [3],
-    "survival": [1,3]
-  },
-  "Mould": {
-    "description": "It just keeps growing!",
-    "birth": [3,7,8],
-    "survival": [1,2,3,4,5,6,7,8]
-  },
-  "2x2 snakes": {
-    "description": "Shrink to nice 2-width snakes.",
-    "birth": [1,5],
-    "survival": [0,3,4,5,7]
-  },
-
-
-  "(custom 1)": {
-    "description": "Custom 1.",
-    "custom": true,
-    "birth": [],
-    "survival": []
-  },
-  "(custom 2)": {
-    "description": "Custom 2.",
-    "custom": true,
-    "birth": [],
-    "survival": []
-  },
-  "(custom 3)": {
-    "description": "Custom 3.",
-    "custom": true,
-    "birth": [],
-    "survival": []
-  }
-}
-
-
-/*
-
-  "new1": {
-    "birth": [3],
-    "survival": [2]
-  },
-  "new2": {
-    "birth": [3,6,7,8],
-    "survival": [4]
-  },
-  "new3": {
-    "birth": [8],
-    "survival": [3,5,7]
-  },
-  "new4": {
-    "birth": [],
-    "survival": [1,7]
-  },
-  "new5": {
-    "birth": [3,6,7,8],
-    "survival": [2,4]
-  },
-  "new6": {
-    "birth": [3,6,7,8],
-    "survival": [2,5]
-  },
-  "new7": {
-    "birth": [3,4,6],
-    "survival": [5]
-  },
-
-
-  "new8": {
-    "birth": [1,4,7],
-    "survival": [2,3,4,6,7,8]
-  }
-
-*/
-
-
-// Names of the rules.
-loopTypes = {
-  "Maze Cave": {
-    "rules": [
-      "MazeOfficial",
-      "Vote"
-    ]
-  },
-  "Coagulating Cities": {
-    "description": "Works best with high loop frame values, a 99x99 size canvas, and a bit of blur.",
-    "rules": [
-      "Coagulations",
-      "Walled Cities"
-    ]
-  },
-  "Mould Cities": {
-    "description": "Best with low loop frame value for mould, high frame for cities, and a bit of blur.",
-    "rules": [
-      "Mould",
-      "Walled Cities"
-    ]
-  },
-  "Accumulate/Shrink": {
-    "description": "10 Accumulation frames, 5 Spiky Shrink frames. Add some blur. With a small centred initial state of 'on' cells, acts like a pulsing star.",
-    "rules": [
-      "Accumulation",
-      "Spiky Shrink"
-    ],
-    "frames": [
-      10,
-      5
-    ]
-  },
-  "Coral Growth": {
-    "description": "",
-    "rules": [
-      "Accumulation",
-      "Coral"
-    ]
-  },
-  "Epilepsy Maze": {
-    "description": "",
-    "rules": [
-      "Static Maze 2",
-      "Epilepsy2"
-    ]
-  }
-}
-
-//##############################################################################
-
 // Handle epilepsy rules.
 
 // Toggle value of 'epilepsySafe' boolean.
@@ -375,13 +119,13 @@ function epilepsyToggle() {
     domObj.style.background = '#BAD696'; // Green
 
     // Switch to a safe rule if current is unsafe.
-    if (lifeRules[currentRuleType].hasOwnProperty('epilepsy')) {
+    if (RULES.rules[currentRuleType].hasOwnProperty('epilepsy')) {
       updateRuleByName('Conway');
     }
-    if (lifeRules[loopRules[0]].hasOwnProperty('epilepsy')) {
+    if (RULES.rules[loopRules[0]].hasOwnProperty('epilepsy')) {
       updateLoopRule(0, 'Conway');
     }
-    if (lifeRules[loopRules[1]].hasOwnProperty('epilepsy')) {
+    if (RULES.rules[loopRules[1]].hasOwnProperty('epilepsy')) {
       updateLoopRule(1, 'Conway');
     }
 
@@ -439,20 +183,20 @@ function zeroNeighboursS() {
 
 // Filter the rules according to what's valid.
 // Mostly just to remove epileptic rules.
-// This should be used instead of the raw [lifeRules].
+// This should be used instead of the raw [RULES.rules].
 function validLifeRules() {
   var outputHash = {};
 
   // If not epilepsy, then don't worry about flashing rules.
   if (!epilepsySafe) {
-    outputHash = lifeRules;
+    outputHash = RULES.rules;
 
   // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
   } else {
-    for (var ruleName in lifeRules) {
-      if (lifeRules.hasOwnProperty(ruleName)) {
-        if (!lifeRules[ruleName].hasOwnProperty('epilepsy')) {
-          outputHash[ruleName] = lifeRules[ruleName];
+    for (var ruleName in RULES.rules) {
+      if (RULES.rules.hasOwnProperty(ruleName)) {
+        if (!RULES.rules[ruleName].hasOwnProperty('epilepsy')) {
+          outputHash[ruleName] = RULES.rules[ruleName];
         }
       }
     }
@@ -462,22 +206,22 @@ function validLifeRules() {
 
 // Filter the loop types according to what's valid.
 // Removes any with rules that are epileptic.
-// This should be used instead of the raw [loopTypes].
+// This should be used instead of the raw [RULES.loops].
 function validLoopTypes() {
   var outputHash = {};
 
   // If not epilepsy, then don't worry about flashing rules.
   if (!epilepsySafe) {
-    outputHash = loopTypes;
+    outputHash = RULES.loops;
 
   // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
   } else {
-    for (var loopName in loopTypes) {
-      if (loopTypes.hasOwnProperty(loopName)) {
-        epil_0 = lifeRules[ loopTypes[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
-        epil_1 = lifeRules[ loopTypes[loopName]['rules'][1] ].hasOwnProperty('epilepsy');
+    for (var loopName in RULES.loops) {
+      if (RULES.loops.hasOwnProperty(loopName)) {
+        epil_0 = RULES.rules[ RULES.loops[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
+        epil_1 = RULES.rules[ RULES.loops[loopName]['rules'][1] ].hasOwnProperty('epilepsy');
         if (!epil_0 && !epil_1) {
-          outputHash[loopName] = loopTypes[loopName];
+          outputHash[loopName] = RULES.loops[loopName];
         }
       }
     }
@@ -538,7 +282,7 @@ toggleHtmlRulesDesc();
 function HtmlLifeRulesDropDowns() {
   var finalHtml = '';
   for (var property in validLifeRules()) {
-    if (lifeRules.hasOwnProperty(property)) {
+    if (RULES.rules.hasOwnProperty(property)) {
       finalHtml += '<option value="' + property + '">' + property + '</option>';
     }
   }
@@ -555,7 +299,7 @@ function HtmlLoopTypeDropDown() {
   var finalHtml = '<option value="(none)">(none)</option>';
   finalHtml += '<option value="(custom)">(custom)</option>';
   for (var property in validLoopTypes()) {
-    if (loopTypes.hasOwnProperty(property)) {
+    if (RULES.loops.hasOwnProperty(property)) {
       finalHtml += '<option value="' + property + '">' + property + '</option>';
     }
   }
@@ -569,7 +313,7 @@ var loopRules = ['Conway','Conway'];
 var loopRates = [];
 
 function updateRuleByIndex(index) {
-  updateRuleByName( Object.keys(lifeRules)[index] );
+  updateRuleByName( Object.keys(RULES.rules)[index] );
 }
 
 function updateRuleByName(name) {
@@ -577,7 +321,7 @@ function updateRuleByName(name) {
   document.getElementById('rules_select').value = currentRuleType;
 
   // If it's a custom rule, then set the global variable.
-  if (lifeRules[currentRuleType].hasOwnProperty('custom')) {
+  if (RULES.rules[currentRuleType].hasOwnProperty('custom')) {
     lastCustomRuleName = currentRuleType;
   }
 
@@ -588,21 +332,21 @@ function updateRuleByName(name) {
   }
 
   // Turn checkboxes on if needed.
-  for (var i = 0; i < lifeRules[currentRuleType]['birth'].length; i++) {
+  for (var i = 0; i < RULES.rules[currentRuleType]['birth'].length; i++) {
     document.getElementById(
-      'birth_' + lifeRules[currentRuleType]['birth'][i]
+      'birth_' + RULES.rules[currentRuleType]['birth'][i]
     ).checked = true;
   }
-  for (var i = 0; i < lifeRules[currentRuleType]['survival'].length; i++) {
+  for (var i = 0; i < RULES.rules[currentRuleType]['survival'].length; i++) {
     document.getElementById(
-      'survival_' + lifeRules[currentRuleType]['survival'][i]
+      'survival_' + RULES.rules[currentRuleType]['survival'][i]
     ).checked = true;
   }
 
   // Show the description, if it has one.
   let elem = document.getElementById('rules_desc');
-  if (lifeRules[currentRuleType].hasOwnProperty('description')) {
-    elem.innerHTML = lifeRules[currentRuleType]['description'];
+  if (RULES.rules[currentRuleType].hasOwnProperty('description')) {
+    elem.innerHTML = RULES.rules[currentRuleType]['description'];
   } else {
     elem.innerHTML = '';
   }
@@ -624,15 +368,15 @@ function updateLoopType(value) {
   frameCount = 0;
 
   if (loopType != '(none)' && loopType != '(custom)') {
-    loopRules[0] = loopTypes[loopType]['rules'][0];
-    loopRules[1] = loopTypes[loopType]['rules'][1];
+    loopRules[0] = RULES.loops[loopType]['rules'][0];
+    loopRules[1] = RULES.loops[loopType]['rules'][1];
     document.getElementById('loop_rule_0').value = loopRules[0];
     document.getElementById('loop_rule_1').value = loopRules[1];
 
     // Show the description, if it has one.
     let elem = document.getElementById('loop_type_desc');
-    if (loopTypes[loopType].hasOwnProperty('description')) {
-      elem.innerHTML = loopTypes[loopType]['description'];
+    if (RULES.loops[loopType].hasOwnProperty('description')) {
+      elem.innerHTML = RULES.loops[loopType]['description'];
     } else {
       elem.innerHTML = '';
     }
@@ -731,10 +475,10 @@ function updateLoopRule(index, value) {
 
   // Loop to find a match.
   var loopTypeMatched = false;
-  for (var loopName in loopTypes) {
-    if (loopTypes.hasOwnProperty(loopName)) {
+  for (var loopName in RULES.loops) {
+    if (RULES.loops.hasOwnProperty(loopName)) {
 
-      rules = loopTypes[loopName]['rules'];
+      rules = RULES.loops[loopName]['rules'];
       rules.sort();
       rules = JSON.stringify(rules);
       puts(rules);
@@ -794,14 +538,14 @@ function checkLifeRules() {
   // Check each in { validLifeRules() } for a match.
   var ruleMatched = false;
   for (var ruleName in validLifeRules()) {
-    if (lifeRules.hasOwnProperty(ruleName)) {
+    if (RULES.rules.hasOwnProperty(ruleName)) {
 
       // Convert to string for hacky array comparison.
-      thisBirth    = JSON.stringify(lifeRules[ruleName]['birth']);
-      thisSurvival = JSON.stringify(lifeRules[ruleName]['survival']);
+      thisBirth    = JSON.stringify(RULES.rules[ruleName]['birth']);
+      thisSurvival = JSON.stringify(RULES.rules[ruleName]['survival']);
 
       // Don't match to a 'custom' rule.
-      var isCustom = lifeRules[ruleName].hasOwnProperty('custom');
+      var isCustom = RULES.rules[ruleName].hasOwnProperty('custom');
 
       if (!isCustom && strBirth == thisBirth && strSurvival == thisSurvival) {
         puts('ruleMatched = true');
@@ -818,8 +562,8 @@ function checkLifeRules() {
     ruleName = lastCustomRuleName;
 
     // Update custom to the new options.
-    lifeRules[ruleName]['birth'] = birth;
-    lifeRules[ruleName]['survival'] = survival;
+    RULES.rules[ruleName]['birth'] = birth;
+    RULES.rules[ruleName]['survival'] = survival;
     document.getElementById('rules_select').value = ruleName;
     updateRuleByName(ruleName);
   }
@@ -1173,7 +917,7 @@ function getChar(event) {
 document.onkeypress = function(event) {
   var char = getChar(event || window.event);
   if (!char) return;
-  keys = Object.keys(lifeRules);
+  keys = Object.keys(RULES.rules);
   switch( char.toUpperCase() ) {
     case 'P': togglePause(); break;
     case '1': updateRuleByIndex(0); break;
