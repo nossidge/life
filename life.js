@@ -25,63 +25,6 @@ Quick Maze
 2x2
 */
 
-
-
-//##############################################################################
-// Helper functions.
-//########################################
-
-// Console log wrapper. Set to false when web page is live.
-var writeToConsole = false;
-function puts(input) {
-  if (writeToConsole) {
-    console.log(input);
-  }
-}
-
-// Random number between two values.
-function rand(max, min, _int) {
-  var max = (max === 0 || max)?max:1,
-      min = min || 0,
-      gen = min + (max - min) * Math.random();
-  return (_int) ? Math.round(gen) : gen;
-}
-
-// Alter CSS through JavaScript.
-// http://stackoverflow.com/a/11081100/139299
-function css(selector, prop, val) {
-  for (var i=0; i<document.styleSheets.length; i++) {
-    try {
-      document.styleSheets[i].insertRule(
-        selector+ ' {'+prop+':'+val+'}',
-        document.styleSheets[i].cssRules.length
-      );
-    } catch(e) {
-      try {
-        document.styleSheets[i].addRule(selector, prop+':'+val);
-      } catch(e) {}
-    }
-  }
-}
-
-// http://stackoverflow.com/a/5624139/139299
-function hexToRgb(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
-// Update a DOM element.
-function updateDOMInnerHTML(DOMID, text) {
-  document.getElementById(DOMID).innerHTML = text;
-}
-function updateDOMValue(DOMID, text) {
-  document.getElementById(DOMID).value = text;
-}
-
 //##############################################################################
 
 //set the variables
