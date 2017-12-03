@@ -67,25 +67,3 @@ var FUNCTIONS = ( function() {
 }());
 
 //##############################################################################
-
-// ToDo: remove these.
-function rand(max, min, _int) {
-  return FUNCTIONS.rand(max, min, _int);
-}
-function puts(input) {
-  FUNCTIONS.puts(input);
-}
-function css(selector, prop, val) {
-  FUNCTIONS.css(selector, prop, val);
-}
-function hexToRgb(hex) {
-  return FUNCTIONS.hexToRgb(hex);
-}
-function updateDOMInnerHTML(DOMID, text) {
-  FUNCTIONS.updateDOMInnerHTML(DOMID, text);
-}
-function updateDOMValue(DOMID, text) {
-  FUNCTIONS.updateDOMValue(DOMID, text);
-}
-
-//##############################################################################

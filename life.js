@@ -101,7 +101,7 @@ function epilepsyToggle() {
 function zeroNeighboursB() {
   if (epilepsySafe) {
     if (document.getElementById('birth_0').checked) {
-      puts('epilepsySafe = ' + epilepsySafe);
+      FUNCTIONS.puts('epilepsySafe = ' + epilepsySafe);
       document.getElementById('survival_0').checked = false;
       document.getElementById('survival_0').style.display = 'none';
     } else {
@@ -113,7 +113,7 @@ function zeroNeighboursB() {
 function zeroNeighboursS() {
   if (epilepsySafe) {
     if (document.getElementById('survival_0').checked) {
-      puts('epilepsySafe = ' + epilepsySafe);
+      FUNCTIONS.puts('epilepsySafe = ' + epilepsySafe);
       document.getElementById('birth_0').checked = false;
       document.getElementById('birth_0').style.display = 'none';
     } else {
@@ -298,7 +298,7 @@ function updateRuleByName(name) {
   zeroNeighboursS();
   zeroNeighboursB();
 
-  puts('Rule = ' + currentRuleType);
+  FUNCTIONS.puts('Rule = ' + currentRuleType);
 }
 
 //######################################
@@ -328,7 +328,7 @@ function updateLoopType(value) {
     if (currentRuleType != loopRules[0] && currentRuleType != loopRules[1]) {
       updateRuleByName(loopRules[0]);
     }
-    puts('Loop Type = ' + loopType);
+    FUNCTIONS.puts('Loop Type = ' + loopType);
   }
 }
 
@@ -386,7 +386,7 @@ function updateColourDead(inputColour) {
   document.getElementById('jscolor_dead').jscolor.fromString(fillColourDead);
   if (colourDeadIsText) {
     document.body.style.color = fillColourDead;
-    css('.border', 'border', '2px solid ' + fillColourDead);
+    FUNCTIONS.css('.border', 'border', '2px solid ' + fillColourDead);
   }
 }
 
@@ -407,7 +407,7 @@ function setColourDeadIsText(value) {
 function updateLoopRule(index, value) {
   loopRules[index] = value;
   document.getElementById('loop_rule_' + index).value = value;
-  puts('updateLoopRule -- index:' + index + '  value:' + value);
+  FUNCTIONS.puts('updateLoopRule -- index:' + index + '  value:' + value);
 
   // Grab from the HTML selection.
   loopRule_0 = document.getElementById('loop_rule_0').value;
@@ -424,12 +424,12 @@ function updateLoopRule(index, value) {
       rules = RULES.loops[loopName]['rules'];
       rules.sort();
       rules = JSON.stringify(rules);
-      puts(rules);
+      FUNCTIONS.puts(rules);
 
       if (rules == strLoopRules) {
         loopTypeMatched = true;
         document.getElementById('loop_type').value = loopName;
-        puts('loopTypeMatched = true');
+        FUNCTIONS.puts('loopTypeMatched = true');
       }
     }
   }
@@ -445,7 +445,7 @@ function updateLoopRule(index, value) {
 function updateLoopRate(index, value) {
   loopRates[index] = value;
   document.getElementById('span_loop_rate_' + index).innerHTML = value;
-  puts('updateLoopRate -- index:' + index + '  value:' + value);
+  FUNCTIONS.puts('updateLoopRate -- index:' + index + '  value:' + value);
 }
 
 //######################################
@@ -491,7 +491,7 @@ function checkLifeRules() {
       var isCustom = RULES.rules[ruleName].hasOwnProperty('custom');
 
       if (!isCustom && strBirth == thisBirth && strSurvival == thisSurvival) {
-        puts('ruleMatched = true');
+        FUNCTIONS.puts('ruleMatched = true');
 
         // Select the rule.
         updateRuleByName(ruleName);
@@ -525,7 +525,7 @@ function randomise() {
 
   for(var i = 0; i < limit.x; i++) {
     for(var j = 0; j < limit.y; j++) {
-      var state = rand(0,1,1);
+      var state = FUNCTIONS.rand(0,1,1);
 
       // Change based on mirror variables.
       var coords = getMirrorCellCoords(i, j);
@@ -541,7 +541,7 @@ function randomise() {
 function randomiseCentralBlock() {
 
   // Radius of central cells.
-  var r = rand(2,Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y)/2-10,1);
+  var r = FUNCTIONS.rand(2,Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y)/2-10,1);
 
   // Set all the cells in the radius to live.
   var theCell = {x: 0,  y: 0};
@@ -609,7 +609,7 @@ function initCanvas() {
 
   randomiseCentralBlock();
   drawScene();
-  puts('ANIMATION='+ANIMATION);
+  FUNCTIONS.puts('ANIMATION='+ANIMATION);
 }
 
 // Redraw the whole canvas.
@@ -648,7 +648,7 @@ function drawScene() {
     then = now - (delta % interval);
     stepToNextFrame = false;
 
-    dead = hexToRgb(Cell.get_fillColourDead());
+    dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
     c.fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + blur + ')';
     c.fillRect(0,0,w,h);
 
@@ -674,7 +674,7 @@ function drawScene() {
     // Have we reached a no-change state?
     // (Might use this in the future...)
     if (globalStateStatic == true) {
-      puts('dead');
+      FUNCTIONS.puts('dead');
     }
 
     loopFunctions();
@@ -921,8 +921,8 @@ function clearCanvas() {
   epilepsyToggle();
   HtmlLifeRulesDropDowns();
   HtmlLoopTypeDropDown();
-  updateDOMInnerHTML('span_width', cellCount.x);
-  updateDOMInnerHTML('span_height', cellCount.y);
+  FUNCTIONS.updateDOMInnerHTML('span_width', cellCount.x);
+  FUNCTIONS.updateDOMInnerHTML('span_height', cellCount.y);
   setColourLiveIsBackground(true);
   setColourDeadIsText(true);
 //  addEventListener('resize', initCanvas, false);
@@ -978,19 +978,19 @@ function stateLoad() {
     // Change the required variable.
     switch( variable ) {
       case 'cellCount.x':
-        updateDOMValue('range_width',value);
-        updateDOMInnerHTML('span_width',value);
+        FUNCTIONS.updateDOMValue('range_width',value);
+        FUNCTIONS.updateDOMInnerHTML('span_width',value);
         break;
       case 'cellCount.y':
-        updateDOMValue('range_height',value);
-        updateDOMInnerHTML('span_height',value);
+        FUNCTIONS.updateDOMValue('range_height',value);
+        FUNCTIONS.updateDOMInnerHTML('span_height',value);
         break;
       case 'cellPixels.x':
-        updateDOMValue('range_pixels',value);
-        updateDOMInnerHTML('span_pixels',value);
+        FUNCTIONS.updateDOMValue('range_pixels',value);
+        FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
         break;
   /*  case 'cellPixels.y':
-        updateDOMInnerHTML('span_pixels',value);
+        FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
         break;  */
       case 'frameRate':
         updateFramerate(value);
