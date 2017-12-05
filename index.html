@@ -230,7 +230,7 @@ table.centre {
                 <tr>
                   <td>Defined Rules: </td>
                   <td><select id="rules_select" onchange="updateRuleByName(this.value)"></select></td>
-                  <td width="40"><span id="rules_desc_toggle" style="cursor:pointer;" onclick="toggleHtmlRulesDesc()">&nbsp;▶&nbsp;</span></td>
+                  <td width="40"><span id="rules_desc_toggle" style="cursor:pointer;" onclick="UI.toggleHtmlRulesDesc()">&nbsp;▶&nbsp;</span></td>
                 </tr>
               </table>
               <span id="rules_desc"></span>
@@ -290,7 +290,7 @@ table.centre {
                 <tr>
                   <td>Presets: </td>
                   <td><select id="loop_type" onchange="updateLoopType(this.value)"></select></td>
-                  <td width="40"><span id="loop_type_desc_toggle" style="cursor:pointer;" onclick="toggleHtmlLoopTypeDesc()">&nbsp;▶&nbsp;</span></td>
+                  <td width="40"><span id="loop_type_desc_toggle" style="cursor:pointer;" onclick="UI.toggleHtmlLoopTypeDesc()">&nbsp;▶&nbsp;</span></td>
                 </tr>
               </table>
               <span id="loop_type_desc"></span>
@@ -384,5 +384,6 @@ table.centre {
   <script src="./functions.js"></script>
   <script src="./rules.js"></script>
   <script src="./cells.js"></script>
+  <script src="./ui.js"></script>
   <script src="./life.js"></script>
 </body></html>
