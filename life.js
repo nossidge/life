@@ -1,33 +1,6 @@
 
-
-/*
-
-Warning: Work in progress.
-This code is terrible!
-I will tidy up eventually.
-
-
-
-scp index.html life.js nossidge@tilde.town:/home/nossidge/public_html/life/
-
-
-
-LifeBloom
-Width:  111
-Height:  111
-Pixels:  6
-Blur:  0.01
-
-
-
-
-Quick Maze
-2x2
-*/
-
 //##############################################################################
 
-//set the variables
 var a = document.getElementById('canvas');
 var c = a.getContext('2d');
 var ANIMATION;
@@ -79,7 +52,7 @@ function epilepsyToggle() {
 
     // Switch to a safe rule if current is unsafe.
     if (RULES.rules[currentRuleType].hasOwnProperty('epilepsy')) {
-      updateRuleByName('Conway');
+      UI.updateRuleByName('Conway');
     }
     if (RULES.rules[loopRules[0]].hasOwnProperty('epilepsy')) {
       updateLoopRule(0, 'Conway');
@@ -89,7 +62,7 @@ function epilepsyToggle() {
     }
 
     document.getElementById('range_framerate').max = 10;
-    if (frameRate > 10) { updateFramerate(10); }
+    if (frameRate > 10) { UI.updateFramerate(10); }
 
   } else {
     domObj.value = 'Epilepsy: Unsafe';
@@ -102,13 +75,13 @@ function epilepsyToggle() {
 
     // Just a QOL thing.
     // Since a safe 8 is the default, immediately switch to 20 if unchanged.
-    if (frameRate == 8) { updateFramerate(20); }
+    if (frameRate == 8) { UI.updateFramerate(20); }
   }
 
   // Reload the rules to the UI.
-  HtmlLoopTypeDropDown();
-  HtmlLifeRulesDropDowns();
-  HtmlLoopTypeDropDown();
+  UI.HtmlLoopTypeDropDown();
+  UI.HtmlLifeRulesDropDowns();
+  UI.HtmlLoopTypeDropDown();
 }
 
 //########################################
@@ -272,7 +245,7 @@ function checkLifeRules() {
         FUNCTIONS.puts('ruleMatched = true');
 
         // Select the rule.
-        updateRuleByName(ruleName);
+        UI.updateRuleByName(ruleName);
         ruleMatched = true;
       }
     }
@@ -286,7 +259,7 @@ function checkLifeRules() {
     RULES.rules[ruleName]['birth'] = birth;
     RULES.rules[ruleName]['survival'] = survival;
     document.getElementById('rules_select').value = ruleName;
-    updateRuleByName(ruleName);
+    UI.updateRuleByName(ruleName);
   }
 }
 
@@ -306,7 +279,7 @@ function randomise() {
       var state = FUNCTIONS.rand(0,1,1);
 
       // Change based on mirror variables.
-      var coords = getMirrorCellCoords(i, j);
+      var coords = UI.getMirrorCellCoords(i, j);
       for (var k = 0; k < coords.length; k++) {
         cells[ coords[k][0] ][ coords[k][1] ].setState(c, state);
       }
@@ -355,7 +328,7 @@ function initCanvas() {
   then = Date.now();
   frameCount = 0;
 
-  resizeCanvas();
+  UI.resizeCanvas();
 
   // Create empty cell object.
   let cellCount = Cell.get_cellCount();
@@ -435,7 +408,7 @@ function loopFunctions() {
 
       // Currently handles just 2 states.
       loopState = (loopState == 0) ? 1 : 0;
-      updateRuleByName(loopRules[loopState]);
+      UI.updateRuleByName(loopRules[loopState]);
     }
   }
 }
@@ -456,7 +429,7 @@ function drawCellFromMousePos(e) {
     _y = Math.max(0,Math.floor(mouse.y / Cell.get_cellPixels().y));
 
     // Change based on mirror variables.
-    var coords = getMirrorCellCoords(_x, _y);
+    var coords = UI.getMirrorCellCoords(_x, _y);
     for (var i = 0; i < coords.length; i++) {
       cells[ coords[i][0] ][ coords[i][1] ].setState(c, state);
     }
@@ -499,17 +472,17 @@ document.onkeypress = function(event) {
   if (!char) return;
   keys = Object.keys(RULES.rules);
   switch( char.toUpperCase() ) {
-    case 'P': togglePause(); break;
-    case '1': updateRuleByIndex(0); break;
-    case '2': updateRuleByIndex(1); break;
-    case '3': updateRuleByIndex(2); break;
-    case '4': updateRuleByIndex(3); break;
-    case '5': updateRuleByIndex(4); break;
-    case '6': updateRuleByIndex(5); break;
-    case '7': updateRuleByIndex(6); break;
-    case '8': updateRuleByIndex(7); break;
-    case '9': updateRuleByIndex(8); break;
-    case '0': updateRuleByIndex(9); break;
+    case 'P': UI.togglePause(); break;
+    case '1': UI.updateRuleByIndex(0); break;
+    case '2': UI.updateRuleByIndex(1); break;
+    case '3': UI.updateRuleByIndex(2); break;
+    case '4': UI.updateRuleByIndex(3); break;
+    case '5': UI.updateRuleByIndex(4); break;
+    case '6': UI.updateRuleByIndex(5); break;
+    case '7': UI.updateRuleByIndex(6); break;
+    case '8': UI.updateRuleByIndex(7); break;
+    case '9': UI.updateRuleByIndex(8); break;
+    case '0': UI.updateRuleByIndex(9); break;
 
     case 'Q': randomise(); break;
     case 'W': randomiseCentralBlock(); break;
@@ -525,7 +498,7 @@ document.onkeypress = function(event) {
 // Step frame on spacebar press.
 window.addEventListener('keydown', function(e) {
   if (e.keyCode == 32) {
-    stepFrame();
+    UI.stepFrame();
   }
 });
 
@@ -537,7 +510,7 @@ window.onkeydown = function(e) {
 // Pause and get a blank screen.
 function clearCanvas() {
   paused = false;
-  togglePause();
+  UI.togglePause();
   setAllCellsToState(1);
 }
 
@@ -550,29 +523,29 @@ function clearCanvas() {
 
   a.width  = cellCount.x * cellPixels.x;
   a.height = cellCount.y * cellPixels.y;
-  updateRuleByName(currentRuleType);
-  updateBlur(0);
-  updateFramerate(frameRate);
+  UI.updateRuleByName(currentRuleType);
+  UI.updateBlur(0);
+  UI.updateFramerate(frameRate);
   initCanvas();
   epilepsySafe = false;
   epilepsyToggle();
-  HtmlLifeRulesDropDowns();
-  HtmlLoopTypeDropDown();
+  UI.HtmlLifeRulesDropDowns();
+  UI.HtmlLoopTypeDropDown();
   FUNCTIONS.updateDOMInnerHTML('span_width', cellCount.x);
   FUNCTIONS.updateDOMInnerHTML('span_height', cellCount.y);
-  setColourLiveIsBackground(true);
-  setColourDeadIsText(true);
+  UI.setColourLiveIsBackground(true);
+  UI.setColourDeadIsText(true);
   UI.toggleHtmlLoopTypeDesc();
   UI.toggleHtmlRulesDesc();
-  updateLoopType('(none)');
+  UI.updateLoopType('(none)');
   updateLoopRate(0, 20);
   updateLoopRate(1, 20);
   updateLoopRule(0, 'Conway');
   updateLoopRule(1, 'Conway');
-  toggleMirrorNS();
-  toggleMirrorEW();
-  toggleMirrorNESW();
-  toggleMirrorNWSE();
+  UI.toggleMirrorNS();
+  UI.toggleMirrorEW();
+  UI.toggleMirrorNESW();
+  UI.toggleMirrorNWSE();
 //  addEventListener('resize', initCanvas, false);
 })();
 
@@ -641,26 +614,26 @@ function stateLoad() {
         FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
         break;  */
       case 'frameRate':
-        updateFramerate(value);
+        UI.updateFramerate(value);
         break;
       case 'blurPercent':
-        updateBlur(value);
+        UI.updateBlur(value);
         break;
       case 'fillColourDead':
-        updateColourDead(value);
+        UI.updateColourDead(value);
         break;
       case 'fillColourAlive':
-        updateColourLive(value);
+        UI.updateColourLive(value);
         break;
       case 'currentRuleType':
-        updateRuleByName(value)
+        UI.updateRuleByName(value)
         break;
       default: break;
     }
   }
 
   // Redraw the canvas.
-  clickRedrawButton();
+  UI.clickRedrawButton();
 
   // Load the cell states to the canvas.
   cellStateString = String( states[0].split('=')[1] );

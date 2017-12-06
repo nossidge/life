@@ -17,7 +17,7 @@ var UI = (function (mod) {
 
   // Toggle pause on or off.
   mod.togglePause = function() {
-    setPause(!paused);
+    UI.setPause(!paused);
   }
   mod.setPause = function(value) {
     paused = value;
@@ -147,10 +147,10 @@ var UI = (function (mod) {
 
   // Diagonals - Works best with square canvas. Will cut off sides if longer.
   mod.getMirrorNESW = function(_x, _y) {
-    return getMirrorDiagonal(_x, _y, 1);
+    return UI.getMirrorDiagonal(_x, _y, 1);
   }
   mod.getMirrorNWSE = function(_x, _y) {
-    return getMirrorDiagonal(_x, _y, -1);
+    return UI.getMirrorDiagonal(_x, _y, -1);
   }
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
@@ -181,14 +181,14 @@ var UI = (function (mod) {
     coords[0] = [_x, _y];
 
     if (mirrorNS) {
-      coords.push( getMirrorNS(_x, _y) );
+      coords.push( UI.getMirrorNS(_x, _y) );
     }
 
     // There might now be two values in [coords], so loop through.
     if (mirrorEW) {
       var loopMax = coords.length;
       for (var i = 0; i < loopMax; i++) {
-        coords.push( getMirrorEW(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorEW(coords[i][0], coords[i][1]) );
       }
     }
 
@@ -196,13 +196,13 @@ var UI = (function (mod) {
     if (mirrorNESW) {
       var loopMax = coords.length;
       for (var i = 0; i < loopMax; i++) {
-        coords.push( getMirrorNESW(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorNESW(coords[i][0], coords[i][1]) );
       }
     }
     if (mirrorNWSE) {
       var loopMax = coords.length;
       for (var i = 0; i < loopMax; i++) {
-        coords.push( getMirrorNWSE(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorNWSE(coords[i][0], coords[i][1]) );
       }
     }
 
@@ -288,20 +288,6 @@ var UI = (function (mod) {
     }
   }
 
-  // Flip the status of the labels' classes between "selected" and "unselected".
-  // Also, check the actual radio button.
-  mod.toggleRadioOn = function(domID, labelGroup) {
-    document.getElementById(domID).checked = true;
-    var labels = document.getElementsByClassName(labelGroup);
-    for (var i = 0; i < labels.length; i++) {
-      labels[i].classList.add('unselected');
-      labels[i].classList.remove('selected');
-    }
-    var label = document.getElementById(domID+'_label');
-    label.classList.add('selected');
-    label.classList.remove('unselected');
-  }
-
   mod.updateBlur = function(inputBlur) {
     blurPercent = parseInt(inputBlur);
     document.getElementById('range_blur').value = blurPercent;
@@ -335,96 +321,11 @@ var UI = (function (mod) {
   // Step frames individually.
   mod.stepFrame = function() {
     paused = false;
-    togglePause();
+    UI.togglePause();
     stepToNextFrame = true;
   }
 
   return mod;
 }(UI || {}));
-
-//##############################################################################
-
-// ToDo: remove this.
-function resizeCanvas() {
-  UI.resizeCanvas();
-}
-function togglePause() {
-  UI.togglePause();
-}
-function setPause(value) {
-  UI.setPause(value);
-}
-function HtmlLifeRulesDropDowns() {
-  UI.HtmlLifeRulesDropDowns();
-}
-function HtmlLoopTypeDropDown() {
-  UI.HtmlLoopTypeDropDown();
-}
-function updateColourLive(inputColour) {
-  UI.updateColourLive(inputColour);
-}
-function updateColourDead(inputColour) {
-  UI.updateColourDead(inputColour);
-}
-function setColourLiveIsBackground(value) {
-  UI.setColourLiveIsBackground(value);
-}
-function setColourDeadIsText(value) {
-  UI.setColourDeadIsText(value);
-}
-function toggleMirrorNS() {
-  UI.toggleMirrorNS();
-}
-function toggleMirrorEW() {
-  UI.toggleMirrorEW();
-}
-function toggleMirrorNESW() {
-  UI.toggleMirrorNESW();
-}
-function toggleMirrorNWSE() {
-  UI.toggleMirrorNWSE();
-}
-function getMirrorNS(_x, _y) {
-  return UI.getMirrorNS(_x, _y);
-}
-function getMirrorEW(_x, _y) {
-  return UI.getMirrorEW(_x, _y);
-}
-function getMirrorNESW(_x, _y) {
-  return UI.getMirrorNESW(_x, _y);
-}
-function getMirrorNWSE(_x, _y) {
-  return UI.getMirrorNWSE(_x, _y);
-}
-function getMirrorDiagonal(_x, _y, posOrNeg) {
-  return UI.getMirrorDiagonal(_x, _y, posOrNeg);
-}
-function getMirrorCellCoords(_x, _y) {
-  return UI.getMirrorCellCoords(_x, _y);
-}
-function updateRuleByIndex(index) {
-  UI.updateRuleByIndex(index);
-}
-function updateRuleByName(name) {
-  UI.updateRuleByName(name);
-}
-function updateLoopType(value) {
-  UI.updateLoopType(value);
-}
-function toggleRadioOn(domID, labelGroup) {
-  UI.toggleRadioOn(domID, labelGroup);
-}
-function updateBlur(inputBlur) {
-  UI.updateBlur(inputBlur);
-}
-function updateFramerate(inputFramerate) {
-  UI.updateFramerate(inputFramerate);
-}
-function clickRedrawButton() {
-  UI.clickRedrawButton();
-}
-function stepFrame() {
-  UI.stepFrame();
-}
 
 //##############################################################################

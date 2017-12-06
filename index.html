@@ -131,8 +131,8 @@ table.centre {
           <p hidden>Yet another Life implementation.</p>
         </div>
         <div class="header_left">
-          <input id="button_pause" type="button" title="Keyboard: p" value="&#10073;&#10073;" onclick="togglePause()">
-          <input id="button_step" type="button" title="Keyboard: space" value="&#10073;&#9658;" onclick="stepFrame()">
+          <input id="button_pause" type="button" title="Keyboard: p" value="&#10073;&#10073;" onclick="UI.togglePause()">
+          <input id="button_step" type="button" title="Keyboard: space" value="&#10073;&#9658;" onclick="UI.stepFrame()">
         </div>
         <div class="header_right">
           <input id="button_epilepsy" type="button" value="Epilepsy: Safe" onclick="epilepsyToggle()">
@@ -165,7 +165,7 @@ table.centre {
                       <!-- this is really hacky... -->
                       <td rowspan="3">
                         <div id="submit">
-                          <input type="button" value="Redraw" onclick="clickRedrawButton()" />
+                          <input type="button" value="Redraw" onclick="UI.clickRedrawButton()" />
                         </div>
                       </td>
                     </tr>
@@ -193,25 +193,25 @@ table.centre {
               <table class="centre">
                 <tr>
                   <td style="text-align:right">Framerate:</td>
-                  <td><input id="range_framerate" type="range" min="0" max="10" value="8" step="1" style="width: 200px;" oninput="updateFramerate(this.value)" /></td>
+                  <td><input id="range_framerate" type="range" min="0" max="10" value="8" step="1" style="width: 200px;" oninput="UI.updateFramerate(this.value)" /></td>
                   <td width="40"><span id="span_framerate">8</span></td>
                 </tr>
                 <tr>
                   <td style="text-align:right">Blur:</td>
                   <td>
-                  <input id="range_blur" type="range" min="0" max="100" value="0" step="5" style="width: 200px;" oninput="updateBlur(this.value)" />
+                  <input id="range_blur" type="range" min="0" max="100" value="0" step="5" style="width: 200px;" oninput="UI.updateBlur(this.value)" />
                   </td>
                   <td width="40"><span id="span_blur">1</span></td>
                 </tr>
                 <tr>
                   <td style="text-align:right">Live Colour:</td>
-                  <td><input id="jscolor_live" class="jscolor" data-jscolor="{onFineChange:'updateColourLive(this)'}" value="E0B0FF" style="width: 200px; font-family: 'Lucida Console', Monaco, monospace; font-size: 100%;"></td>
-                  <td><input id="colour_live" type="checkbox" title="Also change page background colour?" onchange="setColourLiveIsBackground(this.checked)"></td>
+                  <td><input id="jscolor_live" class="jscolor" data-jscolor="{onFineChange:'UI.updateColourLive(this)'}" value="E0B0FF" style="width: 200px; font-family: 'Lucida Console', Monaco, monospace; font-size: 100%;"></td>
+                  <td><input id="colour_live" type="checkbox" title="Also change page background colour?" onchange="UI.setColourLiveIsBackground(this.checked)"></td>
                 </tr>
                 <tr>
                   <td style="text-align:right">Dead Colour:</td>
-                  <td><input id="jscolor_dead" class="jscolor" data-jscolor="{onFineChange:'updateColourDead(this)'}" value="000000" style="width: 200px; font-family: 'Lucida Console', Monaco, monospace; font-size: 100%;"></td>
-                  <td><input id="colour_dead" type="checkbox" title="Also change page text colour?" onchange="setColourDeadIsText(this.checked)"></td>
+                  <td><input id="jscolor_dead" class="jscolor" data-jscolor="{onFineChange:'UI.updateColourDead(this)'}" value="000000" style="width: 200px; font-family: 'Lucida Console', Monaco, monospace; font-size: 100%;"></td>
+                  <td><input id="colour_dead" type="checkbox" title="Also change page text colour?" onchange="UI.setColourDeadIsText(this.checked)"></td>
                 </tr>
               </table>
             </details>
@@ -229,7 +229,7 @@ table.centre {
               <table class="centre">
                 <tr>
                   <td>Defined Rules: </td>
-                  <td><select id="rules_select" onchange="updateRuleByName(this.value)"></select></td>
+                  <td><select id="rules_select" onchange="UI.updateRuleByName(this.value)"></select></td>
                   <td width="40"><span id="rules_desc_toggle" style="cursor:pointer;" onclick="UI.toggleHtmlRulesDesc()">&nbsp;▶&nbsp;</span></td>
                 </tr>
               </table>
@@ -289,7 +289,7 @@ table.centre {
               <table class="centre">
                 <tr>
                   <td>Presets: </td>
-                  <td><select id="loop_type" onchange="updateLoopType(this.value)"></select></td>
+                  <td><select id="loop_type" onchange="UI.updateLoopType(this.value)"></select></td>
                   <td width="40"><span id="loop_type_desc_toggle" style="cursor:pointer;" onclick="UI.toggleHtmlLoopTypeDesc()">&nbsp;▶&nbsp;</span></td>
                 </tr>
               </table>
@@ -333,10 +333,10 @@ table.centre {
                   <td width="70">NW/SE</td>
                 </tr>
                 <tr>
-                  <td><input id="mirror_NS" type="checkbox" onchange="toggleMirrorNS()"></td>
-                  <td><input id="mirror_EW" type="checkbox" onchange="toggleMirrorEW()"></td>
-                  <td><input id="mirror_NESW" type="checkbox" onchange="toggleMirrorNESW()"></td>
-                  <td><input id="mirror_NWSE" type="checkbox" onchange="toggleMirrorNWSE()"></td>
+                  <td><input id="mirror_NS" type="checkbox" onchange="UI.toggleMirrorNS()"></td>
+                  <td><input id="mirror_EW" type="checkbox" onchange="UI.toggleMirrorEW()"></td>
+                  <td><input id="mirror_NESW" type="checkbox" onchange="UI.toggleMirrorNESW()"></td>
+                  <td><input id="mirror_NWSE" type="checkbox" onchange="UI.toggleMirrorNWSE()"></td>
                 </tr>
               </table>
 
