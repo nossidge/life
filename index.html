@@ -121,6 +121,10 @@ table.centre {
   margin-left:auto;
   margin-right:auto;
 }
+
+#button_epilepsy {
+  background: #BAD696
+}
     </style>
   </head>
   <body class="border">
@@ -135,7 +139,7 @@ table.centre {
           <input id="button_step" type="button" title="Keyboard: space" value="&#10073;&#9658;" onclick="UI.stepFrame()">
         </div>
         <div class="header_right">
-          <input id="button_epilepsy" type="button" value="Epilepsy: Safe" onclick="epilepsyToggle()">
+          <input id="button_epilepsy" type="button" value="Epilepsy: Safe(ish)" onclick="epilepsyToggle()">
         </div>
       </div>
     </header>
@@ -385,5 +389,6 @@ table.centre {
   <script src="./rules.js"></script>
   <script src="./cells.js"></script>
   <script src="./ui.js"></script>
+  <script src="./epilepsy.js"></script>
   <script src="./life.js"></script>
 </body></html>
