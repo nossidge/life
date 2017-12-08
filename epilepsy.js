@@ -128,22 +128,3 @@ var EPILEPSY = (function (mod) {
 }(EPILEPSY || {}));
 
 //##############################################################################
-
-// ToDo: delete this.
-function epilepsyToggle() {
-  EPILEPSY.epilepsyToggle();
-}
-function zeroNeighboursB() {
-  EPILEPSY.zeroNeighboursB();
-}
-function zeroNeighboursS() {
-  EPILEPSY.zeroNeighboursS();
-}
-function validLifeRules() {
-  return EPILEPSY.validLifeRules();
-}
-function validLoopTypes() {
-  return EPILEPSY.validLoopTypes();
-}
-
-//##############################################################################

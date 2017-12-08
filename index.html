@@ -139,7 +139,7 @@ table.centre {
           <input id="button_step" type="button" title="Keyboard: space" value="&#10073;&#9658;" onclick="UI.stepFrame()">
         </div>
         <div class="header_right">
-          <input id="button_epilepsy" type="button" value="Epilepsy: Safe(ish)" onclick="epilepsyToggle()">
+          <input id="button_epilepsy" type="button" value="Epilepsy: Safe(ish)" onclick="EPILEPSY.epilepsyToggle()">
         </div>
       </div>
     </header>
@@ -256,7 +256,7 @@ table.centre {
                 </tr>
                 <tr>
                   <td style="text-align:right">Birth:</td>
-                  <td><input id="birth_0" type="checkbox" onchange="checkLifeRules();zeroNeighboursB()"></td>
+                  <td><input id="birth_0" type="checkbox" onchange="checkLifeRules();EPILEPSY.zeroNeighboursB()"></td>
                   <td><input id="birth_1" type="checkbox" onchange="checkLifeRules()"></td>
                   <td><input id="birth_2" type="checkbox" onchange="checkLifeRules()"></td>
                   <td><input id="birth_3" type="checkbox" onchange="checkLifeRules()"></td>
@@ -268,7 +268,7 @@ table.centre {
                 <tr>
                 </tr>
                   <td style="text-align:right">Survival:</td>
-                  <td><input id="survival_0" type="checkbox" onchange="checkLifeRules();zeroNeighboursS()"></td>
+                  <td><input id="survival_0" type="checkbox" onchange="checkLifeRules();EPILEPSY.zeroNeighboursS()"></td>
                   <td><input id="survival_1" type="checkbox" onchange="checkLifeRules()"></td>
                   <td><input id="survival_2" type="checkbox" onchange="checkLifeRules()"></td>
                   <td><input id="survival_3" type="checkbox" onchange="checkLifeRules()"></td>

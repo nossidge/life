@@ -32,7 +32,7 @@ var UI = (function (mod) {
   // Load JSON stuff to html objects.
   mod.HtmlLifeRulesDropDowns = function() {
     var finalHtml = '';
-    for (var property in validLifeRules()) {
+    for (var property in EPILEPSY.validLifeRules()) {
       if (RULES.rules.hasOwnProperty(property)) {
         finalHtml += '<option value="' + property + '">' + property + '</option>';
       }
@@ -48,7 +48,7 @@ var UI = (function (mod) {
   mod.HtmlLoopTypeDropDown = function() {
     var finalHtml = '<option value="(none)">(none)</option>';
     finalHtml += '<option value="(custom)">(custom)</option>';
-    for (var property in validLoopTypes()) {
+    for (var property in EPILEPSY.validLoopTypes()) {
       if (RULES.loops.hasOwnProperty(property)) {
         finalHtml += '<option value="' + property + '">' + property + '</option>';
       }
@@ -251,8 +251,8 @@ var UI = (function (mod) {
     }
 
     // Epilepsy Life Rules checkboxes.
-    zeroNeighboursS();
-    zeroNeighboursB();
+    EPILEPSY.zeroNeighboursS();
+    EPILEPSY.zeroNeighboursB();
 
     FUNCTIONS.puts('Rule = ' + currentRuleType);
   }

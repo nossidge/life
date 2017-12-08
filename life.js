@@ -106,9 +106,9 @@ function checkLifeRules() {
   strBirth    = JSON.stringify(birth);
   strSurvival = JSON.stringify(survival);
 
-  // Check each in { validLifeRules() } for a match.
+  // Check each in { EPILEPSY.validLifeRules() } for a match.
   var ruleMatched = false;
-  for (var ruleName in validLifeRules()) {
+  for (var ruleName in EPILEPSY.validLifeRules()) {
     if (RULES.rules.hasOwnProperty(ruleName)) {
 
       // Convert to string for hacky array comparison.
@@ -405,7 +405,7 @@ function clearCanvas() {
   UI.updateFramerate(frameRate);
   initCanvas();
   epilepsySafe = false;
-  epilepsyToggle();
+  EPILEPSY.epilepsyToggle();
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
   FUNCTIONS.updateDOMInnerHTML('span_width', cellCount.x);
