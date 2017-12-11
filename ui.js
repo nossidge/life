@@ -9,20 +9,20 @@ var UI = (function (mod) {
   var rulesDesc = true;
 
   mod.resizeCanvas = function() {
-    a.width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
-    a.height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
-    w = a.width;
-    h = a.height;
+    STATE.a().width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
+    STATE.a().height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
+    w = STATE.a().width;
+    h = STATE.a().height;
   }
 
   // Toggle pause on or off.
   mod.togglePause = function() {
-    UI.setPause(!paused);
+    UI.setPause( !STATE.paused() );
   }
   mod.setPause = function(value) {
-    paused = value;
+    STATE.paused(value);
     var domObj = document.getElementById('button_pause');
-    if (paused) {
+    if ( STATE.paused() ) {
       domObj.style.background = '#E94E77'; // Red
     } else {
       domObj.style.background = ''; // Off
@@ -264,7 +264,7 @@ var UI = (function (mod) {
     document.getElementById('loop_type').value = loopType;
 
     // Reset the loop frame counter.
-    frameCount = 0;
+    STATE.frameCount(0);
 
     if (loopType != '(none)' && loopType != '(custom)') {
       loopRules[0] = RULES.loops[loopType]['rules'][0];
@@ -289,18 +289,20 @@ var UI = (function (mod) {
   }
 
   mod.updateBlur = function(inputBlur) {
-    blurPercent = parseInt(inputBlur);
-    document.getElementById('range_blur').value = blurPercent;
-    document.getElementById('span_blur').innerHTML = blurPercent + '%';
-    var blurMax = 0.6;
-    blur = blurMax - (blurMax * blurPercent / 100);
-    if (blur == blurMax) { blur = 1; }
+    let bp = parseInt(inputBlur);
+    STATE.blurPercent(bp);
+    document.getElementById('range_blur').value = bp;
+    document.getElementById('span_blur').innerHTML = bp + '%';
+    let blurMax = 0.6;
+    STATE.blur(blurMax - (blurMax * bp / 100));
+    if (STATE.blur() == blurMax) { STATE.blur(1); }
   }
   mod.updateFramerate = function(inputFramerate) {
-    frameRate = parseInt(inputFramerate);
-    interval = 1000/frameRate;
-    document.getElementById('range_framerate').value = frameRate;
-    document.getElementById('span_framerate').innerHTML = frameRate;
+    let fr = parseInt(inputFramerate)
+    STATE.frameRate(fr);
+    interval = 1000 / fr;
+    document.getElementById('range_framerate').value = fr;
+    document.getElementById('span_framerate').innerHTML = fr;
   }
 
   //############################################################################
@@ -320,7 +322,7 @@ var UI = (function (mod) {
 
   // Step frames individually.
   mod.stepFrame = function() {
-    paused = false;
+    STATE.paused(false);
     UI.togglePause();
     stepToNextFrame = true;
   }

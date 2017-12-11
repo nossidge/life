@@ -25,7 +25,7 @@ var EPILEPSY = (function (mod) {
       }
 
       document.getElementById('range_framerate').max = 10;
-      if (frameRate > 10) { UI.updateFramerate(10); }
+      if (STATE.frameRate() > 10) { UI.updateFramerate(10); }
 
     } else {
       domObj.value = 'Epilepsy: Unsafe';
@@ -38,7 +38,7 @@ var EPILEPSY = (function (mod) {
 
       // Just a QOL thing.
       // Since a safe 8 is the default, immediately switch to 20 if unchanged.
-      if (frameRate == 8) { UI.updateFramerate(20); }
+      if (STATE.frameRate() == 8) { UI.updateFramerate(20); }
     }
 
     // Reload the rules to the UI.

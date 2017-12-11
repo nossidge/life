@@ -28,20 +28,20 @@ var Cell = (function () {
       return [x, y];
     };
 
-    // Render the cell to the canvas, c.
+    // Render the cell to the canvas.
     this.render = function(c) {
       stateNow = stateNext;
       // Don't render dead cells, to preserve the blur effect.
       if (stateNow != 0) {
-        c.fillStyle = fillColourAlive;
-        c.fillRect(x, y, cellPixels.x, cellPixels.y);
+        STATE.c().fillStyle = fillColourAlive;
+        STATE.c().fillRect(x, y, cellPixels.x, cellPixels.y);
       }
     }
 
     // 'state' should be 0 or 1 for alive or dead.
     this.setState = function(c, state) {
-      c.fillStyle = (state == 0) ? fillColourDead : fillColourAlive;
-      c.fillRect(x, y, cellPixels.x, cellPixels.y);
+      STATE.c().fillStyle = (state == 0) ? fillColourDead : fillColourAlive;
+      STATE.c().fillRect(x, y, cellPixels.x, cellPixels.y);
       stateNext = state;
       this.render(c);
     }

@@ -119,7 +119,7 @@ function randomise() {
       // Change based on mirror variables.
       var coords = UI.getMirrorCellCoords(i, j);
       for (var k = 0; k < coords.length; k++) {
-        cells[ coords[k][0] ][ coords[k][1] ].setState(c, state);
+        cells[ coords[k][0] ][ coords[k][1] ].setState(STATE.c(), state);
       }
     }
   }
@@ -139,7 +139,7 @@ function randomiseCentralBlock() {
       theCell.x = parseInt(centreCell.x) + parseInt(i);
       theCell.y = parseInt(centreCell.y) + parseInt(j);
       cells[theCell.x][theCell.y].setStateNext(1);
-      cells[theCell.x][theCell.y].render(c);
+      cells[theCell.x][theCell.y].render(STATE.c());
     }
   }
 }
@@ -149,12 +149,12 @@ function setAllCellsToState(state) {
   for(var i = 0; i < Cell.get_cellCount().x; i++) {
     for(var j = 0; j < Cell.get_cellCount().y; j++) {
       cells[i][j].setStateNext(state);
-      cells[i][j].render(c);
+      cells[i][j].render(STATE.c());
     }
   }
   if (state == 0) {
-    c.fillStyle = Cell.get_fillColourDead();
-    c.fillRect(0,0,w,h);
+    STATE.c().fillStyle = Cell.get_fillColourDead();
+    STATE.c().fillRect(0,0,w,h);
   }
 }
 
@@ -164,7 +164,7 @@ function setAllCellsToState(state) {
 function initCanvas() {
   cancelAnimationFrame(ANIMATION);
   then = Date.now();
-  frameCount = 0;
+  STATE.frameCount(0);
 
   UI.resizeCanvas();
 
@@ -198,18 +198,18 @@ function drawScene() {
 
   now = Date.now();
   delta = now - then;
-  if (!paused && delta > interval || stepToNextFrame) {
+  if (!STATE.paused() && delta > interval || stepToNextFrame) {
     then = now - (delta % interval);
     stepToNextFrame = false;
 
     dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
-    c.fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + blur + ')';
-    c.fillRect(0,0,w,h);
+    STATE.c().fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blur() + ')';
+    STATE.c().fillRect(0,0,w,h);
 
     // Display cells.
     for(var i = 0; i < Cell.get_cellCount().x; i++) {
       for(var j = 0; j < Cell.get_cellCount().y; j++) {
-        cells[i][j].render(c);
+        cells[i][j].render(STATE.c());
       }
     }
 
@@ -238,9 +238,9 @@ function drawScene() {
 // Move to next rule in the loop, if necessary.
 function loopFunctions() {
   if (loop_type.value != '(none)') {
-    frameCount++;
-    if (frameCount >= loopRates[loopState]) {
-      frameCount = 0;
+    STATE.frameCount(STATE.frameCount() + 1);
+    if (STATE.frameCount() >= loopRates[loopState]) {
+      STATE.frameCount(0);
 
       // Currently handles just 2 states.
       loopState = (loopState == 0) ? 1 : 0;
@@ -259,35 +259,35 @@ function drawCellFromMousePos(e) {
     var state = (e.which == 2) ? 0 : 1;
 
     // Determine cell x/y from mouse x/y
-    mouse.x = e.pageX - a.offsetLeft;
-    mouse.y = e.pageY - a.offsetTop;
+    mouse.x = e.pageX - STATE.a().offsetLeft;
+    mouse.y = e.pageY - STATE.a().offsetTop;
     _x = Math.max(0,Math.floor(mouse.x / Cell.get_cellPixels().x));
     _y = Math.max(0,Math.floor(mouse.y / Cell.get_cellPixels().y));
 
     // Change based on mirror variables.
     var coords = UI.getMirrorCellCoords(_x, _y);
     for (var i = 0; i < coords.length; i++) {
-      cells[ coords[i][0] ][ coords[i][1] ].setState(c, state);
+      cells[ coords[i][0] ][ coords[i][1] ].setState(STATE.c(), state);
     }
   }
 }
 
 // Really simple way of determining if mousedown.
-a.addEventListener('mousedown', function(e) {
+STATE.a().addEventListener('mousedown', function(e) {
   mouseDown = true;
   drawCellFromMousePos(e);
 }, false);
-a.addEventListener('mouseup', function(e) {
+STATE.a().addEventListener('mouseup', function(e) {
   mouseDown = false;
 }, false);
 
-a.addEventListener('mousemove', function(e) {
+STATE.a().addEventListener('mousemove', function(e) {
   drawCellFromMousePos(e);
 }, false);
 
 // Disable canves doubleclick selection.
 // http://stackoverflow.com/a/3799700/139299
-a.onmousedown = function() {
+STATE.a().onmousedown = function() {
   return false;
 };
 
@@ -345,7 +345,7 @@ window.onkeydown = function(e) {
 
 // Pause and get a blank screen.
 function clearCanvas() {
-  paused = false;
+  STATE.paused(false);
   UI.togglePause();
   setAllCellsToState(1);
 }
@@ -357,11 +357,11 @@ function clearCanvas() {
   let cellCount  = Cell.get_cellCount();
   let cellPixels = Cell.get_cellPixels();
 
-  a.width  = cellCount.x * cellPixels.x;
-  a.height = cellCount.y * cellPixels.y;
+  STATE.a().width  = cellCount.x * cellPixels.x;
+  STATE.a().height = cellCount.y * cellPixels.y;
   UI.updateRuleByName(currentRuleType);
   UI.updateBlur(0);
-  UI.updateFramerate(frameRate);
+  UI.updateFramerate(STATE.frameRate());
   initCanvas();
   epilepsySafe = false;
   EPILEPSY.epilepsyToggle();
@@ -403,8 +403,8 @@ function stateSave() {
   states += ',cellCount.y=' + cellCount.y;
   states += ',cellPixels.x=' + cellPixels.x;
   states += ',cellPixels.y=' + cellPixels.y;
-  states += ',frameRate=' + frameRate;
-  states += ',blurPercent=' + blurPercent;
+  states += ',frameRate=' + STATE.frameRate();
+  states += ',blurPercent=' + STATE.blurPercent();
   states += ',fillColourDead=' + Cell.get_fillColourDead();
   states += ',fillColourAlive=' + Cell.get_fillColourAlive();
   states += ',currentRuleType=' + currentRuleType;
@@ -480,7 +480,7 @@ function stateLoad() {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
-      cells[i][j].setState(c, state);
+      cells[i][j].setState(STATE.c(), state);
 
       // Remove the first character of the string.
       cellStateString = cellStateString.substring(1)
