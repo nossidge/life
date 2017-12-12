@@ -14,7 +14,8 @@ var EPILEPSY = (function (mod) {
       domObj.style.background = '#BAD696'; // Green
 
       // Switch to a safe rule if current is unsafe.
-      if (RULES.rules[currentRuleType].hasOwnProperty('epilepsy')) {
+      let rt = STATE.currentRuleType();
+      if (RULES.rules[rt].hasOwnProperty('epilepsy')) {
         UI.updateRuleByName('Conway');
       }
       if (RULES.rules[loopRules[0]].hasOwnProperty('epilepsy')) {

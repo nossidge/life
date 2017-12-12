@@ -101,16 +101,17 @@ function nextStateAccordingToNeighbours(_x, _y) {
 
   // Survival
   var booFound = false;
-  for(var i=0; i<RULES.rules[currentRuleType]['survival'].length; i++) {
-    if(n==RULES.rules[currentRuleType]['survival'][i]) { booFound = true; }
+  var rt = STATE.currentRuleType();
+  for(var i=0; i<RULES.rules[rt]['survival'].length; i++) {
+    if(n==RULES.rules[rt]['survival'][i]) { booFound = true; }
   }
   if(!booFound) { return false; }
 
   // Birth
   if (cells[_x][_y].getState() == 0) {
     booFound = false;
-    for(var i=0; i<RULES.rules[currentRuleType]['birth'].length; i++) {
-      if(n==RULES.rules[currentRuleType]['birth'][i]) { booFound = true; }
+    for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
+      if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }
     }
     if(!booFound) { return false; }
   }

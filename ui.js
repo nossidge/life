@@ -41,7 +41,7 @@ var UI = (function (mod) {
     document.getElementById('loop_rule_0').innerHTML = finalHtml;
     document.getElementById('loop_rule_1').innerHTML = finalHtml;
 
-    document.getElementById('rules_select').value = currentRuleType;
+    document.getElementById('rules_select').value = STATE.currentRuleType();
     document.getElementById('loop_rule_0').value = loopRules[0];
     document.getElementById('loop_rule_1').value = loopRules[1];
   }
@@ -215,13 +215,13 @@ var UI = (function (mod) {
     UI.updateRuleByName( Object.keys(RULES.rules)[index] );
   }
 
-  mod.updateRuleByName = function(name) {
-    currentRuleType = name;
-    document.getElementById('rules_select').value = currentRuleType;
+  mod.updateRuleByName = function(rt) {
+    STATE.currentRuleType(rt);
+    document.getElementById('rules_select').value = rt;
 
     // If it's a custom rule, then set the global variable.
-    if (RULES.rules[currentRuleType].hasOwnProperty('custom')) {
-      lastCustomRuleName = currentRuleType;
+    if (RULES.rules[rt].hasOwnProperty('custom')) {
+      STATE.lastCustomRuleName(rt);
     }
 
     // Reset the checkboxes to false.
@@ -231,21 +231,21 @@ var UI = (function (mod) {
     }
 
     // Turn checkboxes on if needed.
-    for (var i = 0; i < RULES.rules[currentRuleType]['birth'].length; i++) {
+    for (var i = 0; i < RULES.rules[rt]['birth'].length; i++) {
       document.getElementById(
-        'birth_' + RULES.rules[currentRuleType]['birth'][i]
+        'birth_' + RULES.rules[rt]['birth'][i]
       ).checked = true;
     }
-    for (var i = 0; i < RULES.rules[currentRuleType]['survival'].length; i++) {
+    for (var i = 0; i < RULES.rules[rt]['survival'].length; i++) {
       document.getElementById(
-        'survival_' + RULES.rules[currentRuleType]['survival'][i]
+        'survival_' + RULES.rules[rt]['survival'][i]
       ).checked = true;
     }
 
     // Show the description, if it has one.
     let elem = document.getElementById('rules_desc');
-    if (RULES.rules[currentRuleType].hasOwnProperty('description')) {
-      elem.innerHTML = RULES.rules[currentRuleType]['description'];
+    if (RULES.rules[rt].hasOwnProperty('description')) {
+      elem.innerHTML = RULES.rules[rt]['description'];
     } else {
       elem.innerHTML = '';
     }
@@ -254,13 +254,13 @@ var UI = (function (mod) {
     EPILEPSY.zeroNeighboursS();
     EPILEPSY.zeroNeighboursB();
 
-    FUNCTIONS.puts('Rule = ' + currentRuleType);
+    FUNCTIONS.puts('Rule = ' + rt);
   }
 
   //######################################
 
-  mod.updateLoopType = function(value) {
-    loopType = value;
+  mod.updateLoopType = function(loopType) {
+    STATE.loopType(loopType);
     document.getElementById('loop_type').value = loopType;
 
     // Reset the loop frame counter.
@@ -281,7 +281,8 @@ var UI = (function (mod) {
       }
 
       // Change the rule, if it is not one of the loop rules.
-      if (currentRuleType != loopRules[0] && currentRuleType != loopRules[1]) {
+      let rt = STATE.currentRuleType();
+      if (rt != loopRules[0] && rt != loopRules[1]) {
         UI.updateRuleByName(loopRules[0]);
       }
       FUNCTIONS.puts('Loop Type = ' + loopType);
@@ -324,7 +325,7 @@ var UI = (function (mod) {
   mod.stepFrame = function() {
     STATE.paused(false);
     UI.togglePause();
-    stepToNextFrame = true;
+    STATE.stepToNextFrame(true);
   }
 
   return mod;

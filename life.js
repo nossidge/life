@@ -91,7 +91,7 @@ function checkLifeRules() {
 
   // Select previous 'Custom' if not rule matched.
   if (!ruleMatched) {
-    ruleName = lastCustomRuleName;
+    ruleName = STATE.lastCustomRuleName();
 
     // Update custom to the new options.
     RULES.rules[ruleName]['birth'] = birth;
@@ -198,9 +198,9 @@ function drawScene() {
 
   now = Date.now();
   delta = now - then;
-  if (!STATE.paused() && delta > interval || stepToNextFrame) {
+  if (!STATE.paused() && delta > interval || STATE.stepToNextFrame()) {
     then = now - (delta % interval);
-    stepToNextFrame = false;
+    STATE.stepToNextFrame(false);
 
     dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
     STATE.c().fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blur() + ')';
@@ -359,7 +359,7 @@ function clearCanvas() {
 
   STATE.a().width  = cellCount.x * cellPixels.x;
   STATE.a().height = cellCount.y * cellPixels.y;
-  UI.updateRuleByName(currentRuleType);
+  UI.updateRuleByName(STATE.currentRuleType());
   UI.updateBlur(0);
   UI.updateFramerate(STATE.frameRate());
   initCanvas();
@@ -407,7 +407,7 @@ function stateSave() {
   states += ',blurPercent=' + STATE.blurPercent();
   states += ',fillColourDead=' + Cell.get_fillColourDead();
   states += ',fillColourAlive=' + Cell.get_fillColourAlive();
-  states += ',currentRuleType=' + currentRuleType;
+  states += ',currentRuleType=' + STATE.currentRuleType();
 
   states = lzw_encode(states);
 
