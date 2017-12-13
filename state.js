@@ -49,6 +49,9 @@ var STATE = ( function(mod) {
   var currentRuleType = 'Conway';
   var lastCustomRuleName = '(custom 1)';
   var loopType = '(none)';
+  var loopState = 0;
+  var loopRules = ['Conway','Conway'];
+  var loopRates = [];
   mod.currentRuleType = function(value) {
     if (typeof value !== 'undefined') { currentRuleType = value; }
     return currentRuleType;
@@ -61,6 +64,18 @@ var STATE = ( function(mod) {
     if (typeof value !== 'undefined') { loopType = value; }
     return loopType;
   }
+  mod.loopState = function(value) {
+    if (typeof value !== 'undefined') { loopState = value; }
+    return loopState;
+  }
+  mod.loopRules = function(value) {
+    if (typeof value !== 'undefined') { loopRules = value; }
+    return loopRules;
+  }
+  mod.loopRates = function(value) {
+    if (typeof value !== 'undefined') { loopRates = value; }
+    return loopRates;
+  }
 
   return mod;
 }(STATE || {}));
@@ -70,15 +85,7 @@ var STATE = ( function(mod) {
 // ToDo: How do I non-global this?
 var ANIMATION;
 
-// Rule and loop variables.
-var loopState = 0;
-var loopRules = ['Conway','Conway'];
-var loopRates = [];
-
 var cells;
-
-var colourLiveIsBackground = true;
-var colourDeadIsText = true;
 
 // Move to UI.
 var mirrorNS = false;
@@ -87,9 +94,6 @@ var mirrorNESW = false;
 var mirrorNWSE = false;
 var mouse = {x: 0, y: 0};
 var mouseDown = false;
-
-// Move to EPILEPSY.
-var epilepsySafe = true;
 
 var now, then, delta, interval = 1000 / STATE.frameRate();
 var globalStateStatic;

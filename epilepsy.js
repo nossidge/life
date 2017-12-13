@@ -5,6 +5,8 @@
 
 var EPILEPSY = (function (mod) {
 
+  var epilepsySafe = false;
+
   // Toggle value of 'epilepsySafe' boolean.
   mod.epilepsyToggle = function() {
     epilepsySafe = !epilepsySafe;
@@ -15,13 +17,14 @@ var EPILEPSY = (function (mod) {
 
       // Switch to a safe rule if current is unsafe.
       let rt = STATE.currentRuleType();
+      let lr = STATE.loopRules();
       if (RULES.rules[rt].hasOwnProperty('epilepsy')) {
         UI.updateRuleByName('Conway');
       }
-      if (RULES.rules[loopRules[0]].hasOwnProperty('epilepsy')) {
+      if (RULES.rules[lr[0]].hasOwnProperty('epilepsy')) {
         updateLoopRule(0, 'Conway');
       }
-      if (RULES.rules[loopRules[1]].hasOwnProperty('epilepsy')) {
+      if (RULES.rules[lr[1]].hasOwnProperty('epilepsy')) {
         updateLoopRule(1, 'Conway');
       }
 

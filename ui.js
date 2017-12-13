@@ -7,6 +7,8 @@ var UI = (function (mod) {
 
   var loopTypeDesc = true;
   var rulesDesc = true;
+  var colourLiveIsBackground = true;
+  var colourDeadIsText = true;
 
   mod.resizeCanvas = function() {
     STATE.a().width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
@@ -42,8 +44,8 @@ var UI = (function (mod) {
     document.getElementById('loop_rule_1').innerHTML = finalHtml;
 
     document.getElementById('rules_select').value = STATE.currentRuleType();
-    document.getElementById('loop_rule_0').value = loopRules[0];
-    document.getElementById('loop_rule_1').value = loopRules[1];
+    document.getElementById('loop_rule_0').value = STATE.loopRules()[0];
+    document.getElementById('loop_rule_1').value = STATE.loopRules()[1];
   }
   mod.HtmlLoopTypeDropDown = function() {
     var finalHtml = '<option value="(none)">(none)</option>';
@@ -267,10 +269,12 @@ var UI = (function (mod) {
     STATE.frameCount(0);
 
     if (loopType != '(none)' && loopType != '(custom)') {
-      loopRules[0] = RULES.loops[loopType]['rules'][0];
-      loopRules[1] = RULES.loops[loopType]['rules'][1];
-      document.getElementById('loop_rule_0').value = loopRules[0];
-      document.getElementById('loop_rule_1').value = loopRules[1];
+      let lr = [];
+      lr[0] = RULES.loops[loopType]['rules'][0];
+      lr[1] = RULES.loops[loopType]['rules'][1];
+      document.getElementById('loop_rule_0').value = lr[0];
+      document.getElementById('loop_rule_1').value = lr[1];
+      STATE.loopRules(lr);
 
       // Show the description, if it has one.
       let elem = document.getElementById('loop_type_desc');
@@ -282,8 +286,8 @@ var UI = (function (mod) {
 
       // Change the rule, if it is not one of the loop rules.
       let rt = STATE.currentRuleType();
-      if (rt != loopRules[0] && rt != loopRules[1]) {
-        UI.updateRuleByName(loopRules[0]);
+      if (rt != lr[0] && rt != lr[1]) {
+        UI.updateRuleByName( lr[0] );
       }
       FUNCTIONS.puts('Loop Type = ' + loopType);
     }

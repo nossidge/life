@@ -3,7 +3,10 @@
 
 // Change the loop rules.
 function updateLoopRule(index, value) {
-  loopRules[index] = value;
+  let lr = STATE.loopRules();
+  lr[index] = value;
+  STATE.loopRules(lr);
+
   document.getElementById('loop_rule_' + index).value = value;
   FUNCTIONS.puts('updateLoopRule -- index:' + index + '  value:' + value);
 
@@ -41,7 +44,9 @@ function updateLoopRule(index, value) {
 
 // Change the loop rates.
 function updateLoopRate(index, value) {
-  loopRates[index] = value;
+  let lr = STATE.loopRates();
+  lr[index] = value;
+  STATE.loopRates(lr);
   document.getElementById('span_loop_rate_' + index).innerHTML = value;
   FUNCTIONS.puts('updateLoopRate -- index:' + index + '  value:' + value);
 }
@@ -239,12 +244,12 @@ function drawScene() {
 function loopFunctions() {
   if (loop_type.value != '(none)') {
     STATE.frameCount(STATE.frameCount() + 1);
-    if (STATE.frameCount() >= loopRates[loopState]) {
+    if (STATE.frameCount() >= STATE.loopRates()[ STATE.loopState() ]) {
       STATE.frameCount(0);
 
       // Currently handles just 2 states.
-      loopState = (loopState == 0) ? 1 : 0;
-      UI.updateRuleByName(loopRules[loopState]);
+      STATE.loopState( (STATE.loopState() == 0) ? 1 : 0 );
+      UI.updateRuleByName( STATE.loopRules()[ STATE.loopState() ] );
     }
   }
 }
@@ -363,7 +368,6 @@ function clearCanvas() {
   UI.updateBlur(0);
   UI.updateFramerate(STATE.frameRate());
   initCanvas();
-  epilepsySafe = false;
   EPILEPSY.epilepsyToggle();
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
