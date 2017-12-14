@@ -101,7 +101,6 @@ function checkLifeRules() {
     // Update custom to the new options.
     RULES.rules[ruleName]['birth'] = birth;
     RULES.rules[ruleName]['survival'] = survival;
-    document.getElementById('rules_select').value = ruleName;
     UI.updateRuleByName(ruleName);
   }
 }
@@ -377,11 +376,11 @@ function clearCanvas() {
   UI.setColourDeadIsText(true);
   UI.toggleHtmlLoopTypeDesc();
   UI.toggleHtmlRulesDesc();
-  UI.updateLoopType('(none)');
   updateLoopRate(0, 20);
   updateLoopRate(1, 20);
   updateLoopRule(0, 'Conway');
   updateLoopRule(1, 'Conway');
+  UI.updateLoopType('(none)');
   UI.toggleMirrorNS();
   UI.toggleMirrorEW();
   UI.toggleMirrorNESW();
