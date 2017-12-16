@@ -410,11 +410,11 @@ document.onkeypress = function(event) {
     case '9': UI.updateRuleByIndex(8); break;
     case '0': UI.updateRuleByIndex(9); break;
 
-    case 'Q': randomise(); break;
-    case 'W': randomiseCentralBlock(); break;
+    case 'Q': CANVAS.randomise(); break;
+    case 'W': CANVAS.randomiseCentralBlock(); break;
 
-    case 'Z': setAllCellsToState(1); break;
-    case 'X': setAllCellsToState(0); break;
+    case 'Z': CANVAS.setAllCellsToState(1); break;
+    case 'X': CANVAS.setAllCellsToState(0); break;
 
     default: break;
   }
@@ -437,7 +437,7 @@ window.onkeydown = function(e) {
 function clearCanvas() {
   STATE.paused(false);
   UI.togglePause();
-  setAllCellsToState(1);
+  CANVAS.setAllCellsToState(1);
 }
 
 //##############################################################################
