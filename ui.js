@@ -10,6 +10,8 @@ var UI = (function (mod) {
   var colourLiveIsBackground = true;
   var colourDeadIsText = true;
 
+  mod.enabled = true;
+
   mod.resizeCanvas = function() {
     STATE.a().width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
     STATE.a().height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
@@ -302,10 +304,8 @@ var UI = (function (mod) {
     STATE.blur(blurMax - (blurMax * bp / 100));
     if (STATE.blur() == blurMax) { STATE.blur(1); }
   }
-  mod.updateFramerate = function(inputFramerate) {
-    let fr = parseInt(inputFramerate)
-    STATE.frameRate(fr);
-    interval = 1000 / fr;
+  mod.updateFramerate = function() {
+    let fr = STATE.frameRate();
     document.getElementById('range_framerate').value = fr;
     document.getElementById('span_framerate').innerHTML = fr;
   }

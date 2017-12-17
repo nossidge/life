@@ -17,7 +17,12 @@ var STATE = ( function(mod) {
   var paused = false;
   var stepToNextFrame = false;
   mod.frameRate = function(value) {
-    if (typeof value !== 'undefined') { frameRate = value; }
+    if (typeof value !== 'undefined') {
+      let fr = parseInt(value);
+      frameRate = fr;
+      interval = 1000 / fr;
+      if (UI.enabled) { UI.updateFramerate(); }
+    }
     return frameRate;
   }
   mod.frameCount = function(value) {

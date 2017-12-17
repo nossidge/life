@@ -207,7 +207,7 @@ function loopFunctions() {
   STATE.a().height = cellCount.y * cellPixels.y;
   UI.updateRuleByName(STATE.currentRuleType());
   UI.updateBlur(0);
-  UI.updateFramerate(STATE.frameRate());
+  UI.updateFramerate();
   initCanvas();
   EPILEPSY.epilepsyToggle();
   UI.HtmlLifeRulesDropDowns();
@@ -295,7 +295,7 @@ function stateLoad() {
         FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
         break;  */
       case 'frameRate':
-        UI.updateFramerate(value);
+        STATE.frameRate(value);
         break;
       case 'blurPercent':
         UI.updateBlur(value);
