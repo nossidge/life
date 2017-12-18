@@ -268,7 +268,7 @@ var UI = (function (mod) {
     document.getElementById('loop_type').value = loopType;
 
     // Reset the loop frame counter.
-    STATE.frameCount(0);
+    STATE.frameCountReset();
 
     if (loopType != '(none)' && loopType != '(custom)') {
       let lr = [];

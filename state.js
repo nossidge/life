@@ -13,7 +13,6 @@ var STATE = ( function(mod) {
 
   // Animation variables.
   var frameRate = 8;
-  var frameCount = 0;
   var paused = false;
   var stepToNextFrame = false;
   mod.frameRate = function(value) {
@@ -24,10 +23,6 @@ var STATE = ( function(mod) {
       if (UI.enabled) { UI.updateFramerate(); }
     }
     return frameRate;
-  }
-  mod.frameCount = function(value) {
-    if (typeof value !== 'undefined') { frameCount = value; }
-    return frameCount;
   }
   mod.paused = function(value) {
     if (typeof value !== 'undefined') { paused = value; }
@@ -57,6 +52,7 @@ var STATE = ( function(mod) {
   var loopState = 0;
   var loopRules = ['Conway','Conway'];
   var loopRates = [];
+  var frameCount = 0;
   mod.currentRuleType = function(value) {
     if (typeof value !== 'undefined') { currentRuleType = value; }
     return currentRuleType;
@@ -69,10 +65,6 @@ var STATE = ( function(mod) {
     if (typeof value !== 'undefined') { loopType = value; }
     return loopType;
   }
-  mod.loopState = function(value) {
-    if (typeof value !== 'undefined') { loopState = value; }
-    return loopState;
-  }
   mod.loopRules = function(value) {
     if (typeof value !== 'undefined') { loopRules = value; }
     return loopRules;
@@ -80,6 +72,25 @@ var STATE = ( function(mod) {
   mod.loopRates = function(value) {
     if (typeof value !== 'undefined') { loopRates = value; }
     return loopRates;
+  }
+
+  // Framecount is the number of frames in the current loop.
+  // Not used if there is no loop in progress ( loopType == '(none)' ).
+  // Framecount can either be reset, or ticked.
+  mod.frameCountReset = function() {
+    frameCount = 0;
+  }
+  mod.frameCountTick = function() {
+    if (loopType != '(none)') {
+      frameCount = frameCount + 1;
+      if (frameCount >= loopRates[loopState]) {
+        frameCount = 0;
+
+        // Currently handles just 2 states.
+        loopState = (loopState == 0) ? 1 : 0;
+        UI.updateRuleByName( loopRules[loopState] );
+      }
+    }
   }
 
   return mod;

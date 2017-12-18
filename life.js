@@ -111,7 +111,7 @@ function checkLifeRules() {
 function initCanvas() {
   cancelAnimationFrame(ANIMATION);
   then = Date.now();
-  STATE.frameCount(0);
+  STATE.frameCountReset();
 
   UI.resizeCanvas();
 
@@ -178,21 +178,8 @@ function drawScene() {
       FUNCTIONS.puts('dead');
     }
 
-    loopFunctions();
-  }
-}
-
-// Move to next rule in the loop, if necessary.
-function loopFunctions() {
-  if (loop_type.value != '(none)') {
-    STATE.frameCount(STATE.frameCount() + 1);
-    if (STATE.frameCount() >= STATE.loopRates()[ STATE.loopState() ]) {
-      STATE.frameCount(0);
-
-      // Currently handles just 2 states.
-      STATE.loopState( (STATE.loopState() == 0) ? 1 : 0 );
-      UI.updateRuleByName( STATE.loopRules()[ STATE.loopState() ] );
-    }
+    // Move to next rule in the loop, if necessary.
+    STATE.frameCountTick();
   }
 }
 
