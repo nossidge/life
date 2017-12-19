@@ -88,7 +88,7 @@ var STATE = ( function(mod) {
 
         // Currently handles just 2 states.
         loopState = (loopState == 0) ? 1 : 0;
-        UI.updateRuleByName( loopRules[loopState] );
+        if (UI.enabled) { UI.updateRuleByName( loopRules[loopState] ); }
       }
     }
   }

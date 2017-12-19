@@ -196,7 +196,7 @@ function drawScene() {
   UI.updateBlur(0);
   UI.updateFramerate();
   initCanvas();
-  EPILEPSY.epilepsyToggle();
+  EPILEPSY.setEpilepsy(true);
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
   FUNCTIONS.updateDOMInnerHTML('span_width', cellCount.x);

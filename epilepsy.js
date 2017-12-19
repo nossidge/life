@@ -5,11 +5,14 @@
 
 var EPILEPSY = (function (mod) {
 
-  var epilepsySafe = false;
+  var epilepsySafe = true;
 
   // Toggle value of 'epilepsySafe' boolean.
-  mod.epilepsyToggle = function() {
-    epilepsySafe = !epilepsySafe;
+  mod.toggleEpilepsy = function() {
+    EPILEPSY.setEpilepsy( !epilepsySafe );
+  }
+  mod.setEpilepsy = function(value) {
+    epilepsySafe = value;
     var domObj = document.getElementById('button_epilepsy');
     if (epilepsySafe) {
       domObj.value = 'Epilepsy: Safe(ish)';
