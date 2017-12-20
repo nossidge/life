@@ -13,7 +13,6 @@ var STATE = ( function(mod) {
 
   // Animation variables.
   var frameRate = 8;
-  var paused = false;
   var stepToNextFrame = false;
   mod.frameRate = function(value) {
     if (typeof value !== 'undefined') {
@@ -24,13 +23,25 @@ var STATE = ( function(mod) {
     }
     return frameRate;
   }
-  mod.paused = function(value) {
-    if (typeof value !== 'undefined') { paused = value; }
-    return paused;
-  }
   mod.stepToNextFrame = function(value) {
     if (typeof value !== 'undefined') { stepToNextFrame = value; }
     return stepToNextFrame;
+  }
+
+  // Paused variables.
+  var paused = false;
+  mod.paused = function(value) {
+    if (typeof value !== 'undefined') {
+      paused = value;
+      if (UI.enabled) {
+        let colour = STATE.paused() ? '#E94E77' : '';
+        document.getElementById('button_pause').style.background = colour;
+      }
+    }
+    return paused;
+  }
+  mod.pausedToggle = function() {
+    STATE.paused( !paused );
   }
 
   // Blur variables.

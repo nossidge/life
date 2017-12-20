@@ -19,20 +19,6 @@ var UI = (function (mod) {
     h = STATE.a().height;
   }
 
-  // Toggle pause on or off.
-  mod.togglePause = function() {
-    UI.setPause( !STATE.paused() );
-  }
-  mod.setPause = function(value) {
-    STATE.paused(value);
-    var domObj = document.getElementById('button_pause');
-    if ( STATE.paused() ) {
-      domObj.style.background = '#E94E77'; // Red
-    } else {
-      domObj.style.background = ''; // Off
-    }
-  }
-
   // Load JSON stuff to html objects.
   mod.HtmlLifeRulesDropDowns = function() {
     var finalHtml = '';
@@ -327,8 +313,7 @@ var UI = (function (mod) {
 
   // Step frames individually.
   mod.stepFrame = function() {
-    STATE.paused(false);
-    UI.togglePause();
+    STATE.paused(true);
     STATE.stepToNextFrame(true);
   }
 
@@ -398,7 +383,7 @@ document.onkeypress = function(event) {
   if (!char) return;
   keys = Object.keys(RULES.rules);
   switch( char.toUpperCase() ) {
-    case 'P': UI.togglePause(); break;
+    case 'P': STATE.pausedToggle(); break;
     case '1': UI.updateRuleByIndex(0); break;
     case '2': UI.updateRuleByIndex(1); break;
     case '3': UI.updateRuleByIndex(2); break;
@@ -435,8 +420,7 @@ window.onkeydown = function(e) {
 
 // Pause and get a blank screen.
 function clearCanvas() {
-  STATE.paused(false);
-  UI.togglePause();
+  STATE.paused(true);
   CANVAS.setAllCellsToState(1);
 }
 
