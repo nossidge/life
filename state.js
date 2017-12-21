@@ -45,15 +45,21 @@ var STATE = ( function(mod) {
   }
 
   // Blur variables.
-  var blur = 1;
+  // Set blurPercent, and calculate blurAbsolute from that.
+  var blurAbsolute = 0;
   var blurPercent = 0;
-  mod.blur = function(value) {
-    if (typeof value !== 'undefined') { blur = value; }
-    return blur;
-  }
+  var blurMax = 0.6;
   mod.blurPercent = function(value) {
-    if (typeof value !== 'undefined') { blurPercent = value; }
+    if (typeof value !== 'undefined') {
+      blurPercent = parseInt(value);
+      blurAbsolute = blurMax - (blurMax * blurPercent / 100);
+      if (blurAbsolute == blurMax) { blurAbsolute = 1; }
+      if (UI.enabled) { UI.updateBlur(); }
+    }
     return blurPercent;
+  }
+  mod.blurAbsolute = function() {
+    return blurAbsolute;
   }
 
   // Rule and loop variables.

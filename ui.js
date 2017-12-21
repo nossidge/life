@@ -281,14 +281,10 @@ var UI = (function (mod) {
     }
   }
 
-  mod.updateBlur = function(inputBlur) {
-    let bp = parseInt(inputBlur);
-    STATE.blurPercent(bp);
+  mod.updateBlur = function() {
+    let bp = STATE.blurPercent();
     document.getElementById('range_blur').value = bp;
     document.getElementById('span_blur').innerHTML = bp + '%';
-    let blurMax = 0.6;
-    STATE.blur(blurMax - (blurMax * bp / 100));
-    if (STATE.blur() == blurMax) { STATE.blur(1); }
   }
   mod.updateFramerate = function() {
     let fr = STATE.frameRate();

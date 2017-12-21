@@ -150,7 +150,7 @@ function drawScene() {
     STATE.stepToNextFrame(false);
 
     dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
-    STATE.c().fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blur() + ')';
+    STATE.c().fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blurAbsolute() + ')';
     STATE.c().fillRect(0,0,w,h);
 
     // Display cells.
@@ -193,7 +193,7 @@ function drawScene() {
   STATE.a().width  = cellCount.x * cellPixels.x;
   STATE.a().height = cellCount.y * cellPixels.y;
   UI.updateRuleByName(STATE.currentRuleType());
-  UI.updateBlur(0);
+  STATE.blurPercent(0);
   UI.updateFramerate();
   initCanvas();
   EPILEPSY.setEpilepsy(true);
@@ -285,7 +285,7 @@ function stateLoad() {
         STATE.frameRate(value);
         break;
       case 'blurPercent':
-        UI.updateBlur(value);
+        STATE.blurPercent(value);
         break;
       case 'fillColourDead':
         UI.updateColourDead(value);
