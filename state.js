@@ -5,12 +5,6 @@
 
 var STATE = ( function(mod) {
 
-  // Canvas constants.
-  var a = document.getElementById('canvas');
-  var c = a.getContext('2d');
-  mod.a = function() { return a; }
-  mod.c = function() { return c; }
-
   // Animation variables.
   var frameRate = 8;
   var stepToNextFrame = false;

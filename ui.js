@@ -13,10 +13,10 @@ var UI = (function (mod) {
   mod.enabled = true;
 
   mod.resizeCanvas = function() {
-    STATE.a().width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
-    STATE.a().height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
-    w = STATE.a().width;
-    h = STATE.a().height;
+    CANVAS.a.width  = Cell.get_cellCount().x * Cell.get_cellPixels().x;
+    CANVAS.a.height = Cell.get_cellCount().y * Cell.get_cellPixels().y;
+    w = CANVAS.a.width;
+    h = CANVAS.a.height;
   }
 
   // Load JSON stuff to html objects.
@@ -328,35 +328,35 @@ function drawCellFromMousePos(e) {
     var state = (e.which == 2) ? 0 : 1;
 
     // Determine cell x/y from mouse x/y
-    mouse.x = e.pageX - STATE.a().offsetLeft;
-    mouse.y = e.pageY - STATE.a().offsetTop;
+    mouse.x = e.pageX - CANVAS.a.offsetLeft;
+    mouse.y = e.pageY - CANVAS.a.offsetTop;
     _x = Math.max(0,Math.floor(mouse.x / Cell.get_cellPixels().x));
     _y = Math.max(0,Math.floor(mouse.y / Cell.get_cellPixels().y));
 
     // Change based on mirror variables.
     var coords = UI.getMirrorCellCoords(_x, _y);
     for (var i = 0; i < coords.length; i++) {
-      cells[ coords[i][0] ][ coords[i][1] ].setState(STATE.c(), state);
+      cells[ coords[i][0] ][ coords[i][1] ].setState(CANVAS.c, state);
     }
   }
 }
 
 // Really simple way of determining if mousedown.
-STATE.a().addEventListener('mousedown', function(e) {
+CANVAS.a.addEventListener('mousedown', function(e) {
   mouseDown = true;
   drawCellFromMousePos(e);
 }, false);
-STATE.a().addEventListener('mouseup', function(e) {
+CANVAS.a.addEventListener('mouseup', function(e) {
   mouseDown = false;
 }, false);
 
-STATE.a().addEventListener('mousemove', function(e) {
+CANVAS.a.addEventListener('mousemove', function(e) {
   drawCellFromMousePos(e);
 }, false);
 
 // Disable canves doubleclick selection.
 // http://stackoverflow.com/a/3799700/139299
-STATE.a().onmousedown = function() {
+CANVAS.a.onmousedown = function() {
   return false;
 };
 

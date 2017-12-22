@@ -5,6 +5,12 @@
 
 var CANVAS = (function (mod) {
 
+  // Canvas constants.
+  var a = document.getElementById('canvas');
+  var c = a.getContext('2d');
+  mod.a = a;
+  mod.c = c;
+
   // Initialize a fraction of the cells to start in their "alive" state.
   mod.randomise = function() {
     var limit = {
@@ -21,7 +27,7 @@ var CANVAS = (function (mod) {
         // Change based on mirror variables.
         var coords = UI.getMirrorCellCoords(i, j);
         for (var k = 0; k < coords.length; k++) {
-          cells[ coords[k][0] ][ coords[k][1] ].setState(STATE.c(), state);
+          cells[ coords[k][0] ][ coords[k][1] ].setState(c, state);
         }
       }
     }
@@ -41,7 +47,7 @@ var CANVAS = (function (mod) {
         theCell.x = parseInt(centreCell.x) + parseInt(i);
         theCell.y = parseInt(centreCell.y) + parseInt(j);
         cells[theCell.x][theCell.y].setStateNext(1);
-        cells[theCell.x][theCell.y].render(STATE.c());
+        cells[theCell.x][theCell.y].render(c);
       }
     }
   }
@@ -51,12 +57,12 @@ var CANVAS = (function (mod) {
     for(var i = 0; i < Cell.get_cellCount().x; i++) {
       for(var j = 0; j < Cell.get_cellCount().y; j++) {
         cells[i][j].setStateNext(state);
-        cells[i][j].render(STATE.c());
+        cells[i][j].render(c);
       }
     }
     if (state == 0) {
-      STATE.c().fillStyle = Cell.get_fillColourDead();
-      STATE.c().fillRect(0,0,w,h);
+      c.fillStyle = Cell.get_fillColourDead();
+      c.fillRect(0,0,w,h);
     }
   }
 

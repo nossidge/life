@@ -150,13 +150,13 @@ function drawScene() {
     STATE.stepToNextFrame(false);
 
     dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
-    STATE.c().fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blurAbsolute() + ')';
-    STATE.c().fillRect(0,0,w,h);
+    CANVAS.c.fillStyle = 'rgba(' + dead.r + ', ' + dead.g + ', ' + dead.b + ', ' + STATE.blurAbsolute() + ')';
+    CANVAS.c.fillRect(0,0,w,h);
 
     // Display cells.
     for(var i = 0; i < Cell.get_cellCount().x; i++) {
       for(var j = 0; j < Cell.get_cellCount().y; j++) {
-        cells[i][j].render(STATE.c());
+        cells[i][j].render(CANVAS.c);
       }
     }
 
@@ -190,8 +190,8 @@ function drawScene() {
   let cellCount  = Cell.get_cellCount();
   let cellPixels = Cell.get_cellPixels();
 
-  STATE.a().width  = cellCount.x * cellPixels.x;
-  STATE.a().height = cellCount.y * cellPixels.y;
+  CANVAS.a.width  = cellCount.x * cellPixels.x;
+  CANVAS.a.height = cellCount.y * cellPixels.y;
   UI.updateRuleByName(STATE.currentRuleType());
   STATE.blurPercent(0);
   UI.updateFramerate();
@@ -312,7 +312,7 @@ function stateLoad() {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
-      cells[i][j].setState(STATE.c(), state);
+      cells[i][j].setState(CANVAS.c, state);
 
       // Remove the first character of the string.
       cellStateString = cellStateString.substring(1)
