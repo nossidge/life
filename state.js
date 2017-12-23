@@ -27,10 +27,7 @@ var STATE = ( function(mod) {
   mod.paused = function(value) {
     if (typeof value !== 'undefined') {
       paused = value;
-      if (UI.enabled) {
-        let colour = STATE.paused() ? '#E94E77' : '';
-        document.getElementById('button_pause').style.background = colour;
-      }
+      if (UI.enabled) { UI.updatePaused(); }
     }
     return paused;
   }

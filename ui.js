@@ -286,10 +286,16 @@ var UI = (function (mod) {
     document.getElementById('range_blur').value = bp;
     document.getElementById('span_blur').innerHTML = bp + '%';
   }
+
   mod.updateFramerate = function() {
     let fr = STATE.frameRate();
     document.getElementById('range_framerate').value = fr;
     document.getElementById('span_framerate').innerHTML = fr;
+  }
+
+  mod.updatePaused = function() {
+    let colour = STATE.paused() ? '#E94E77' : '';
+    document.getElementById('button_pause').style.background = colour;
   }
 
   //############################################################################
