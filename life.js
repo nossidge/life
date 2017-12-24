@@ -1,33 +1,33 @@
 
 //##############################################################################
 
-// Change the loop rules.
+// Search to see if the selected rules match any of the named loops.
 function updateLoopRule(index, value) {
+
+  // Update the STATE.
   let lr = STATE.loopRules();
   lr[index] = value;
   STATE.loopRules(lr);
 
-  document.getElementById('loop_rule_' + index).value = value;
+  // Debug print.
   FUNCTIONS.puts('updateLoopRule -- index:' + index + '  value:' + value);
 
-  // Grab from the HTML selection.
-  loopRule_0 = document.getElementById('loop_rule_0').value;
-  loopRule_1 = document.getElementById('loop_rule_1').value;
-  arrLoopRules = [loopRule_0, loopRule_1];
-  arrLoopRules.sort();
-  strLoopRules = JSON.stringify(arrLoopRules);
+  // Clone and sort the loop rules.
+  let lrClone = lr.slice(0);
+  lrClone.sort();
+  lrClone = JSON.stringify(lrClone);
 
   // Loop to find a match.
-  var loopTypeMatched = false;
-  for (var loopName in RULES.loops) {
+  let loopTypeMatched = false;
+  for (let loopName in RULES.loops) {
     if (RULES.loops.hasOwnProperty(loopName)) {
 
-      rules = RULES.loops[loopName]['rules'];
+      let rules = RULES.loops[loopName]['rules'];
       rules.sort();
       rules = JSON.stringify(rules);
       FUNCTIONS.puts(rules);
 
-      if (rules == strLoopRules) {
+      if (rules == lrClone) {
         loopTypeMatched = true;
         document.getElementById('loop_type').value = loopName;
         FUNCTIONS.puts('loopTypeMatched = true');

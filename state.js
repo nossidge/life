@@ -74,7 +74,10 @@ var STATE = ( function(mod) {
     return loopType;
   }
   mod.loopRules = function(value) {
-    if (typeof value !== 'undefined') { loopRules = value; }
+    if (typeof value !== 'undefined') {
+      loopRules = value;
+      if (UI.enabled) { UI.updateLoopRules(); }
+    }
     return loopRules;
   }
   mod.loopRates = function(value) {

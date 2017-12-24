@@ -281,6 +281,17 @@ var UI = (function (mod) {
     }
   }
 
+  mod.updateLoopRule = function(index) {
+    let val = STATE.loopRules()[index];
+    document.getElementById('loop_rule_' + index).value = val;
+  }
+  mod.updateLoopRules = function() {
+    let len = STATE.loopRules().length;
+    for (var i = 0; i < len; i++) {
+      UI.updateLoopRule(i);
+    }
+  }
+
   mod.updateBlur = function() {
     let bp = STATE.blurPercent();
     document.getElementById('range_blur').value = bp;
