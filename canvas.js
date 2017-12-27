@@ -38,7 +38,9 @@ var CANVAS = (function (mod) {
   mod.randomiseCentralBlock = function() {
 
     // Radius of central cells.
-    var r = FUNCTIONS.rand(2,Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y)/2-10,1);
+    let minR = 2;
+    let maxR = Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y) / 2 - 10;
+    let r = FUNCTIONS.rand(minR, maxR, 1);
 
     // Set all the cells in the radius to live.
     var theCell = {x: 0,  y: 0};
