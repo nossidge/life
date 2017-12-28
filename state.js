@@ -114,14 +114,6 @@ var ANIMATION;
 
 var cells;
 
-// Move to UI.
-var mirrorNS = false;
-var mirrorEW = false;
-var mirrorNESW = false;
-var mirrorNWSE = false;
-var mouse = {x: 0, y: 0};
-var mouseDown = false;
-
 var now, then, delta, interval = 1000 / STATE.frameRate();
 var globalStateStatic;
 

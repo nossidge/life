@@ -105,6 +105,11 @@ var UI = (function (mod) {
   //############################################################################
 
   // Mirrored drawing.
+  var mirrorNS = false;
+  var mirrorEW = false;
+  var mirrorNESW = false;
+  var mirrorNWSE = false;
+
   mod.toggleMirrorNS = function() {
     mirrorNS = !mirrorNS;
     document.getElementById('mirror_NS').checked = mirrorNS;
@@ -336,6 +341,9 @@ var UI = (function (mod) {
 //##############################################################################
 // Mouse event functions.
 //##############################################################################
+
+var mouse = {x: 0, y: 0};
+var mouseDown = false;
 
 // Call this on events 'mousedown' and 'mousemove'.
 function drawCellFromMousePos(e) {
