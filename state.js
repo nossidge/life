@@ -109,9 +109,6 @@ var STATE = ( function(mod) {
 
 //##############################################################################
 
-// ToDo: How do I non-global this?
-var ANIMATION;
-
 var cells;
 
 var now, then, delta, interval = 1000 / STATE.frameRate();

@@ -109,7 +109,7 @@ function checkLifeRules() {
 
 // Draw the first scene.
 function initCanvas() {
-  cancelAnimationFrame(ANIMATION);
+  ANIMATION.cancelAnimationFrame();
   then = Date.now();
   STATE.frameCountReset();
 
@@ -135,14 +135,12 @@ function initCanvas() {
 
   CANVAS.randomiseCentralBlock();
   drawScene();
-  FUNCTIONS.puts('ANIMATION='+ANIMATION);
 }
 
 //functionality
 // http://codetheory.in/controlling-the-frame-rate-with-requestanimationframe/
 function drawScene() {
-  ANIMATION = requestAnimationFrame(drawScene);
-
+  ANIMATION.requestAnimationFrame(drawScene);
   now = Date.now();
   delta = now - then;
   if (!STATE.paused() && delta > interval || STATE.stepToNextFrame()) {
