@@ -326,7 +326,7 @@ var UI = (function (mod) {
       x: parseInt(document.getElementById('range_pixels').value),
       y: parseInt(document.getElementById('range_pixels').value)
     });
-    initCanvas();
+    ANIMATION.initCanvas();
   }
 
   // Step frames individually.

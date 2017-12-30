@@ -107,36 +107,6 @@ function checkLifeRules() {
 
 //##############################################################################
 
-// Draw the first scene.
-function initCanvas() {
-  ANIMATION.cancelAnimationFrame();
-  then = Date.now();
-  STATE.frameCountReset();
-
-  UI.resizeCanvas();
-
-  // Create empty cell object.
-  let cellCount = Cell.get_cellCount();
-  cells = [cellCount.x];
-  for (var i = 0; i < cellCount.x; i++) {
-    cells[i] = new Array(cellCount.y);
-  }
-  for (var i = 0; i < cellCount.x; i++) {
-    for (var j = 0; j < cellCount.y; j++) {
-      cells[i][j] = new Cell(i,j);
-    }
-  }
-
-  // Co-ords of central cell.
-  centreCell = {
-    x: Math.floor(cellCount.x/2),
-    y: Math.floor(cellCount.y/2)
-  };
-
-  CANVAS.randomiseCentralBlock();
-  drawScene();
-}
-
 //functionality
 // http://codetheory.in/controlling-the-frame-rate-with-requestanimationframe/
 function drawScene() {
@@ -193,7 +163,7 @@ function drawScene() {
   UI.updateRuleByName(STATE.currentRuleType());
   STATE.blurPercent(0);
   UI.updateFramerate();
-  initCanvas();
+  ANIMATION.initCanvas();
   EPILEPSY.setEpilepsy(true);
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
@@ -212,7 +182,6 @@ function drawScene() {
   UI.toggleMirrorEW();
   UI.toggleMirrorNESW();
   UI.toggleMirrorNWSE();
-//  addEventListener('resize', initCanvas, false);
 })();
 
 //##############################################################################
