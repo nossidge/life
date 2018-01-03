@@ -6,6 +6,13 @@
 var ANIMATION = ( function(mod) {
 
   var animation;
+  var now, then, delta;
+  var globalStateStatic;
+
+  var interval = 1000 / STATE.frameRate();
+  mod.interval = function(value) {
+    interval = value;
+  }
 
   // Interfaces to AnimationFrame.
   mod.cancelAnimationFrame = function() {

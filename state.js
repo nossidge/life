@@ -12,7 +12,7 @@ var STATE = ( function(mod) {
     if (typeof value !== 'undefined') {
       let fr = parseInt(value);
       frameRate = fr;
-      interval = 1000 / fr;
+      ANIMATION.interval(1000 / fr);
       if (UI.enabled) { UI.updateFramerate(); }
     }
     return frameRate;
@@ -110,8 +110,5 @@ var STATE = ( function(mod) {
 //##############################################################################
 
 var cells;
-
-var now, then, delta, interval = 1000 / STATE.frameRate();
-var globalStateStatic;
 
 //##############################################################################
