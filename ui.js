@@ -304,7 +304,7 @@ var UI = (function (mod) {
   }
 
   mod.updateFramerate = function() {
-    let fr = STATE.frameRate();
+    let fr = ANIMATION.frameRate();
     document.getElementById('range_framerate').value = fr;
     document.getElementById('span_framerate').innerHTML = fr;
   }
@@ -332,7 +332,7 @@ var UI = (function (mod) {
   // Step frames individually.
   mod.stepFrame = function() {
     STATE.paused(true);
-    STATE.stepToNextFrame(true);
+    ANIMATION.stepToNextFrame(true);
   }
 
   return mod;

@@ -6,13 +6,11 @@
 var ANIMATION = ( function(mod) {
 
   var animation;
-  var now, then, delta;
+  var frameRate = 8;
+  var stepToNextFrame = false;
   var globalStateStatic;
-
-  var interval = 1000 / STATE.frameRate();
-  mod.interval = function(value) {
-    interval = value;
-  }
+  var now, then, delta;
+  var interval = 1000 / frameRate;
 
   // Interfaces to AnimationFrame.
   mod.cancelAnimationFrame = function() {
@@ -57,9 +55,9 @@ var ANIMATION = ( function(mod) {
     ANIMATION.requestAnimationFrame(ANIMATION.drawScene);
     now = Date.now();
     delta = now - then;
-    if (!STATE.paused() && delta > interval || STATE.stepToNextFrame()) {
+    if (!STATE.paused() && delta > interval || stepToNextFrame) {
       then = now - (delta % interval);
-      STATE.stepToNextFrame(false);
+      stepToNextFrame = false;
 
       dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
       let rgb = dead.r + ', ' + dead.g + ', ' + dead.b;
@@ -94,6 +92,21 @@ var ANIMATION = ( function(mod) {
       // Move to next rule in the loop, if necessary.
       STATE.frameCountTick();
     }
+  }
+
+  // Frame rate functions.
+  mod.frameRate = function(value) {
+    if (typeof value !== 'undefined') {
+      let fr = parseInt(value);
+      frameRate = fr;
+      interval = 1000 / fr;
+      if (UI.enabled) { UI.updateFramerate(); }
+    }
+    return frameRate;
+  }
+  mod.stepToNextFrame = function(value) {
+    if (typeof value !== 'undefined') { stepToNextFrame = value; }
+    return stepToNextFrame;
   }
 
   return mod;

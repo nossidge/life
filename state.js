@@ -5,23 +5,6 @@
 
 var STATE = ( function(mod) {
 
-  // Animation variables.
-  var frameRate = 8;
-  var stepToNextFrame = false;
-  mod.frameRate = function(value) {
-    if (typeof value !== 'undefined') {
-      let fr = parseInt(value);
-      frameRate = fr;
-      ANIMATION.interval(1000 / fr);
-      if (UI.enabled) { UI.updateFramerate(); }
-    }
-    return frameRate;
-  }
-  mod.stepToNextFrame = function(value) {
-    if (typeof value !== 'undefined') { stepToNextFrame = value; }
-    return stepToNextFrame;
-  }
-
   // Paused variables.
   var paused = false;
   mod.paused = function(value) {

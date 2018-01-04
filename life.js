@@ -156,7 +156,7 @@ function stateSave() {
   states += ',cellCount.y=' + cellCount.y;
   states += ',cellPixels.x=' + cellPixels.x;
   states += ',cellPixels.y=' + cellPixels.y;
-  states += ',frameRate=' + STATE.frameRate();
+  states += ',frameRate=' + ANIMATION.frameRate();
   states += ',blurPercent=' + STATE.blurPercent();
   states += ',fillColourDead=' + Cell.get_fillColourDead();
   states += ',fillColourAlive=' + Cell.get_fillColourAlive();
@@ -203,7 +203,7 @@ function stateLoad() {
         FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
         break;  */
       case 'frameRate':
-        STATE.frameRate(value);
+        ANIMATION.frameRate(value);
         break;
       case 'blurPercent':
         STATE.blurPercent(value);
