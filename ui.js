@@ -310,7 +310,7 @@ var UI = (function (mod) {
   }
 
   mod.updatePaused = function() {
-    let colour = STATE.paused() ? '#E94E77' : '';
+    let colour = ANIMATION.paused() ? '#E94E77' : '';
     document.getElementById('button_pause').style.background = colour;
   }
 
@@ -331,7 +331,7 @@ var UI = (function (mod) {
 
   // Step frames individually.
   mod.stepFrame = function() {
-    STATE.paused(true);
+    ANIMATION.paused(true);
     ANIMATION.stepToNextFrame(true);
   }
 
@@ -404,7 +404,7 @@ document.onkeypress = function(event) {
   if (!char) return;
   keys = Object.keys(RULES.rules);
   switch( char.toUpperCase() ) {
-    case 'P': STATE.pausedToggle(); break;
+    case 'P': ANIMATION.pausedToggle(); break;
     case '1': UI.updateRuleByIndex(0); break;
     case '2': UI.updateRuleByIndex(1); break;
     case '3': UI.updateRuleByIndex(2); break;
@@ -441,7 +441,7 @@ window.onkeydown = function(e) {
 
 // Pause and get a blank screen.
 function clearCanvas() {
-  STATE.paused(true);
+  ANIMATION.paused(true);
   CANVAS.setAllCellsToState(1);
 }
 

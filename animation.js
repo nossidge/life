@@ -6,6 +6,7 @@
 var ANIMATION = ( function(mod) {
 
   var animation;
+  var paused = false;
   var frameRate = 8;
   var stepToNextFrame = false;
   var globalStateStatic;
@@ -55,7 +56,7 @@ var ANIMATION = ( function(mod) {
     ANIMATION.requestAnimationFrame(ANIMATION.drawScene);
     now = Date.now();
     delta = now - then;
-    if (!STATE.paused() && delta > interval || stepToNextFrame) {
+    if (!paused && delta > interval || stepToNextFrame) {
       then = now - (delta % interval);
       stepToNextFrame = false;
 
@@ -107,6 +108,18 @@ var ANIMATION = ( function(mod) {
   mod.stepToNextFrame = function(value) {
     if (typeof value !== 'undefined') { stepToNextFrame = value; }
     return stepToNextFrame;
+  }
+
+  // Paused functions.
+  mod.paused = function(value) {
+    if (typeof value !== 'undefined') {
+      paused = value;
+      if (UI.enabled) { UI.updatePaused(); }
+    }
+    return paused;
+  }
+  mod.pausedToggle = function() {
+    return ANIMATION.paused( !paused );
   }
 
   return mod;

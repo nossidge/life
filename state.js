@@ -5,19 +5,6 @@
 
 var STATE = ( function(mod) {
 
-  // Paused variables.
-  var paused = false;
-  mod.paused = function(value) {
-    if (typeof value !== 'undefined') {
-      paused = value;
-      if (UI.enabled) { UI.updatePaused(); }
-    }
-    return paused;
-  }
-  mod.pausedToggle = function() {
-    STATE.paused( !paused );
-  }
-
   // Blur variables.
   // Set blurPercent, and calculate blurAbsolute from that.
   var blurAbsolute = 0;
