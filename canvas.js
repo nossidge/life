@@ -17,8 +17,8 @@ var CANVAS = (function (mod) {
       x: Cell.get_cellCount().x,
       y: Cell.get_cellCount().y
     };
-    if (mirrorNS) { limit.y = limit.y / 2; }
-    if (mirrorEW) { limit.x = limit.x / 2; }
+    if (UI.mirrorNS) { limit.y = limit.y / 2; }
+    if (UI.mirrorEW) { limit.x = limit.x / 2; }
 
     for(var i = 0; i < limit.x; i++) {
       for(var j = 0; j < limit.y; j++) {

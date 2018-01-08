@@ -110,6 +110,9 @@ var UI = (function (mod) {
   var mirrorNESW = false;
   var mirrorNWSE = false;
 
+  mod.mirrorNS = mirrorNS;
+  mod.mirrorEW = mirrorEW;
+
   mod.toggleMirrorNS = function() {
     mirrorNS = !mirrorNS;
     document.getElementById('mirror_NS').checked = mirrorNS;
