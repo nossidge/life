@@ -68,6 +68,12 @@ var CANVAS = (function (mod) {
     }
   }
 
+  // Pause and get a blank screen.
+  mod.clearAndPause = function(state) {
+    ANIMATION.paused(true);
+    CANVAS.setAllCellsToState(0);
+  }
+
   return mod;
 }(CANVAS || {}));
 
