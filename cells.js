@@ -1,6 +1,6 @@
 
 //##############################################################################
-// Module to store all the Cell objects.
+// Class to describe a single cell.
 //##############################################################################
 
 // OOP-similar behavior in JavaScript.
@@ -79,6 +79,38 @@ var Cell = (function () {
   return klass;
 })();
 
+
+//##############################################################################
+// Module to store all the Cell objects.
+//##############################################################################
+
+var CELLS = ( function(mod) {
+
+  // A 2D array-of-arrays containing Cell instances.
+  var cells;
+
+  // cellCount should be in the format e.g. {x: 99, y: 99}
+  mod.initialise = function(cellCount) {
+    cells = [cellCount.x];
+    for (var i = 0; i < cellCount.x; i++) {
+      cells[i] = new Array(cellCount.y);
+    }
+    for (var i = 0; i < cellCount.x; i++) {
+      for (var j = 0; j < cellCount.y; j++) {
+        cells[i][j] = new Cell(i,j);
+      }
+    }
+  }
+
+  // Set to a nice default value.
+  // This is to make sure 'cells' is never undefined.
+  mod.initialise({x: 99, y: 99});
+
+  mod.cells = cells;
+
+  return mod;
+}(CELLS || {}));
+
 //##############################################################################
 
 // Run the neighbor check on each cell.
@@ -86,14 +118,14 @@ function nextStateAccordingToNeighbours(_x, _y) {
   let cc = Cell.get_cellCount();
 
   var neighbors = [8];
-  neighbors[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[1] = cells[ (_x-1+cc.x) % cc.x ][ _y ];
-  neighbors[2] = cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
-  neighbors[3] = cells[ _x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[4] = cells[ _x ][ (_y+1) % cc.y ];
-  neighbors[5] = cells[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[6] = cells[ (_x+1) % cc.x ][ _y ];
-  neighbors[7] = cells[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
+  neighbors[0] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[1] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ _y ];
+  neighbors[2] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
+  neighbors[3] = CELLS.cells[ _x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[4] = CELLS.cells[ _x ][ (_y+1) % cc.y ];
+  neighbors[5] = CELLS.cells[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[6] = CELLS.cells[ (_x+1) % cc.x ][ _y ];
+  neighbors[7] = CELLS.cells[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
   var n = 0;
   for(var i=0; i<8; i++) {
     if(neighbors[i].getState() != 0) { n++; }
@@ -108,7 +140,7 @@ function nextStateAccordingToNeighbours(_x, _y) {
   if(!booFound) { return false; }
 
   // Birth
-  if (cells[_x][_y].getState() == 0) {
+  if (CELLS.cells[_x][_y].getState() == 0) {
     booFound = false;
     for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
       if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }

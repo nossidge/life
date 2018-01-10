@@ -31,15 +31,7 @@ var ANIMATION = ( function(mod) {
 
     // Create empty cell object.
     let cellCount = Cell.get_cellCount();
-    cells = [cellCount.x];
-    for (var i = 0; i < cellCount.x; i++) {
-      cells[i] = new Array(cellCount.y);
-    }
-    for (var i = 0; i < cellCount.x; i++) {
-      for (var j = 0; j < cellCount.y; j++) {
-        cells[i][j] = new Cell(i,j);
-      }
-    }
+    CELLS.initialise(cellCount);
 
     // Co-ords of central cell.
     centreCell = {
@@ -68,7 +60,7 @@ var ANIMATION = ( function(mod) {
       // Display cells.
       for(var i = 0; i < Cell.get_cellCount().x; i++) {
         for(var j = 0; j < Cell.get_cellCount().y; j++) {
-          cells[i][j].render(CANVAS.c);
+          CELLS.cells[i][j].render(CANVAS.c);
         }
       }
 
@@ -77,8 +69,8 @@ var ANIMATION = ( function(mod) {
       for(var i = 0; i < Cell.get_cellCount().x; i++) {
         for(var j = 0; j < Cell.get_cellCount().y; j++) {
           var state = !nextStateAccordingToNeighbours(i,j) ? 0 : 1;
-          if (cells[i][j].getStateNext() != state) {
-            cells[i][j].setStateNext(state);
+          if (CELLS.cells[i][j].getStateNext() != state) {
+            CELLS.cells[i][j].setStateNext(state);
             globalStateStatic = false;
           }
         }

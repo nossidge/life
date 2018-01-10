@@ -321,13 +321,16 @@ var UI = (function (mod) {
 
   // Redraw the whole canvas.
   mod.clickRedrawButton = function() {
+    let width  = parseInt(document.getElementById('range_width').value);
+    let height = parseInt(document.getElementById('range_height').value);
+    let pixels = parseInt(document.getElementById('range_pixels').value);
     Cell.set_cellCount({
-      x: parseInt(document.getElementById('range_width').value),
-      y: parseInt(document.getElementById('range_height').value)
+      x: width,
+      y: height
     });
     Cell.set_cellPixels({
-      x: parseInt(document.getElementById('range_pixels').value),
-      y: parseInt(document.getElementById('range_pixels').value)
+      x: pixels,
+      y: pixels
     });
     ANIMATION.initCanvas();
   }

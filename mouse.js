@@ -23,7 +23,9 @@ var MOUSE = ( function(mod) {
       // Change based on mirror variables.
       var coords = UI.getMirrorCellCoords(_x, _y);
       for (var i = 0; i < coords.length; i++) {
-        cells[ coords[i][0] ][ coords[i][1] ].setState(CANVAS.c, state);
+        let x = coords[i][0];
+        let y = coords[i][1];
+        CELLS.cells[x][y].setState(CANVAS.c, state);
       }
     }
   }
