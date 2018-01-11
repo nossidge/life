@@ -41,8 +41,6 @@ var KEYBOARD = ( function(mod) {
 
       case 'Z': CANVAS.setAllCellsToState(1); break;
       case 'X': CANVAS.setAllCellsToState(0); break;
-
-      case 'A': console.log(CELLS.cells); break;
     }
   }
 

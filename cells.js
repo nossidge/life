@@ -106,7 +106,9 @@ var CELLS = ( function(mod) {
   // This is to make sure 'cells' is never undefined.
   mod.initialise({x: 99, y: 99});
 
-  mod.cells = cells;
+  mod.cells = function() {
+    return cells
+  }
 
   return mod;
 }(CELLS || {}));
@@ -118,14 +120,14 @@ function nextStateAccordingToNeighbours(_x, _y) {
   let cc = Cell.get_cellCount();
 
   var neighbors = [8];
-  neighbors[0] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[1] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ _y ];
-  neighbors[2] = CELLS.cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
-  neighbors[3] = CELLS.cells[ _x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[4] = CELLS.cells[ _x ][ (_y+1) % cc.y ];
-  neighbors[5] = CELLS.cells[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[6] = CELLS.cells[ (_x+1) % cc.x ][ _y ];
-  neighbors[7] = CELLS.cells[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
+  neighbors[0] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[1] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ _y ];
+  neighbors[2] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
+  neighbors[3] = CELLS.cells()[ _x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[4] = CELLS.cells()[ _x ][ (_y+1) % cc.y ];
+  neighbors[5] = CELLS.cells()[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
+  neighbors[6] = CELLS.cells()[ (_x+1) % cc.x ][ _y ];
+  neighbors[7] = CELLS.cells()[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
   var n = 0;
   for(var i=0; i<8; i++) {
     if(neighbors[i].getState() != 0) { n++; }
@@ -140,7 +142,7 @@ function nextStateAccordingToNeighbours(_x, _y) {
   if(!booFound) { return false; }
 
   // Birth
-  if (CELLS.cells[_x][_y].getState() == 0) {
+  if (CELLS.cells()[_x][_y].getState() == 0) {
     booFound = false;
     for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
       if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }

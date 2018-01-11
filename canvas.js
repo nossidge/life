@@ -27,7 +27,7 @@ var CANVAS = (function (mod) {
         // Change based on mirror variables.
         var coords = UI.getMirrorCellCoords(i, j);
         for (var k = 0; k < coords.length; k++) {
-          CELLS.cells[ coords[k][0] ][ coords[k][1] ].setState(c, state);
+          CELLS.cells()[ coords[k][0] ][ coords[k][1] ].setState(c, state);
         }
       }
     }
@@ -48,8 +48,8 @@ var CANVAS = (function (mod) {
       for(var j = -r; j <= r; j++) {
         theCell.x = parseInt(centreCell.x) + parseInt(i);
         theCell.y = parseInt(centreCell.y) + parseInt(j);
-        CELLS.cells[theCell.x][theCell.y].setStateNext(1);
-        CELLS.cells[theCell.x][theCell.y].render(c);
+        CELLS.cells()[theCell.x][theCell.y].setStateNext(1);
+        CELLS.cells()[theCell.x][theCell.y].render(c);
       }
     }
   }
@@ -58,8 +58,8 @@ var CANVAS = (function (mod) {
   mod.setAllCellsToState = function(state) {
     for(var i = 0; i < Cell.get_cellCount().x; i++) {
       for(var j = 0; j < Cell.get_cellCount().y; j++) {
-        CELLS.cells[i][j].setStateNext(state);
-        CELLS.cells[i][j].render(c);
+        CELLS.cells()[i][j].setStateNext(state);
+        CELLS.cells()[i][j].render(c);
       }
     }
     if (state == 0) {
