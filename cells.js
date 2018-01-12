@@ -88,6 +88,13 @@ var CELLS = ( function(mod) {
 
   // A 2D array-of-arrays containing Cell instances.
   var cells;
+  mod.cells = function(x, y) {
+    if ((typeof x !== 'undefined') && (typeof x !== 'undefined')) {
+      return cells[x][y];
+    } else {
+      return cells;
+    }
+  }
 
   // cellCount should be in the format e.g. {x: 99, y: 99}
   mod.initialise = function(cellCount) {
@@ -102,14 +109,6 @@ var CELLS = ( function(mod) {
     }
   }
 
-  // Set to a nice default value.
-  // This is to make sure 'cells' is never undefined.
-  mod.initialise({x: 99, y: 99});
-
-  mod.cells = function() {
-    return cells
-  }
-
   return mod;
 }(CELLS || {}));
 
@@ -119,18 +118,18 @@ var CELLS = ( function(mod) {
 function nextStateAccordingToNeighbours(_x, _y) {
   let cc = Cell.get_cellCount();
 
-  var neighbors = [8];
-  neighbors[0] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[1] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ _y ];
-  neighbors[2] = CELLS.cells()[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
-  neighbors[3] = CELLS.cells()[ _x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[4] = CELLS.cells()[ _x ][ (_y+1) % cc.y ];
-  neighbors[5] = CELLS.cells()[ (_x+1) % cc.x ][ (_y-1+cc.y) % cc.y ];
-  neighbors[6] = CELLS.cells()[ (_x+1) % cc.x ][ _y ];
-  neighbors[7] = CELLS.cells()[ (_x+1) % cc.x ][ (_y+1) % cc.y ];
+  var neighbours = [8];
+  neighbours[0] = CELLS.cells( (_x-1+cc.x) % cc.x , (_y-1+cc.y) % cc.y );
+  neighbours[1] = CELLS.cells( (_x-1+cc.x) % cc.x , _y );
+  neighbours[2] = CELLS.cells( (_x-1+cc.x) % cc.x , (_y+1) % cc.y );
+  neighbours[3] = CELLS.cells( _x                 , (_y-1+cc.y) % cc.y );
+  neighbours[4] = CELLS.cells( _x                 , (_y+1) % cc.y );
+  neighbours[5] = CELLS.cells( (_x+1) % cc.x      , (_y-1+cc.y) % cc.y );
+  neighbours[6] = CELLS.cells( (_x+1) % cc.x      , _y );
+  neighbours[7] = CELLS.cells( (_x+1) % cc.x      , (_y+1) % cc.y );
   var n = 0;
   for(var i=0; i<8; i++) {
-    if(neighbors[i].getState() != 0) { n++; }
+    if(neighbours[i].getState() != 0) { n++; }
   }
 
   // Survival
@@ -142,7 +141,7 @@ function nextStateAccordingToNeighbours(_x, _y) {
   if(!booFound) { return false; }
 
   // Birth
-  if (CELLS.cells()[_x][_y].getState() == 0) {
+  if (CELLS.cells(_x, _y).getState() == 0) {
     booFound = false;
     for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
       if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }

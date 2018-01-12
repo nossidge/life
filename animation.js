@@ -60,7 +60,7 @@ var ANIMATION = ( function(mod) {
       // Display cells.
       for(var i = 0; i < Cell.get_cellCount().x; i++) {
         for(var j = 0; j < Cell.get_cellCount().y; j++) {
-          CELLS.cells()[i][j].render(CANVAS.c);
+          CELLS.cells(i, j).render(CANVAS.c);
         }
       }
 
@@ -69,8 +69,8 @@ var ANIMATION = ( function(mod) {
       for(var i = 0; i < Cell.get_cellCount().x; i++) {
         for(var j = 0; j < Cell.get_cellCount().y; j++) {
           var state = !nextStateAccordingToNeighbours(i,j) ? 0 : 1;
-          if (CELLS.cells()[i][j].getStateNext() != state) {
-            CELLS.cells()[i][j].setStateNext(state);
+          if (CELLS.cells(i, j).getStateNext() != state) {
+            CELLS.cells(i, j).setStateNext(state);
             globalStateStatic = false;
           }
         }
