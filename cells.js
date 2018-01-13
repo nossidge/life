@@ -109,47 +109,45 @@ var CELLS = ( function(mod) {
     }
   }
 
-  return mod;
-}(CELLS || {}));
+  // Run the neighbor check on each cell.
+  mod.calcNextState = function(_x, _y) {
+    let cc = Cell.get_cellCount();
 
-//##############################################################################
+    var neighbours = [8];
+    neighbours[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
+    neighbours[1] = cells[ (_x-1+cc.x) % cc.x ][ _y ];
+    neighbours[2] = cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
+    neighbours[3] = cells[ _x                 ][ (_y-1+cc.y) % cc.y ];
+    neighbours[4] = cells[ _x                 ][ (_y+1) % cc.y ];
+    neighbours[5] = cells[ (_x+1) % cc.x      ][ (_y-1+cc.y) % cc.y ];
+    neighbours[6] = cells[ (_x+1) % cc.x      ][ _y ];
+    neighbours[7] = cells[ (_x+1) % cc.x      ][ (_y+1) % cc.y ];
+    var n = 0;
+    for(var i=0; i<8; i++) {
+      if(neighbours[i].getState() != 0) { n++; }
+    }
 
-// Run the neighbor check on each cell.
-function nextStateAccordingToNeighbours(_x, _y) {
-  let cc = Cell.get_cellCount();
-
-  var neighbours = [8];
-  neighbours[0] = CELLS.cells( (_x-1+cc.x) % cc.x , (_y-1+cc.y) % cc.y );
-  neighbours[1] = CELLS.cells( (_x-1+cc.x) % cc.x , _y );
-  neighbours[2] = CELLS.cells( (_x-1+cc.x) % cc.x , (_y+1) % cc.y );
-  neighbours[3] = CELLS.cells( _x                 , (_y-1+cc.y) % cc.y );
-  neighbours[4] = CELLS.cells( _x                 , (_y+1) % cc.y );
-  neighbours[5] = CELLS.cells( (_x+1) % cc.x      , (_y-1+cc.y) % cc.y );
-  neighbours[6] = CELLS.cells( (_x+1) % cc.x      , _y );
-  neighbours[7] = CELLS.cells( (_x+1) % cc.x      , (_y+1) % cc.y );
-  var n = 0;
-  for(var i=0; i<8; i++) {
-    if(neighbours[i].getState() != 0) { n++; }
-  }
-
-  // Survival
-  var booFound = false;
-  var rt = STATE.currentRuleType();
-  for(var i=0; i<RULES.rules[rt]['survival'].length; i++) {
-    if(n==RULES.rules[rt]['survival'][i]) { booFound = true; }
-  }
-  if(!booFound) { return false; }
-
-  // Birth
-  if (CELLS.cells(_x, _y).getState() == 0) {
-    booFound = false;
-    for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
-      if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }
+    // Survival
+    var booFound = false;
+    var rt = STATE.currentRuleType();
+    for(var i=0; i<RULES.rules[rt]['survival'].length; i++) {
+      if(n==RULES.rules[rt]['survival'][i]) { booFound = true; }
     }
     if(!booFound) { return false; }
+
+    // Birth
+    if (cells[_x][_y].getState() == 0) {
+      booFound = false;
+      for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
+        if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }
+      }
+      if(!booFound) { return false; }
+    }
+
+    return true;
   }
 
-  return true;
-}
+  return mod;
+}(CELLS || {}));
 
 //##############################################################################
