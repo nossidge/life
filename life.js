@@ -233,7 +233,7 @@ function stateLoad() {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
-      CELLS.cells(i, j).setState(CANVAS.c, state);
+      CELLS.cells(i, j).setState(state);
 
       // Remove the first character of the string.
       cellStateString = cellStateString.substring(1)

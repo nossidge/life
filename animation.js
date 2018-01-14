@@ -52,17 +52,14 @@ var ANIMATION = ( function(mod) {
       then = now - (delta % interval);
       stepToNextFrame = false;
 
-      dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
+      // Blur or clear the whole canvas.
+      let dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
       let rgb = dead.r + ', ' + dead.g + ', ' + dead.b;
       CANVAS.c.fillStyle = 'rgba(' + rgb + ', ' + STATE.blurAbsolute() + ')';
       CANVAS.c.fillRect(0,0,w,h);
 
-      // Display cells.
-      for(var i = 0; i < Cell.get_cellCount().x; i++) {
-        for(var j = 0; j < Cell.get_cellCount().y; j++) {
-          CELLS.cells(i, j).render(CANVAS.c);
-        }
-      }
+      // Draw all the non-dead cells.
+      CELLS.render();
 
       // Calculate next state.
       globalStateStatic = true;

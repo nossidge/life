@@ -29,10 +29,12 @@ var CANVAS = (function (mod) {
         for (var k = 0; k < coords.length; k++) {
           let x = coords[k][0];
           let y = coords[k][1];
-          CELLS.cells(x, y).setState(c, state);
+          CELLS.cells(x, y).setState(state);
         }
       }
     }
+
+    CELLS.render();
   }
 
   // Only works when width & height of the canvas is odd.

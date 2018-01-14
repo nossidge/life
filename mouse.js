@@ -25,7 +25,7 @@ var MOUSE = ( function(mod) {
       for (var i = 0; i < coords.length; i++) {
         let x = coords[i][0];
         let y = coords[i][1];
-        CELLS.cells(x, y).setState(CANVAS.c, state);
+        CELLS.cells(x, y).setState(state);
       }
     }
   }

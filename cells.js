@@ -29,21 +29,21 @@ var Cell = (function () {
     };
 
     // Render the cell to the canvas.
-    this.render = function(c) {
+    this.render = function(force) {
       stateNow = stateNext;
+
       // Don't render dead cells, to preserve the blur effect.
-      if (stateNow != 0) {
-        CANVAS.c.fillStyle = fillColourAlive;
+      // Or force write, if necessary.
+      if ( (stateNow != 0) || (force) ) {
+        CANVAS.c.fillStyle = (stateNow == 0) ? fillColourDead : fillColourAlive;
         CANVAS.c.fillRect(x, y, cellPixels.x, cellPixels.y);
       }
     }
 
     // 'state' should be 0 or 1 for alive or dead.
-    this.setState = function(c, state) {
-      CANVAS.c.fillStyle = (state == 0) ? fillColourDead : fillColourAlive;
-      CANVAS.c.fillRect(x, y, cellPixels.x, cellPixels.y);
+    this.setState = function(state) {
       stateNext = state;
-      this.render(c);
+      this.render(true);
     }
     this.getState = function() {
       return stateNow;
@@ -105,6 +105,16 @@ var CELLS = ( function(mod) {
     for (var i = 0; i < cellCount.x; i++) {
       for (var j = 0; j < cellCount.y; j++) {
         cells[i][j] = new Cell(i,j);
+      }
+    }
+  }
+
+  // Render all cells to the canvas.
+  mod.render = function() {
+    var cellCount  = Cell.get_cellCount();
+    for(var i = 0; i < cellCount.x; i++) {
+      for(var j = 0; j < cellCount.y; j++) {
+        CELLS.cells(i, j).render();
       }
     }
   }
