@@ -41,9 +41,9 @@ var Cell = (function () {
     }
 
     // 'state' should be 0 or 1 for alive or dead.
-    this.setState = function(state) {
+    this.setState = function(state, render) {
       stateNext = state;
-      this.render(true);
+      if (render) { this.render(true); }
     }
     this.getState = function() {
       return stateNow;
@@ -110,11 +110,11 @@ var CELLS = ( function(mod) {
   }
 
   // Render all cells to the canvas.
-  mod.render = function() {
+  mod.render = function(force = false) {
     var cellCount  = Cell.get_cellCount();
     for(var i = 0; i < cellCount.x; i++) {
       for(var j = 0; j < cellCount.y; j++) {
-        CELLS.cells(i, j).render();
+        CELLS.cells(i, j).render(force);
       }
     }
   }

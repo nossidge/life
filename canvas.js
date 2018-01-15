@@ -34,7 +34,7 @@ var CANVAS = (function (mod) {
       }
     }
 
-    CELLS.render();
+    CELLS.render(true);
   }
 
   // Only works when width & height of the canvas is odd.

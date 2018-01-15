@@ -239,6 +239,8 @@ function stateLoad() {
       cellStateString = cellStateString.substring(1)
     }
   }
+
+  CELLS.render(true);
 }
 
 // https://gist.github.com/revolunet/843889
