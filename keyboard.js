@@ -23,6 +23,8 @@ var KEYBOARD = ( function(mod) {
     if (!char) return;
     switch( char.toUpperCase() ) {
 
+      case 'A': console.log(window); break;
+
       case 'P': ANIMATION.pausedToggle(); break;
 
       case '1': UI.updateRuleByIndex(0); break;

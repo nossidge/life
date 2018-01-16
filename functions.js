@@ -1,16 +1,10 @@
 
 //##############################################################################
 // Module to store miscellaneous helper functions.
-//   FUNCTIONS.rand(max, min, _int)
-//   FUNCTIONS.puts(input)
-//   FUNCTIONS.css(selector, prop, val)
-//   FUNCTIONS.hexToRgb(hex)
-//   FUNCTIONS.updateDOMInnerHTML(DOMID, text)
-//   FUNCTIONS.updateDOMValue(DOMID, text)
 //##############################################################################
 
-var FUNCTIONS = ( function() {
-  var mod = {};
+var FUNCTIONS = (function (mod) {
+
   var writeToConsole = false;
 
   // Random number between two values.
@@ -64,6 +58,6 @@ var FUNCTIONS = ( function() {
   }
 
   return mod;
-}());
+}(FUNCTIONS || {}));
 
 //##############################################################################

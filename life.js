@@ -145,7 +145,7 @@ function stateSave() {
   let cellCount  = Cell.get_cellCount();
   let cellPixels = Cell.get_cellPixels();
 
-  states = 'cellState=';
+  let states = 'cellState=';
   for(var i = 0; i < cellCount.x; i++) {
     for(var j = 0; j < cellCount.y; j++) {
       states += CELLS.cells(i, j).getState();
