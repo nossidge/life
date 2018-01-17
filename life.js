@@ -1,58 +1,6 @@
 
 //##############################################################################
 
-// Search to see if the selected rules match any of the named loops.
-function updateLoopRule(index, value) {
-
-  // Update the STATE.
-  let lr = STATE.loopRules();
-  lr[index] = value;
-  STATE.loopRules(lr);
-
-  // Debug print.
-  FUNCTIONS.puts('updateLoopRule -- index:' + index + '  value:' + value);
-
-  // Clone and sort the loop rules.
-  let lrClone = lr.slice(0);
-  lrClone.sort();
-  lrClone = JSON.stringify(lrClone);
-
-  // Loop to find a match.
-  let loopTypeMatched = false;
-  for (let loopName in RULES.loops) {
-    if (RULES.loops.hasOwnProperty(loopName)) {
-
-      let rules = RULES.loops[loopName]['rules'];
-      rules.sort();
-      rules = JSON.stringify(rules);
-      FUNCTIONS.puts(rules);
-
-      if (rules == lrClone) {
-        loopTypeMatched = true;
-        document.getElementById('loop_type').value = loopName;
-        FUNCTIONS.puts('loopTypeMatched = true');
-      }
-    }
-  }
-
-  // Select 'Custom' if not rule matched.
-  if (!loopTypeMatched) {
-    document.getElementById('loop_type').value = '(custom)';
-  }
-}
-
-
-// Change the loop rates.
-function updateLoopRate(index, value) {
-  let lr = STATE.loopRates();
-  lr[index] = value;
-  STATE.loopRates(lr);
-  document.getElementById('span_loop_rate_' + index).innerHTML = value;
-  FUNCTIONS.puts('updateLoopRate -- index:' + index + '  value:' + value);
-}
-
-//##############################################################################
-
 // Check to see if the chosen Birth/Survival checkboxes match an existing rule.
 function checkLifeRules() {
 
@@ -127,10 +75,10 @@ function checkLifeRules() {
   UI.setColourDeadIsText(true);
   UI.toggleHtmlLoopTypeDesc();
   UI.toggleHtmlRulesDesc();
-  updateLoopRate(0, 20);
-  updateLoopRate(1, 20);
-  updateLoopRule(0, 'Conway');
-  updateLoopRule(1, 'Conway');
+  STATE.updateLoopRate(0, 20);
+  STATE.updateLoopRate(1, 20);
+  STATE.updateLoopRule(0, 'Conway');
+  STATE.updateLoopRule(1, 'Conway');
   UI.updateLoopType('(none)');
   UI.toggleMirrorNS();
   UI.toggleMirrorEW();

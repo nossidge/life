@@ -74,6 +74,55 @@ var STATE = ( function(mod) {
     }
   }
 
+  // Search to see if the selected rules match any of the named loops.
+  mod.updateLoopRule = function(index, value) {
+
+    // Update the STATE.
+    let lr = STATE.loopRules();
+    lr[index] = value;
+    STATE.loopRules(lr);
+
+    // Debug print.
+    FUNCTIONS.puts('updateLoopRule -- index:' + index + '  value:' + value);
+
+    // Clone and sort the loop rules.
+    let lrClone = lr.slice(0);
+    lrClone.sort();
+    lrClone = JSON.stringify(lrClone);
+
+    // Loop to find a match.
+    let loopTypeMatched = false;
+    for (let loopName in RULES.loops) {
+      if (RULES.loops.hasOwnProperty(loopName)) {
+
+        let rules = RULES.loops[loopName]['rules'];
+        rules.sort();
+        rules = JSON.stringify(rules);
+        FUNCTIONS.puts(rules);
+
+        if (rules == lrClone) {
+          loopTypeMatched = true;
+          document.getElementById('loop_type').value = loopName;
+          FUNCTIONS.puts('loopTypeMatched = true');
+        }
+      }
+    }
+
+    // Select 'Custom' if not rule matched.
+    if (!loopTypeMatched) {
+      document.getElementById('loop_type').value = '(custom)';
+    }
+  }
+
+  // Change the loop rates.
+  mod.updateLoopRate = function(index, value) {
+    let lr = STATE.loopRates();
+    lr[index] = value;
+    STATE.loopRates(lr);
+    document.getElementById('span_loop_rate_' + index).innerHTML = value;
+    FUNCTIONS.puts('updateLoopRate -- index:' + index + '  value:' + value);
+  }
+
   return mod;
 }(STATE || {}));
 

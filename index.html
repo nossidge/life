@@ -304,14 +304,14 @@ table.centre {
               <table class="centre">
                 <tr>
                   <td>Loop 1: </td>
-                  <td><select id="loop_rule_0" onchange="updateLoopRule(0,this.value)"></select></td>
-                  <td><input id="loop_rate_0" type="range" min="1" max="200" value="20" step="1" style="width:100px;" oninput="updateLoopRate(0,this.value)" /></td>
+                  <td><select id="loop_rule_0" onchange="STATE.updateLoopRule(0,this.value)"></select></td>
+                  <td><input id="loop_rate_0" type="range" min="1" max="200" value="20" step="1" style="width:100px;" oninput="STATE.updateLoopRate(0,this.value)" /></td>
                   <td width="30"><span id="span_loop_rate_0">20</span></td>
                 </tr>
                 <tr>
                   <td>Loop 2: </td>
-                  <td><select id="loop_rule_1" onchange="updateLoopRule(1,this.value)"></select></td>
-                  <td><input id="loop_rate_1" type="range" min="1" max="200" value="20" step="1" style="width:100px;" oninput="updateLoopRate(1,this.value)" /></td>
+                  <td><select id="loop_rule_1" onchange="STATE.updateLoopRule(1,this.value)"></select></td>
+                  <td><input id="loop_rate_1" type="range" min="1" max="200" value="20" step="1" style="width:100px;" oninput="STATE.updateLoopRate(1,this.value)" /></td>
                   <td width="30"><span id="span_loop_rate_1">20</span></td>
                 </tr>
               </table>

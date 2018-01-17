@@ -25,10 +25,10 @@ var EPILEPSY = (function (mod) {
         UI.updateRuleByName('Conway');
       }
       if (RULES.rules[lr[0]].hasOwnProperty('epilepsy')) {
-        updateLoopRule(0, 'Conway');
+        STATE.updateLoopRule(0, 'Conway');
       }
       if (RULES.rules[lr[1]].hasOwnProperty('epilepsy')) {
-        updateLoopRule(1, 'Conway');
+        STATE.updateLoopRule(1, 'Conway');
       }
 
       document.getElementById('range_framerate').max = 10;
