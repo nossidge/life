@@ -4,128 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>2D Cellular Automaton</title>
     <script src="https://tilde.town/~nossidge/lib/jscolor.min.js"></script>
-
-    <style title="life">
-/* https://philipwalton.github.io/solved-by-flexbox/demos/holy-grail/ */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 97vh;
-}
-.contents {
-  display: flex;
-  flex-direction: column;
-}
-.col_right {
-  flex: 1;
-}
-.col_left {
-  flex: 0 0 12em;
-  order: -1;
-  overflow: auto;
-}
-
-.border {
-  border: 2px solid #000000;
-}
-
-@media (min-width: 768px) {
-  .contents {
-    flex-direction: row;
-    flex: 1;
-  }
-  .col_right {
-    flex: 1;
-  }
-  .col_left {
-    flex: 0 0 32em;
-  }
-}
-
-body {
-  background-color: #E0B0FF;
-  font-family: "Lucida Console", Monaco, monospace;
-  text-align: center;
-  color: #000000;
-}
-.col_left, .col_right, footer {
-  padding: 10px;
-}
-.canvas {
-  text-align: left;
-}
-canvas {
-  cursor: default;
-}
-
-summary {
-  font-weight: bold;
-  font-size: 1.3em;
-  padding: 5px;
-}
-
-/* Submit button */
-#submit {
-  margin: 20px;
-}
-input[type=button]{
-  font-size: 110%;
-  margin-top: 5px;
-  padding: 8px 25px;
-}
-
-/* Radio button labels */
-.selected         { color: #FFFFFF; }
-.unselected       { color: #000000; }
-.unselected:hover { color: #66FFFF; }
-
-/* Flex of the header and footer */
-.header_div, .footer_div {
-  justify-content: flex-start;
-  display: flex;
-  flex: 1;
-}
-.header_title, .footer_title {
-  flex: 1;
-  order: 0;
-}
-.header_left, .footer_left {
-  text-align: left;
-  margin-left: 8px;
-  flex: 0 0 260px;
-  order: -1;
-}
-.header_right, .footer_right {
-  text-align: right;
-  margin-right: 8px;
-  flex: 0 0 260px;
-  order: 1;
-}
-/* Centre height based on CC image on the right. */
-.footer_title, .footer_left {
-  margin-top: 8px;
-}
-
-/* Select option drop down */
-select {
-  font-family: "Lucida Console", Monaco, monospace;
-  font-size: 110%;
-  padding: 4px 2px 2px 2px;
-}
-
-summary {
-  cursor: pointer;
-}
-
-table.centre {
-  margin-left:auto;
-  margin-right:auto;
-}
-
-#button_epilepsy {
-  background: #BAD696
-}
-    </style>
+    <link rel="stylesheet" href="life.css">
   </head>
   <body class="border">
     <header class="border">
@@ -385,15 +264,16 @@ table.centre {
       </div>
     </footer>
 
-  <script src="./state.js"></script>
-  <script src="./functions.js"></script>
-  <script src="./rules.js"></script>
-  <script src="./cells.js"></script>
-  <script src="./canvas.js"></script>
-  <script src="./ui.js"></script>
-  <script src="./mouse.js"></script>
-  <script src="./keyboard.js"></script>
-  <script src="./epilepsy.js"></script>
-  <script src="./animation.js"></script>
-  <script src="./life.js"></script>
-</body></html>
+    <script src="./state.js"></script>
+    <script src="./functions.js"></script>
+    <script src="./rules.js"></script>
+    <script src="./cells.js"></script>
+    <script src="./canvas.js"></script>
+    <script src="./ui.js"></script>
+    <script src="./mouse.js"></script>
+    <script src="./keyboard.js"></script>
+    <script src="./epilepsy.js"></script>
+    <script src="./animation.js"></script>
+    <script src="./life.js"></script>
+  </body>
+</html>
