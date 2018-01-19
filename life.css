@@ -2,7 +2,8 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 97vh;
+  min-height: 99.6vh;
+  margin: 0px;
 }
 .contents {
   display: flex;
@@ -40,13 +41,11 @@ body {
   text-align: center;
   color: #000000;
 }
-.col_left, .col_right, footer {
-  padding: 10px;
+.col_left, .col_right {
+  padding: 8px;
 }
 .canvas {
   text-align: left;
-}
-canvas {
   cursor: default;
 }
 
@@ -72,6 +71,9 @@ input[type=button]{
 .unselected:hover { color: #66FFFF; }
 
 /* Flex of the header and footer */
+footer {
+  padding: 0px;
+}
 .header_div, .footer_div {
   justify-content: flex-start;
   display: flex;
@@ -93,9 +95,8 @@ input[type=button]{
   flex: 0 0 260px;
   order: 1;
 }
-/* Centre height based on CC image on the right. */
-.footer_title, .footer_left {
-  margin-top: 8px;
+.footer_title, .footer_left, .footer_right {
+  margin: 8px;
 }
 
 /* Select option drop down */
@@ -116,4 +117,9 @@ table.centre {
 
 #button_epilepsy {
   background: #BAD696
+}
+
+a {
+  color: #000000;
+  text-decoration: underline;
 }
