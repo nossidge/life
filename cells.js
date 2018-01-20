@@ -57,8 +57,10 @@ var Cell = (function () {
   };
 
   // Public static functions.
-  klass.set_cellCount = function (val) { cellCount = val; };
-  klass.get_cellCount = function () { return cellCount; };
+  klass.cellCount = function(value) {
+    if (typeof value !== 'undefined') { cellCount = value; }
+    return cellCount;
+  }
   klass.set_cellPixels = function (val) { cellPixels = val; };
   klass.get_cellPixels = function () { return cellPixels; };
   klass.set_centreCell = function (val) { centreCell = val; };
@@ -111,7 +113,7 @@ var CELLS = ( function(mod) {
 
   // Render all cells to the canvas.
   mod.render = function(force = false) {
-    var cellCount  = Cell.get_cellCount();
+    var cellCount  = Cell.cellCount();
     for(var i = 0; i < cellCount.x; i++) {
       for(var j = 0; j < cellCount.y; j++) {
         CELLS.cells(i, j).render(force);
@@ -121,7 +123,7 @@ var CELLS = ( function(mod) {
 
   // Run the neighbor check on each cell.
   mod.calcNextState = function(_x, _y) {
-    let cc = Cell.get_cellCount();
+    let cc = Cell.cellCount();
 
     var neighbours = [8];
     neighbours[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];

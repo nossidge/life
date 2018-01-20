@@ -14,8 +14,8 @@ var CANVAS = (function (mod) {
   // Initialize a fraction of the cells to start in their "alive" state.
   mod.randomise = function() {
     var limit = {
-      x: Cell.get_cellCount().x,
-      y: Cell.get_cellCount().y
+      x: Cell.cellCount().x,
+      y: Cell.cellCount().y
     };
     if (UI.mirrorNS) { limit.y = limit.y / 2; }
     if (UI.mirrorEW) { limit.x = limit.x / 2; }
@@ -43,7 +43,7 @@ var CANVAS = (function (mod) {
 
     // Radius of central cells.
     let minR = 2;
-    let maxR = Math.min(Cell.get_cellCount().x,Cell.get_cellCount().y) / 2 - 10;
+    let maxR = Math.min(Cell.cellCount().x,Cell.cellCount().y) / 2 - 10;
     let r = FUNCTIONS.rand(minR, maxR, 1);
 
     // Set all the cells in the radius to live.
@@ -60,8 +60,8 @@ var CANVAS = (function (mod) {
 
   // Kill them all, or revive them all.
   mod.setAllCellsToState = function(state) {
-    for(var i = 0; i < Cell.get_cellCount().x; i++) {
-      for(var j = 0; j < Cell.get_cellCount().y; j++) {
+    for(var i = 0; i < Cell.cellCount().x; i++) {
+      for(var j = 0; j < Cell.cellCount().y; j++) {
         CELLS.cells(i, j).setStateNext(state);
         CELLS.cells(i, j).render();
       }

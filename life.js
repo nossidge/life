@@ -57,7 +57,7 @@ function checkLifeRules() {
 
 // Init function.
 (function() {
-  let cellCount  = Cell.get_cellCount();
+  let cellCount  = Cell.cellCount();
   let cellPixels = Cell.get_cellPixels();
 
   CANVAS.a.width  = cellCount.x * cellPixels.x;
@@ -90,7 +90,7 @@ function checkLifeRules() {
 
 // Get state of all cells.
 function stateSave() {
-  let cellCount  = Cell.get_cellCount();
+  let cellCount  = Cell.cellCount();
   let cellPixels = Cell.get_cellPixels();
 
   let states = 'cellState=';
@@ -176,8 +176,8 @@ function stateLoad() {
   cellStateString = String( states[0].split('=')[1] );
 
   // Loop through all the cells.
-  for(var i = 0; i < Cell.get_cellCount().x; i++) {
-    for(var j = 0; j < Cell.get_cellCount().y; j++) {
+  for(var i = 0; i < Cell.cellCount().x; i++) {
+    for(var j = 0; j < Cell.cellCount().y; j++) {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );

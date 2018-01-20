@@ -30,7 +30,7 @@ var ANIMATION = ( function(mod) {
     UI.resizeCanvas();
 
     // Create empty cell object.
-    let cellCount = Cell.get_cellCount();
+    let cellCount = Cell.cellCount();
     CELLS.initialise(cellCount);
 
     // Co-ords of central cell.
@@ -63,8 +63,8 @@ var ANIMATION = ( function(mod) {
 
       // Calculate next state.
       globalStateStatic = true;
-      for(var i = 0; i < Cell.get_cellCount().x; i++) {
-        for(var j = 0; j < Cell.get_cellCount().y; j++) {
+      for(var i = 0; i < Cell.cellCount().x; i++) {
+        for(var j = 0; j < Cell.cellCount().y; j++) {
           var state = !CELLS.calcNextState(i, j) ? 0 : 1;
           if (CELLS.cells(i, j).getStateNext() != state) {
             CELLS.cells(i, j).setStateNext(state);
