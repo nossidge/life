@@ -68,9 +68,9 @@ var Cell = (function () {
     if (typeof value !== 'undefined') { fillColourDead = value; }
     return fillColourDead;
   }
-  klass.fillColourDead = function(value) {
-    if (typeof value !== 'undefined') { fillColourDead = value; }
-    return fillColourDead;
+  klass.fillColourAlive = function(value) {
+    if (typeof value !== 'undefined') { fillColourAlive = value; }
+    return fillColourAlive;
   }
 
   return klass;
