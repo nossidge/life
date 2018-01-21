@@ -13,8 +13,8 @@ var UI = (function (mod) {
   mod.enabled = true;
 
   mod.resizeCanvas = function() {
-    CANVAS.a.width  = Cell.cellCount().x * Cell.get_cellPixels().x;
-    CANVAS.a.height = Cell.cellCount().y * Cell.get_cellPixels().y;
+    CANVAS.a.width  = Cell.cellCount().x * Cell.cellPixels().x;
+    CANVAS.a.height = Cell.cellCount().y * Cell.cellPixels().y;
     w = CANVAS.a.width;
     h = CANVAS.a.height;
   }
@@ -53,7 +53,7 @@ var UI = (function (mod) {
     if (fillColourAlive.charAt(0) != '#') {
       fillColourAlive = '#' + fillColourAlive;
     }
-    Cell.set_fillColourAlive(fillColourAlive);
+    Cell.fillColourAlive(fillColourAlive);
     document.getElementById('jscolor_live').jscolor.fromString(fillColourAlive);
     if (colourLiveIsBackground) {
       document.body.style.backgroundColor = fillColourAlive;
@@ -64,7 +64,7 @@ var UI = (function (mod) {
     if (fillColourDead.charAt(0) != '#') {
       fillColourDead = '#' + fillColourDead;
     }
-    Cell.set_fillColourDead(fillColourDead);
+    Cell.fillColourDead(fillColourDead);
     document.getElementById('jscolor_dead').jscolor.fromString(fillColourDead);
     if (colourDeadIsText) {
       document.body.style.color = fillColourDead;
@@ -328,7 +328,7 @@ var UI = (function (mod) {
       x: width,
       y: height
     });
-    Cell.set_cellPixels({
+    Cell.cellPixels({
       x: pixels,
       y: pixels
     });

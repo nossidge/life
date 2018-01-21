@@ -23,11 +23,6 @@ var Cell = (function () {
     var stateNow = 0;
     var stateNext = 0;
 
-    // Public functions.
-    this.get_xy = function () {
-      return [x, y];
-    };
-
     // Render the cell to the canvas.
     this.render = function(force) {
       stateNow = stateNext;
@@ -61,22 +56,22 @@ var Cell = (function () {
     if (typeof value !== 'undefined') { cellCount = value; }
     return cellCount;
   }
-  klass.set_cellPixels = function (val) { cellPixels = val; };
-  klass.get_cellPixels = function () { return cellPixels; };
-  klass.set_centreCell = function (val) { centreCell = val; };
-  klass.get_centreCell = function () { return centreCell; };
-  klass.set_fillColourDead = function (val) { fillColourDead = val; };
-  klass.get_fillColourDead = function () { return fillColourDead; };
-  klass.set_fillColourAlive = function (val) { fillColourAlive = val; };
-  klass.get_fillColourAlive = function () { return fillColourAlive; };
-
-  // Public (shared across instances).
-  klass.prototype = {
-    announce: function () {
-      var example = 'Hi there! My id is ' + this.get_xy();
-      console.log(example);
-    }
-  };
+  klass.cellPixels = function(value) {
+    if (typeof value !== 'undefined') { cellPixels = value; }
+    return cellPixels;
+  }
+  klass.centreCell = function(value) {
+    if (typeof value !== 'undefined') { centreCell = value; }
+    return centreCell;
+  }
+  klass.fillColourDead = function(value) {
+    if (typeof value !== 'undefined') { fillColourDead = value; }
+    return fillColourDead;
+  }
+  klass.fillColourDead = function(value) {
+    if (typeof value !== 'undefined') { fillColourDead = value; }
+    return fillColourDead;
+  }
 
   return klass;
 })();

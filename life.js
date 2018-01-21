@@ -58,7 +58,7 @@ function checkLifeRules() {
 // Init function.
 (function() {
   let cellCount  = Cell.cellCount();
-  let cellPixels = Cell.get_cellPixels();
+  let cellPixels = Cell.cellPixels();
 
   CANVAS.a.width  = cellCount.x * cellPixels.x;
   CANVAS.a.height = cellCount.y * cellPixels.y;
@@ -91,7 +91,7 @@ function checkLifeRules() {
 // Get state of all cells.
 function stateSave() {
   let cellCount  = Cell.cellCount();
-  let cellPixels = Cell.get_cellPixels();
+  let cellPixels = Cell.cellPixels();
 
   let states = 'cellState=';
   for(var i = 0; i < cellCount.x; i++) {
@@ -106,8 +106,8 @@ function stateSave() {
   states += ',cellPixels.y=' + cellPixels.y;
   states += ',frameRate=' + ANIMATION.frameRate();
   states += ',blurPercent=' + STATE.blurPercent();
-  states += ',fillColourDead=' + Cell.get_fillColourDead();
-  states += ',fillColourAlive=' + Cell.get_fillColourAlive();
+  states += ',fillColourDead=' + Cell.fillColourDead();
+  states += ',fillColourAlive=' + Cell.fillColourAlive();
   states += ',currentRuleType=' + STATE.currentRuleType();
 
   states = lzw_encode(states);

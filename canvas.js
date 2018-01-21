@@ -67,7 +67,7 @@ var CANVAS = (function (mod) {
       }
     }
     if (state == 0) {
-      c.fillStyle = Cell.get_fillColourDead();
+      c.fillStyle = Cell.fillColourDead();
       c.fillRect(0,0,w,h);
     }
   }

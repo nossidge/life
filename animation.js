@@ -53,7 +53,7 @@ var ANIMATION = ( function(mod) {
       stepToNextFrame = false;
 
       // Blur or clear the whole canvas.
-      let dead = FUNCTIONS.hexToRgb(Cell.get_fillColourDead());
+      let dead = FUNCTIONS.hexToRgb(Cell.fillColourDead());
       let rgb = dead.r + ', ' + dead.g + ', ' + dead.b;
       CANVAS.c.fillStyle = 'rgba(' + rgb + ', ' + STATE.blurAbsolute() + ')';
       CANVAS.c.fillRect(0,0,w,h);
