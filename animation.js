@@ -30,14 +30,14 @@ var ANIMATION = ( function(mod) {
     UI.resizeCanvas();
 
     // Create empty cell object.
-    let cellCount = Cell.cellCount();
-    CELLS.initialise(cellCount);
+    let cc = Cell.cellCount();
+    CELLS.initialise(cc);
 
     // Co-ords of central cell.
-    centreCell = {
-      x: Math.floor(cellCount.x/2),
-      y: Math.floor(cellCount.y/2)
-    };
+    Cell.centreCell({
+      x: Math.floor(cc.x / 2),
+      y: Math.floor(cc.y / 2)
+    });
 
     CANVAS.randomiseCentralBlock();
     ANIMATION.drawScene();
@@ -56,15 +56,16 @@ var ANIMATION = ( function(mod) {
       let dead = FUNCTIONS.hexToRgb(Cell.fillColourDead());
       let rgb = dead.r + ', ' + dead.g + ', ' + dead.b;
       CANVAS.c.fillStyle = 'rgba(' + rgb + ', ' + STATE.blurAbsolute() + ')';
-      CANVAS.c.fillRect(0,0,w,h);
+      CANVAS.c.fillRect(0, 0, w, h);
 
       // Draw all the non-dead cells.
       CELLS.render();
 
       // Calculate next state.
       globalStateStatic = true;
-      for(var i = 0; i < Cell.cellCount().x; i++) {
-        for(var j = 0; j < Cell.cellCount().y; j++) {
+      let cc = Cell.cellCount();
+      for(var i = 0; i < cc.x; i++) {
+        for(var j = 0; j < cc.y; j++) {
           var state = !CELLS.calcNextState(i, j) ? 0 : 1;
           if (CELLS.cells(i, j).getStateNext() != state) {
             CELLS.cells(i, j).setStateNext(state);

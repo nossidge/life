@@ -93,6 +93,12 @@ var CELLS = ( function(mod) {
     }
   }
 
+  var cellCount  = {x: 99, y: 99};
+  mod.cellCount = function(value) {
+    if (typeof value !== 'undefined') { cellCount = value; }
+    return cellCount;
+  }
+
   // cellCount should be in the format e.g. {x: 99, y: 99}
   mod.initialise = function(cellCount) {
     cells = [cellCount.x];

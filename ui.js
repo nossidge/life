@@ -13,8 +13,9 @@ var UI = (function (mod) {
   mod.enabled = true;
 
   mod.resizeCanvas = function() {
-    CANVAS.a.width  = Cell.cellCount().x * Cell.cellPixels().x;
-    CANVAS.a.height = Cell.cellCount().y * Cell.cellPixels().y;
+    let cc = Cell.cellCount();
+    CANVAS.a.width  = cc.x * Cell.cellPixels().x;
+    CANVAS.a.height = cc.y * Cell.cellPixels().y;
     w = CANVAS.a.width;
     h = CANVAS.a.height;
   }
@@ -153,19 +154,20 @@ var UI = (function (mod) {
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
   mod.getMirrorDiagonal = function(_x, _y, posOrNeg) {
+    var centre = Cell.centreCell();
 
     // Difference between the central cell and input.
-    var xDiff = centreCell.x - _x;
-    var yDiff = centreCell.y - _y;
+    var xDiff = centre.x - _x;
+    var yDiff = centre.y - _y;
 
     // Add the other co-ordinate's value.
-    var xValue = centreCell.x + (yDiff * posOrNeg);
-    var yValue = centreCell.y + (xDiff * posOrNeg);
+    var xVal = centre.x + (yDiff * posOrNeg);
+    var yVal = centre.y + (xDiff * posOrNeg);
 
     // If it's not in a drawable region, then just return the original.
-    cellCount = Cell.cellCount();
-    if (xValue >= 0 && xValue < cellCount.x && yValue >= 0 && yValue < cellCount.y) {
-      return [xValue, yValue];
+    var cc = Cell.cellCount();
+    if (xVal >= 0 && xVal < cc.x && yVal >= 0 && yVal < cc.y) {
+      return [xVal, yVal];
     } else {
       return [_x, _y];
     }

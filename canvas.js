@@ -43,15 +43,16 @@ var CANVAS = (function (mod) {
 
     // Radius of central cells.
     let minR = 2;
-    let maxR = Math.min(Cell.cellCount().x,Cell.cellCount().y) / 2 - 10;
+    let maxR = Math.min(Cell.cellCount().x, Cell.cellCount().y) / 2 - 10;
     let r = FUNCTIONS.rand(minR, maxR, 1);
 
     // Set all the cells in the radius to live.
     var theCell = {x: 0,  y: 0};
+    var centre = Cell.centreCell();
     for(var i = -r; i <= r; i++) {
       for(var j = -r; j <= r; j++) {
-        theCell.x = parseInt(centreCell.x) + parseInt(i);
-        theCell.y = parseInt(centreCell.y) + parseInt(j);
+        theCell.x = centre.x + parseInt(i);
+        theCell.y = centre.y + parseInt(j);
         CELLS.cells(theCell.x, theCell.y).setStateNext(1);
         CELLS.cells(theCell.x, theCell.y).render();
       }

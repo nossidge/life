@@ -57,11 +57,11 @@ function checkLifeRules() {
 
 // Init function.
 (function() {
-  let cellCount  = Cell.cellCount();
-  let cellPixels = Cell.cellPixels();
+  let cc = Cell.cellCount();
+  let cp = Cell.cellPixels();
 
-  CANVAS.a.width  = cellCount.x * cellPixels.x;
-  CANVAS.a.height = cellCount.y * cellPixels.y;
+  CANVAS.a.width  = cc.x * cp.x;
+  CANVAS.a.height = cc.y * cp.y;
   UI.updateRuleByName(STATE.currentRuleType());
   STATE.blurPercent(0);
   UI.updateFramerate();
@@ -69,8 +69,8 @@ function checkLifeRules() {
   EPILEPSY.setEpilepsy(true);
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
-  FUNCTIONS.updateDOMInnerHTML('span_width', cellCount.x);
-  FUNCTIONS.updateDOMInnerHTML('span_height', cellCount.y);
+  FUNCTIONS.updateDOMInnerHTML('span_width', cc.x);
+  FUNCTIONS.updateDOMInnerHTML('span_height', cc.y);
   UI.setColourLiveIsBackground(true);
   UI.setColourDeadIsText(true);
   UI.toggleHtmlLoopTypeDesc();
@@ -90,20 +90,20 @@ function checkLifeRules() {
 
 // Get state of all cells.
 function stateSave() {
-  let cellCount  = Cell.cellCount();
-  let cellPixels = Cell.cellPixels();
+  let cc = Cell.cellCount();
+  let cp = Cell.cellPixels();
 
   let states = 'cellState=';
-  for(var i = 0; i < cellCount.x; i++) {
-    for(var j = 0; j < cellCount.y; j++) {
+  for(var i = 0; i < cc.x; i++) {
+    for(var j = 0; j < cc.y; j++) {
       states += CELLS.cells(i, j).getState();
     }
   }
 
-  states += ',cellCount.x=' + cellCount.x;
-  states += ',cellCount.y=' + cellCount.y;
-  states += ',cellPixels.x=' + cellPixels.x;
-  states += ',cellPixels.y=' + cellPixels.y;
+  states += ',cellCount.x=' + cc.x;
+  states += ',cellCount.y=' + cc.y;
+  states += ',cellPixels.x=' + cp.x;
+  states += ',cellPixels.y=' + cp.y;
   states += ',frameRate=' + ANIMATION.frameRate();
   states += ',blurPercent=' + STATE.blurPercent();
   states += ',fillColourDead=' + Cell.fillColourDead();
@@ -176,8 +176,9 @@ function stateLoad() {
   cellStateString = String( states[0].split('=')[1] );
 
   // Loop through all the cells.
-  for(var i = 0; i < Cell.cellCount().x; i++) {
-    for(var j = 0; j < Cell.cellCount().y; j++) {
+  let cc = Cell.cellCount();
+  for(var i = 0; i < cc.x; i++) {
+    for(var j = 0; j < cc.y; j++) {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
