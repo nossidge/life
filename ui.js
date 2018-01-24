@@ -16,8 +16,6 @@ var UI = (function (mod) {
     let cc = Cell.cellCount();
     CANVAS.a.width  = cc.x * Cell.cellPixels().x;
     CANVAS.a.height = cc.y * Cell.cellPixels().y;
-    w = CANVAS.a.width;
-    h = CANVAS.a.height;
   }
 
   // Load JSON stuff to html objects.
