@@ -8,7 +8,6 @@
 var Cell = (function () {
 
   // Private static variables.
-  var cellCount  = {x: 99, y: 99};
   var cellPixels = {x: 8,  y: 8};
   var centreCell = {x: 49, y: 49};
   var fillColourDead  = '#000000';
@@ -52,10 +51,6 @@ var Cell = (function () {
   };
 
   // Public static functions.
-  klass.cellCount = function(value) {
-    if (typeof value !== 'undefined') { cellCount = value; }
-    return cellCount;
-  }
   klass.cellPixels = function(value) {
     if (typeof value !== 'undefined') { cellPixels = value; }
     return cellPixels;
@@ -83,24 +78,12 @@ var Cell = (function () {
 
 var CELLS = ( function(mod) {
 
-  // A 2D array-of-arrays containing Cell instances.
   var cells;
-  mod.cells = function(x, y) {
-    if ((typeof x !== 'undefined') && (typeof x !== 'undefined')) {
-      return cells[x][y];
-    } else {
-      return cells;
-    }
-  }
+  var cellCount = {x: 99, y: 99};
 
-  var cellCount  = {x: 99, y: 99};
-  mod.cellCount = function(value) {
-    if (typeof value !== 'undefined') { cellCount = value; }
-    return cellCount;
-  }
-
-  // cellCount should be in the format e.g. {x: 99, y: 99}
-  mod.initialise = function(cellCount) {
+  // 'cells' is a 2D array-of-arrays containing Cell instances.
+  // 'cellCount' value should be in the format e.g. {x: 99, y: 99}
+  mod.initialise = function(value) {
     cells = [cellCount.x];
     for (var i = 0; i < cellCount.x; i++) {
       cells[i] = new Array(cellCount.y);
@@ -112,9 +95,21 @@ var CELLS = ( function(mod) {
     }
   }
 
+  // Getters and setters.
+  mod.cells = function(x, y) {
+    if ((typeof x !== 'undefined') && (typeof x !== 'undefined')) {
+      return cells[x][y];
+    } else {
+      return cells;
+    }
+  }
+  mod.cellCount = function(value) {
+    if (typeof value !== 'undefined') { cellCount = value; }
+    return cellCount;
+  }
+
   // Render all cells to the canvas.
   mod.render = function(force = false) {
-    var cellCount  = Cell.cellCount();
     for(var i = 0; i < cellCount.x; i++) {
       for(var j = 0; j < cellCount.y; j++) {
         CELLS.cells(i, j).render(force);
@@ -124,7 +119,7 @@ var CELLS = ( function(mod) {
 
   // Run the neighbor check on each cell.
   mod.calcNextState = function(_x, _y) {
-    let cc = Cell.cellCount();
+    let cc = cellCount;
 
     var neighbours = [8];
     neighbours[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];

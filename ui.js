@@ -13,7 +13,7 @@ var UI = (function (mod) {
   mod.enabled = true;
 
   mod.resizeCanvas = function() {
-    let cc = Cell.cellCount();
+    let cc = CELLS.cellCount();
     CANVAS.a.width  = cc.x * Cell.cellPixels().x;
     CANVAS.a.height = cc.y * Cell.cellPixels().y;
   }
@@ -133,11 +133,11 @@ var UI = (function (mod) {
 
   // Same above as below. (X is the same)
   mod.getMirrorNS = function(_x, _y) {
-    return [_x , (Cell.cellCount().y - 1) - _y];
+    return [_x , (CELLS.cellCount().y - 1) - _y];
   }
   // Same left as right. (Y is the same)
   mod.getMirrorEW = function(_x, _y) {
-    return [(Cell.cellCount().x - 1) - _x , _y];
+    return [(CELLS.cellCount().x - 1) - _x , _y];
   }
 
   //######################################
@@ -163,7 +163,7 @@ var UI = (function (mod) {
     var yVal = centre.y + (xDiff * posOrNeg);
 
     // If it's not in a drawable region, then just return the original.
-    var cc = Cell.cellCount();
+    var cc = CELLS.cellCount();
     if (xVal >= 0 && xVal < cc.x && yVal >= 0 && yVal < cc.y) {
       return [xVal, yVal];
     } else {
@@ -324,7 +324,7 @@ var UI = (function (mod) {
     let width  = parseInt(document.getElementById('range_width').value);
     let height = parseInt(document.getElementById('range_height').value);
     let pixels = parseInt(document.getElementById('range_pixels').value);
-    Cell.cellCount({
+    CELLS.cellCount({
       x: width,
       y: height
     });
