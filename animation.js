@@ -59,8 +59,8 @@ var ANIMATION = ( function(mod) {
       for(var i = 0; i < cc.x; i++) {
         for(var j = 0; j < cc.y; j++) {
           var state = !CELLS.calcNextState(i, j) ? 0 : 1;
-          if (CELLS.cells(i, j).getStateNext() != state) {
-            CELLS.cells(i, j).setStateNext(state);
+          if (CELLS.cells(i, j).stateNext() != state) {
+            CELLS.cells(i, j).stateNext(state);
             globalStateStatic = false;
           }
         }

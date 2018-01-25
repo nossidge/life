@@ -34,17 +34,17 @@ var Cell = (function () {
     }
 
     // 'state' should be 0 or 1 for alive or dead.
-    this.setState = function(state, render) {
-      stateNext = state;
-      if (render) { this.render(true); }
-    }
-    this.getState = function() {
+    this.state = function(value, render) {
+      if (typeof value !== 'undefined') {
+        stateNext = value;
+        if (render) { this.render(true); }
+      }
       return stateNow;
     }
-    this.setStateNext = function(state) {
-      stateNext = state;
-    }
-    this.getStateNext = function() {
+    this.stateNext = function(value) {
+      if (typeof value !== 'undefined') {
+        stateNext = value;
+      }
       return stateNext;
     }
   };
@@ -137,7 +137,7 @@ var CELLS = ( function(mod) {
     neighbours[7] = cells[ (_x+1) % cc.x      ][ (_y+1) % cc.y ];
     var n = 0;
     for(var i=0; i<8; i++) {
-      if(neighbours[i].getState() != 0) { n++; }
+      if(neighbours[i].state() != 0) { n++; }
     }
 
     // Survival
@@ -149,7 +149,7 @@ var CELLS = ( function(mod) {
     if(!booFound) { return false; }
 
     // Birth
-    if (cells[_x][_y].getState() == 0) {
+    if (cells[_x][_y].state() == 0) {
       booFound = false;
       for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
         if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }

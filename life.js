@@ -96,7 +96,7 @@ function stateSave() {
   let states = 'cellState=';
   for(var i = 0; i < cc.x; i++) {
     for(var j = 0; j < cc.y; j++) {
-      states += CELLS.cells(i, j).getState();
+      states += CELLS.cells(i, j).state();
     }
   }
 
@@ -182,7 +182,7 @@ function stateLoad() {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
-      CELLS.cells(i, j).setState(state);
+      CELLS.cells(i, j).state(state);
 
       // Remove the first character of the string.
       cellStateString = cellStateString.substring(1)
