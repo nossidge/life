@@ -49,7 +49,7 @@ var CANVAS = (function (mod) {
 
     // Set all the cells in the radius to live.
     var theCell = {x: 0,  y: 0};
-    var centre = Cell.centreCell();
+    var centre = CELLS.centreCell();
     for(var i = -r; i <= r; i++) {
       for(var j = -r; j <= r; j++) {
         theCell.x = centre.x + parseInt(i);

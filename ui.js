@@ -14,8 +14,8 @@ var UI = (function (mod) {
 
   mod.resizeCanvas = function() {
     let cc = CELLS.cellCount();
-    CANVAS.a.width  = cc.x * Cell.cellPixels().x;
-    CANVAS.a.height = cc.y * Cell.cellPixels().y;
+    CANVAS.a.width  = cc.x * CELLS.cellPixels().x;
+    CANVAS.a.height = cc.y * CELLS.cellPixels().y;
   }
 
   // Load JSON stuff to html objects.
@@ -152,7 +152,7 @@ var UI = (function (mod) {
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
   mod.getMirrorDiagonal = function(_x, _y, posOrNeg) {
-    var centre = Cell.centreCell();
+    var centre = CELLS.centreCell();
 
     // Difference between the central cell and input.
     var xDiff = centre.x - _x;
@@ -328,7 +328,7 @@ var UI = (function (mod) {
       x: width,
       y: height
     });
-    Cell.cellPixels({
+    CELLS.cellPixels({
       x: pixels,
       y: pixels
     });

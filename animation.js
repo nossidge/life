@@ -30,15 +30,7 @@ var ANIMATION = ( function(mod) {
     UI.resizeCanvas();
 
     // Create empty cell object.
-    let cc = CELLS.cellCount();
-    CELLS.initialise(cc);
-
-    // Co-ords of central cell.
-    Cell.centreCell({
-      x: Math.floor(cc.x / 2),
-      y: Math.floor(cc.y / 2)
-    });
-
+    CELLS.initialise();
     CANVAS.randomiseCentralBlock();
     ANIMATION.drawScene();
   }

@@ -58,7 +58,7 @@ function checkLifeRules() {
 // Init function.
 (function() {
   let cc = CELLS.cellCount();
-  let cp = Cell.cellPixels();
+  let cp = CELLS.cellPixels();
 
   CANVAS.a.width  = cc.x * cp.x;
   CANVAS.a.height = cc.y * cp.y;
@@ -91,7 +91,7 @@ function checkLifeRules() {
 // Get state of all cells.
 function stateSave() {
   let cc = CELLS.cellCount();
-  let cp = Cell.cellPixels();
+  let cp = CELLS.cellPixels();
 
   let states = 'cellState=';
   for(var i = 0; i < cc.x; i++) {

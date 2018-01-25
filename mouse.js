@@ -17,8 +17,8 @@ var MOUSE = ( function(mod) {
       // Determine cell x/y from mouse x/y
       pos.x = e.pageX - CANVAS.a.offsetLeft;
       pos.y = e.pageY - CANVAS.a.offsetTop;
-      _x = Math.max(0, Math.floor(pos.x / Cell.cellPixels().x));
-      _y = Math.max(0, Math.floor(pos.y / Cell.cellPixels().y));
+      _x = Math.max(0, Math.floor(pos.x / CELLS.cellPixels().x));
+      _y = Math.max(0, Math.floor(pos.y / CELLS.cellPixels().y));
 
       // Change based on mirror variables.
       var coords = UI.getMirrorCellCoords(_x, _y);

@@ -8,8 +8,6 @@
 var Cell = (function () {
 
   // Private static variables.
-  var cellPixels = {x: 8,  y: 8};
-  var centreCell = {x: 49, y: 49};
   var fillColourDead  = '#000000';
   var fillColourAlive = '#E0B0FF';
 
@@ -17,8 +15,8 @@ var Cell = (function () {
   var klass = function (_x, _y) {
 
     // Private variables.
-    var x = _x * cellPixels.x;
-    var y = _y * cellPixels.y;
+    var x = _x * CELLS.cellPixels().x;
+    var y = _y * CELLS.cellPixels().y;
     var stateNow = 0;
     var stateNext = 0;
 
@@ -29,8 +27,9 @@ var Cell = (function () {
       // Don't render dead cells, to preserve the blur effect.
       // Or force write, if necessary.
       if ( (stateNow != 0) || (force) ) {
+        let cp = CELLS.cellPixels();
         CANVAS.c.fillStyle = (stateNow == 0) ? fillColourDead : fillColourAlive;
-        CANVAS.c.fillRect(x, y, cellPixels.x, cellPixels.y);
+        CANVAS.c.fillRect(x, y, cp.x, cp.y);
       }
     }
 
@@ -51,14 +50,6 @@ var Cell = (function () {
   };
 
   // Public static functions.
-  klass.cellPixels = function(value) {
-    if (typeof value !== 'undefined') { cellPixels = value; }
-    return cellPixels;
-  }
-  klass.centreCell = function(value) {
-    if (typeof value !== 'undefined') { centreCell = value; }
-    return centreCell;
-  }
   klass.fillColourDead = function(value) {
     if (typeof value !== 'undefined') { fillColourDead = value; }
     return fillColourDead;
@@ -78,12 +69,13 @@ var Cell = (function () {
 
 var CELLS = ( function(mod) {
 
-  var cells;
-  var cellCount = {x: 99, y: 99};
+  var cells;  // 2D array-of-arrays containing Cell instances.
+  var cellCount  = {x: 99, y: 99};  // Size of the grid.
+  var cellPixels = {x: 8,  y: 8};   // Size of each cell.
+  var centreCell = {x: 49, y: 49};  // Co-ords of central cell.
 
-  // 'cells' is a 2D array-of-arrays containing Cell instances.
   // 'cellCount' value should be in the format e.g. {x: 99, y: 99}
-  mod.initialise = function(value) {
+  mod.initialise = function() {
     cells = [cellCount.x];
     for (var i = 0; i < cellCount.x; i++) {
       cells[i] = new Array(cellCount.y);
@@ -104,8 +96,21 @@ var CELLS = ( function(mod) {
     }
   }
   mod.cellCount = function(value) {
-    if (typeof value !== 'undefined') { cellCount = value; }
+    if (typeof value !== 'undefined') {
+      cellCount = value;
+      centreCell = {
+        x: Math.floor(cellCount.x / 2),
+        y: Math.floor(cellCount.y / 2)
+      };
+    }
     return cellCount;
+  }
+  mod.cellPixels = function(value) {
+    if (typeof value !== 'undefined') { cellPixels = value; }
+    return cellPixels;
+  }
+  mod.centreCell = function() {
+    return centreCell;
   }
 
   // Render all cells to the canvas.
