@@ -48,26 +48,26 @@ var UI = (function (mod) {
 
   // Colour options.
   mod.updateColourLive = function(inputColour) {
-    let fillColourAlive = String(inputColour);
-    if (fillColourAlive.charAt(0) != '#') {
-      fillColourAlive = '#' + fillColourAlive;
+    let strCol = String(inputColour);
+    if (strCol.charAt(0) != '#') {
+      strCol = '#' + strCol;
     }
-    Cell.fillColourAlive(fillColourAlive);
-    document.getElementById('jscolor_live').jscolor.fromString(fillColourAlive);
+    CELLS.colour(1, strCol);
+    document.getElementById('jscolor_live').jscolor.fromString(strCol);
     if (colourLiveIsBackground) {
-      document.body.style.backgroundColor = fillColourAlive;
+      document.body.style.backgroundColor = strCol;
     }
   }
   mod.updateColourDead = function(inputColour) {
-    let fillColourDead = String(inputColour);
-    if (fillColourDead.charAt(0) != '#') {
-      fillColourDead = '#' + fillColourDead;
+    let strCol = String(inputColour);
+    if (strCol.charAt(0) != '#') {
+      strCol = '#' + strCol;
     }
-    Cell.fillColourDead(fillColourDead);
-    document.getElementById('jscolor_dead').jscolor.fromString(fillColourDead);
+    CELLS.colour(0, strCol);
+    document.getElementById('jscolor_dead').jscolor.fromString(strCol);
     if (colourDeadIsText) {
-      document.body.style.color = fillColourDead;
-      FUNCTIONS.css('.border', 'border', '2px solid ' + fillColourDead);
+      document.body.style.color = strCol;
+      FUNCTIONS.css('.border', 'border', '2px solid ' + strCol);
     }
   }
   mod.setColourLiveIsBackground = function(value) {

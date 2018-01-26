@@ -106,8 +106,8 @@ function stateSave() {
   states += ',cellPixels.y=' + cp.y;
   states += ',frameRate=' + ANIMATION.frameRate();
   states += ',blurPercent=' + STATE.blurPercent();
-  states += ',fillColourDead=' + Cell.fillColourDead();
-  states += ',fillColourAlive=' + Cell.fillColourAlive();
+  states += ',fillColourDead=' + CELLS.colour(0);
+  states += ',fillColourAlive=' + CELLS.colour(1);
   states += ',currentRuleType=' + STATE.currentRuleType();
 
   states = lzw_encode(states);

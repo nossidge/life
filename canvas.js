@@ -70,8 +70,8 @@ var CANVAS = (function (mod) {
       }
     }
     if (state == 0) {
-      c.fillStyle = Cell.fillColourDead();
-      c.fillRect(0,0,w,h);
+      c.fillStyle = CELLS.colour(0);
+      c.fillRect(0, 0, CANVAS.a.width, CANVAS.a.height);
     }
   }
 

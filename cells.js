@@ -7,10 +7,6 @@
 // https://stackoverflow.com/a/1114121/139299
 var Cell = (function () {
 
-  // Private static variables.
-  var fillColourDead  = '#000000';
-  var fillColourAlive = '#E0B0FF';
-
   // Instance constructor.
   var klass = function (_x, _y) {
 
@@ -28,7 +24,7 @@ var Cell = (function () {
       // Or force write, if necessary.
       if ( (stateNow != 0) || (force) ) {
         let cp = CELLS.cellPixels();
-        CANVAS.c.fillStyle = (stateNow == 0) ? fillColourDead : fillColourAlive;
+        CANVAS.c.fillStyle = CELLS.colour(stateNow);
         CANVAS.c.fillRect(x, y, cp.x, cp.y);
       }
     }
@@ -49,16 +45,6 @@ var Cell = (function () {
     }
   };
 
-  // Public static functions.
-  klass.fillColourDead = function(value) {
-    if (typeof value !== 'undefined') { fillColourDead = value; }
-    return fillColourDead;
-  }
-  klass.fillColourAlive = function(value) {
-    if (typeof value !== 'undefined') { fillColourAlive = value; }
-    return fillColourAlive;
-  }
-
   return klass;
 })();
 
@@ -73,6 +59,7 @@ var CELLS = ( function(mod) {
   var cellCount  = {x: 99, y: 99};  // Size of the grid.
   var cellPixels = {x: 8,  y: 8};   // Size of each cell.
   var centreCell = {x: 49, y: 49};  // Co-ords of central cell.
+  var colour = ['#000000', '#E0B0FF'];  // Colours of the cells, by state.
 
   // 'cellCount' value should be in the format e.g. {x: 99, y: 99}
   mod.initialise = function() {
@@ -111,6 +98,15 @@ var CELLS = ( function(mod) {
   }
   mod.centreCell = function() {
     return centreCell;
+  }
+  mod.colour = function(state, value) {
+    if ((typeof state !== 'undefined') && (typeof value !== 'undefined')) {
+      colour[state] = value;
+    } else if (typeof state !== 'undefined') {
+      return colour[state];
+    } else {
+      return colour;
+    }
   }
 
   // Render all cells to the canvas.
