@@ -5,9 +5,9 @@
 function checkLifeRules() {
 
   // Make arrays of each rule type.
-  var birth = [];
-  var survival = [];
-  for (var i = 0; i <= 8; i++) {
+  let birth = [];
+  let survival = [];
+  for (let i = 0; i <= 8; i++) {
     if (document.getElementById('birth_' + i).checked) {
       birth.push(i);
     }
@@ -21,8 +21,8 @@ function checkLifeRules() {
   strSurvival = JSON.stringify(survival);
 
   // Check each in { EPILEPSY.validLifeRules() } for a match.
-  var ruleMatched = false;
-  for (var ruleName in EPILEPSY.validLifeRules()) {
+  let ruleMatched = false;
+  for (let ruleName in EPILEPSY.validLifeRules()) {
     if (RULES.rules.hasOwnProperty(ruleName)) {
 
       // Convert to string for hacky array comparison.
@@ -30,7 +30,7 @@ function checkLifeRules() {
       thisSurvival = JSON.stringify(RULES.rules[ruleName]['survival']);
 
       // Don't match to a 'custom' rule.
-      var isCustom = RULES.rules[ruleName].hasOwnProperty('custom');
+      let isCustom = RULES.rules[ruleName].hasOwnProperty('custom');
 
       if (!isCustom && strBirth == thisBirth && strSurvival == thisSurvival) {
         FUNCTIONS.puts('ruleMatched = true');
@@ -94,8 +94,8 @@ function stateSave() {
   let cp = CELLS.cellPixels();
 
   let states = 'cellState=';
-  for(var i = 0; i < cc.x; i++) {
-    for(var j = 0; j < cc.y; j++) {
+  for (let i = 0; i < cc.x; i++) {
+    for (let j = 0; j < cc.y; j++) {
       states += CELLS.cells(i, j).state();
     }
   }
@@ -119,19 +119,19 @@ function stateSave() {
 
 // Get state of all cells.
 function stateLoad() {
-  fullState = document.getElementById('state_text').value;
+  let fullState = document.getElementById('state_text').value;
   fullState = lzw_decode(fullState);
 
   document.getElementById('state_text').value = fullState;
 
   // Load the variables first, before we draw the cells.
-  var states = fullState.split(',');
-  for (var i=1; i<states.length; i++) {
+  let states = fullState.split(',');
+  for (let i = 1; i < states.length; i++) {
 
     // 'states[i]' is in the form 'variable="value"'
-    split = states[i].split('=');
-    variable = split[0];
-    value = split[1];
+    let split = states[i].split('=');
+    let variable = split[0];
+    let value = split[1];
 
     // Change the required variable.
     switch( variable ) {
@@ -173,12 +173,13 @@ function stateLoad() {
   UI.clickRedrawButton();
 
   // Load the cell states to the canvas.
-  cellStateString = String( states[0].split('=')[1] );
+  let cellStateString = String( states[0].split('=')[1] );
 
   // Loop through all the cells.
+  let state;
   let cc = CELLS.cellCount();
-  for(var i = 0; i < cc.x; i++) {
-    for(var j = 0; j < cc.y; j++) {
+  for (let i = 0; i < cc.x; i++) {
+    for (let j = 0; j < cc.y; j++) {
 
       // Set the state.
       state = parseInt( cellStateString.charAt(0) );
@@ -195,26 +196,25 @@ function stateLoad() {
 // https://gist.github.com/revolunet/843889
 // LZW-compress a string
 function lzw_encode(s) {
-  var dict = {};
-  var data = (s + "").split("");
-  var currChar;
-  var phrase = data[0];
-  var out = [];
-  var code = 256;
-  for (var i=1; i<data.length; i++) {
-    currChar=data[i];
+  let dict = {};
+  let data = (s + "").split("");
+  let currChar;
+  let phrase = data[0];
+  let out = [];
+  let code = 256;
+  for (let i = 1; i < data.length; i++) {
+    currChar = data[i];
     if (dict['_' + phrase + currChar] != null) {
       phrase += currChar;
-    }
-    else {
+    } else {
       out.push(phrase.length > 1 ? dict['_'+phrase] : phrase.charCodeAt(0));
       dict['_' + phrase + currChar] = code;
       code++;
-      phrase=currChar;
+      phrase = currChar;
     }
   }
   out.push(phrase.length > 1 ? dict['_'+phrase] : phrase.charCodeAt(0));
-  for (var i=0; i<out.length; i++) {
+  for (let i = 0; i < out.length; i++) {
     out[i] = String.fromCharCode(out[i]);
   }
   return out.join("");
@@ -222,19 +222,18 @@ function lzw_encode(s) {
 
 // Decompress an LZW-encoded string
 function lzw_decode(s) {
-  var dict = {};
-  var data = (s + "").split("");
-  var currChar = data[0];
-  var oldPhrase = currChar;
-  var out = [currChar];
-  var code = 256;
-  var phrase;
-  for (var i=1; i<data.length; i++) {
-    var currCode = data[i].charCodeAt(0);
+  let dict = {};
+  let data = (s + "").split("");
+  let currChar = data[0];
+  let oldPhrase = currChar;
+  let out = [currChar];
+  let code = 256;
+  let phrase;
+  for (let i = 1; i < data.length; i++) {
+    let currCode = data[i].charCodeAt(0);
     if (currCode < 256) {
       phrase = data[i];
-    }
-    else {
+    } else {
       phrase = dict['_'+currCode] ? dict['_'+currCode] : (oldPhrase + currChar);
     }
     out.push(phrase);

@@ -5,7 +5,7 @@
 
 var EPILEPSY = (function (mod) {
 
-  var epilepsySafe = true;
+  let epilepsySafe = true;
 
   // Toggle value of 'epilepsySafe' boolean.
   mod.toggleEpilepsy = function() {
@@ -13,7 +13,7 @@ var EPILEPSY = (function (mod) {
   }
   mod.setEpilepsy = function(value) {
     epilepsySafe = value;
-    var domObj = document.getElementById('button_epilepsy');
+    let domObj = document.getElementById('button_epilepsy');
     if (epilepsySafe) {
       domObj.value = 'Epilepsy: Safe(ish)';
       domObj.style.background = '#BAD696'; // Green
@@ -87,7 +87,7 @@ var EPILEPSY = (function (mod) {
   // Mostly just to remove epileptic rules.
   // This should be used instead of the raw [RULES.rules].
   mod.validLifeRules = function() {
-    var outputHash = {};
+    let outputHash = {};
 
     // If not epilepsy, then don't worry about flashing rules.
     if (!epilepsySafe) {
@@ -95,7 +95,7 @@ var EPILEPSY = (function (mod) {
 
     // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
     } else {
-      for (var ruleName in RULES.rules) {
+      for (let ruleName in RULES.rules) {
         if (RULES.rules.hasOwnProperty(ruleName)) {
           if (!RULES.rules[ruleName].hasOwnProperty('epilepsy')) {
             outputHash[ruleName] = RULES.rules[ruleName];
@@ -110,7 +110,7 @@ var EPILEPSY = (function (mod) {
   // Removes any with rules that are epileptic.
   // This should be used instead of the raw [RULES.loops].
   mod.validLoopTypes = function() {
-    var outputHash = {};
+    let outputHash = {};
 
     // If not epilepsy, then don't worry about flashing rules.
     if (!epilepsySafe) {
@@ -118,7 +118,7 @@ var EPILEPSY = (function (mod) {
 
     // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
     } else {
-      for (var loopName in RULES.loops) {
+      for (let loopName in RULES.loops) {
         if (RULES.loops.hasOwnProperty(loopName)) {
           epil_0 = RULES.rules[ RULES.loops[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
           epil_1 = RULES.rules[ RULES.loops[loopName]['rules'][1] ].hasOwnProperty('epilepsy');

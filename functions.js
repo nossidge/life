@@ -5,12 +5,12 @@
 
 var FUNCTIONS = (function (mod) {
 
-  var writeToConsole = false;
+  let writeToConsole = false;
 
   // Random number between two values.
-  mod.rand = function(max, min, _int) {
-    var max = (max === 0 || max)?max:1,
-        min = min || 0,
+  mod.rand = function(_max, _min, _int) {
+    let max = (_max === 0 || _max) ? _max : 1,
+        min = _min || 0,
         gen = min + (max - min) * Math.random();
     return (_int) ? Math.round(gen) : gen;
   }
@@ -25,15 +25,15 @@ var FUNCTIONS = (function (mod) {
   // Alter CSS through JavaScript.
   // http://stackoverflow.com/a/11081100/139299
   mod.css = function(selector, prop, val) {
-    for (var i=0; i<document.styleSheets.length; i++) {
+    for (let i = 0; i < document.styleSheets.length; i++) {
       try {
         document.styleSheets[i].insertRule(
-          selector+ ' {'+prop+':'+val+'}',
+          selector + ' {' + prop + ':' + val + '}',
           document.styleSheets[i].cssRules.length
         );
       } catch(e) {
         try {
-          document.styleSheets[i].addRule(selector, prop+':'+val);
+          document.styleSheets[i].addRule(selector, prop + ':' + val);
         } catch(e) {}
       }
     }
@@ -41,7 +41,7 @@ var FUNCTIONS = (function (mod) {
 
   // http://stackoverflow.com/a/5624139/139299
   mod.hexToRgb = function(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),

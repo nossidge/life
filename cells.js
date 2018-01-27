@@ -8,13 +8,13 @@
 var Cell = (function () {
 
   // Instance constructor.
-  var klass = function (_x, _y) {
+  let klass = function (_x, _y) {
 
     // Private variables.
-    var x = _x * CELLS.cellPixels().x;
-    var y = _y * CELLS.cellPixels().y;
-    var stateNow = 0;
-    var stateNext = 0;
+    let x = _x * CELLS.cellPixels().x;
+    let y = _y * CELLS.cellPixels().y;
+    let stateNow = 0;
+    let stateNext = 0;
 
     // Render the cell to the canvas.
     this.render = function(force) {
@@ -55,20 +55,20 @@ var Cell = (function () {
 
 var CELLS = ( function(mod) {
 
-  var cells;  // 2D array-of-arrays containing Cell instances.
-  var cellCount  = {x: 99, y: 99};  // Size of the grid.
-  var cellPixels = {x: 8,  y: 8};   // Size of each cell.
-  var centreCell = {x: 49, y: 49};  // Co-ords of central cell.
-  var colour = ['#000000', '#E0B0FF'];  // Colours of the cells, by state.
+  let cells;  // 2D array-of-arrays containing Cell instances.
+  let cellCount  = {x: 99, y: 99};  // Size of the grid.
+  let cellPixels = {x: 8,  y: 8};   // Size of each cell.
+  let centreCell = {x: 49, y: 49};  // Co-ords of central cell.
+  let colour = ['#000000', '#E0B0FF'];  // Colours of the cells, by state.
 
   // 'cellCount' value should be in the format e.g. {x: 99, y: 99}
   mod.initialise = function() {
     cells = [cellCount.x];
-    for (var i = 0; i < cellCount.x; i++) {
+    for (let i = 0; i < cellCount.x; i++) {
       cells[i] = new Array(cellCount.y);
     }
-    for (var i = 0; i < cellCount.x; i++) {
-      for (var j = 0; j < cellCount.y; j++) {
+    for (let i = 0; i < cellCount.x; i++) {
+      for (let j = 0; j < cellCount.y; j++) {
         cells[i][j] = new Cell(i,j);
       }
     }
@@ -111,18 +111,20 @@ var CELLS = ( function(mod) {
 
   // Render all cells to the canvas.
   mod.render = function(force = false) {
-    for(var i = 0; i < cellCount.x; i++) {
-      for(var j = 0; j < cellCount.y; j++) {
+    for (let i = 0; i < cellCount.x; i++) {
+      for (let j = 0; j < cellCount.y; j++) {
         CELLS.cells(i, j).render(force);
       }
     }
   }
 
-  // Run the neighbor check on each cell.
+  // Run the neighbour check on a given cell.
+  // Considers the 8 surrounding cells.
+  //   (Moore neighbourhood, Chebyshev distance 1)
   mod.calcNextState = function(_x, _y) {
     let cc = cellCount;
 
-    var neighbours = [8];
+    let neighbours = [8];
     neighbours[0] = cells[ (_x-1+cc.x) % cc.x ][ (_y-1+cc.y) % cc.y ];
     neighbours[1] = cells[ (_x-1+cc.x) % cc.x ][ _y ];
     neighbours[2] = cells[ (_x-1+cc.x) % cc.x ][ (_y+1) % cc.y ];
@@ -131,26 +133,26 @@ var CELLS = ( function(mod) {
     neighbours[5] = cells[ (_x+1) % cc.x      ][ (_y-1+cc.y) % cc.y ];
     neighbours[6] = cells[ (_x+1) % cc.x      ][ _y ];
     neighbours[7] = cells[ (_x+1) % cc.x      ][ (_y+1) % cc.y ];
-    var n = 0;
-    for(var i=0; i<8; i++) {
-      if(neighbours[i].state() != 0) { n++; }
+    let n = 0;
+    for (let i = 0; i < 8; i++) {
+      if (neighbours[i].state() != 0) { n++; }
     }
 
     // Survival
-    var booFound = false;
-    var rt = STATE.currentRuleType();
-    for(var i=0; i<RULES.rules[rt]['survival'].length; i++) {
-      if(n==RULES.rules[rt]['survival'][i]) { booFound = true; }
+    let booFound = false;
+    let rt = STATE.currentRuleType();
+    for (let i = 0; i < RULES.rules[rt]['survival'].length; i++) {
+      if (n==RULES.rules[rt]['survival'][i]) { booFound = true; }
     }
-    if(!booFound) { return false; }
+    if (!booFound) { return false; }
 
     // Birth
     if (cells[_x][_y].state() == 0) {
       booFound = false;
-      for(var i=0; i<RULES.rules[rt]['birth'].length; i++) {
-        if(n==RULES.rules[rt]['birth'][i]) { booFound = true; }
+      for (let i = 0; i < RULES.rules[rt]['birth'].length; i++) {
+        if (n==RULES.rules[rt]['birth'][i]) { booFound = true; }
       }
-      if(!booFound) { return false; }
+      if (!booFound) { return false; }
     }
 
     return true;

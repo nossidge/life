@@ -5,14 +5,14 @@
 
 var MOUSE = ( function(mod) {
 
-  var pos = {x: 0, y: 0};
+  let pos = {x: 0, y: 0};
 
   // Draw a cell to the canvas if the mouse is pressed.
   mod.drawCellFromMousePos = function(e) {
     if (e.which != 0) {
 
       // Left click for live, middle click for dead.
-      var state = (e.which == 2) ? 0 : 1;
+      let state = (e.which == 2) ? 0 : 1;
 
       // Determine cell x/y from mouse x/y
       pos.x = e.pageX - CANVAS.a.offsetLeft;
@@ -21,8 +21,8 @@ var MOUSE = ( function(mod) {
       _y = Math.max(0, Math.floor(pos.y / CELLS.cellPixels().y));
 
       // Change based on mirror variables.
-      var coords = UI.getMirrorCellCoords(_x, _y);
-      for (var i = 0; i < coords.length; i++) {
+      let coords = UI.getMirrorCellCoords(_x, _y);
+      for (let i = 0; i < coords.length; i++) {
         let x = coords[i][0];
         let y = coords[i][1];
         CELLS.cells(x, y).state(state, true);

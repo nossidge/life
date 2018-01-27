@@ -7,9 +7,9 @@ var STATE = ( function(mod) {
 
   // Blur variables.
   // Set blurPercent, and calculate blurAbsolute from that.
-  var blurAbsolute = 0;
-  var blurPercent = 0;
-  var blurMax = 0.6;
+  let blurAbsolute = 0;
+  let blurPercent = 0;
+  let blurMax = 0.6;
   mod.blurPercent = function(value) {
     if (typeof value !== 'undefined') {
       blurPercent = parseInt(value);
@@ -24,13 +24,13 @@ var STATE = ( function(mod) {
   }
 
   // Rule and loop variables.
-  var currentRuleType = 'Conway';
-  var lastCustomRuleName = '(custom 1)';
-  var loopType = '(none)';
-  var loopState = 0;
-  var loopRules = ['Conway','Conway'];
-  var loopRates = [];
-  var frameCount = 0;
+  let currentRuleType = 'Conway';
+  let lastCustomRuleName = '(custom 1)';
+  let loopType = '(none)';
+  let loopState = 0;
+  let loopRules = ['Conway','Conway'];
+  let loopRates = [];
+  let frameCount = 0;
   mod.currentRuleType = function(value) {
     if (typeof value !== 'undefined') { currentRuleType = value; }
     return currentRuleType;

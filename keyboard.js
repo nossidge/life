@@ -19,7 +19,7 @@ var KEYBOARD = ( function(mod) {
 
   // Perform different functions based on the key pressed.
   mod.onkeypress = function(e) {
-    var char = KEYBOARD.getChar(e || window.event);
+    let char = KEYBOARD.getChar(e || window.event);
     if (!char) return;
     switch( char.toUpperCase() ) {
 

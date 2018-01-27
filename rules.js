@@ -3,8 +3,7 @@
 // Module to store all the defined rules and loops.
 //##############################################################################
 
-var RULES = ( function() {
-  var mod = {};
+var RULES = (function (mod) {
 
   mod.rules = {
     "Conway": {
@@ -198,6 +197,6 @@ var RULES = ( function() {
   }
 
   return mod;
-}());
+}(RULES || {}));
 
 //##############################################################################

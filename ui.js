@@ -5,10 +5,10 @@
 
 var UI = (function (mod) {
 
-  var loopTypeDesc = true;
-  var rulesDesc = true;
-  var colourLiveIsBackground = true;
-  var colourDeadIsText = true;
+  let loopTypeDesc = true;
+  let rulesDesc = true;
+  let colourLiveIsBackground = true;
+  let colourDeadIsText = true;
 
   mod.enabled = true;
 
@@ -20,8 +20,8 @@ var UI = (function (mod) {
 
   // Load JSON stuff to html objects.
   mod.HtmlLifeRulesDropDowns = function() {
-    var finalHtml = '';
-    for (var property in EPILEPSY.validLifeRules()) {
+    let finalHtml = '';
+    for (let property in EPILEPSY.validLifeRules()) {
       if (RULES.rules.hasOwnProperty(property)) {
         finalHtml += '<option value="' + property + '">' + property + '</option>';
       }
@@ -35,9 +35,9 @@ var UI = (function (mod) {
     document.getElementById('loop_rule_1').value = STATE.loopRules()[1];
   }
   mod.HtmlLoopTypeDropDown = function() {
-    var finalHtml = '<option value="(none)">(none)</option>';
+    let finalHtml = '<option value="(none)">(none)</option>';
     finalHtml += '<option value="(custom)">(custom)</option>';
-    for (var property in EPILEPSY.validLoopTypes()) {
+    for (let property in EPILEPSY.validLoopTypes()) {
       if (RULES.loops.hasOwnProperty(property)) {
         finalHtml += '<option value="' + property + '">' + property + '</option>';
       }
@@ -104,10 +104,10 @@ var UI = (function (mod) {
   //############################################################################
 
   // Mirrored drawing.
-  var mirrorNS = false;
-  var mirrorEW = false;
-  var mirrorNESW = false;
-  var mirrorNWSE = false;
+  let mirrorNS = false;
+  let mirrorEW = false;
+  let mirrorNESW = false;
+  let mirrorNWSE = false;
 
   mod.mirrorNS = mirrorNS;
   mod.mirrorEW = mirrorEW;
@@ -152,18 +152,18 @@ var UI = (function (mod) {
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
   mod.getMirrorDiagonal = function(_x, _y, posOrNeg) {
-    var centre = CELLS.centreCell();
+    let centre = CELLS.centreCell();
 
     // Difference between the central cell and input.
-    var xDiff = centre.x - _x;
-    var yDiff = centre.y - _y;
+    let xDiff = centre.x - _x;
+    let yDiff = centre.y - _y;
 
     // Add the other co-ordinate's value.
-    var xVal = centre.x + (yDiff * posOrNeg);
-    var yVal = centre.y + (xDiff * posOrNeg);
+    let xVal = centre.x + (yDiff * posOrNeg);
+    let yVal = centre.y + (xDiff * posOrNeg);
 
     // If it's not in a drawable region, then just return the original.
-    var cc = CELLS.cellCount();
+    let cc = CELLS.cellCount();
     if (xVal >= 0 && xVal < cc.x && yVal >= 0 && yVal < cc.y) {
       return [xVal, yVal];
     } else {
@@ -175,7 +175,7 @@ var UI = (function (mod) {
 
   // This will return an array of cell addresses.
   mod.getMirrorCellCoords = function(_x, _y) {
-    var coords = new Array();
+    let coords = new Array();
     coords[0] = [_x, _y];
 
     if (mirrorNS) {
@@ -184,22 +184,22 @@ var UI = (function (mod) {
 
     // There might now be two values in [coords], so loop through.
     if (mirrorEW) {
-      var loopMax = coords.length;
-      for (var i = 0; i < loopMax; i++) {
+      let loopMax = coords.length;
+      for (let i = 0; i < loopMax; i++) {
         coords.push( UI.getMirrorEW(coords[i][0], coords[i][1]) );
       }
     }
 
     // Same again for the diagonal mirrors.
     if (mirrorNESW) {
-      var loopMax = coords.length;
-      for (var i = 0; i < loopMax; i++) {
+      let loopMax = coords.length;
+      for (let i = 0; i < loopMax; i++) {
         coords.push( UI.getMirrorNESW(coords[i][0], coords[i][1]) );
       }
     }
     if (mirrorNWSE) {
-      var loopMax = coords.length;
-      for (var i = 0; i < loopMax; i++) {
+      let loopMax = coords.length;
+      for (let i = 0; i < loopMax; i++) {
         coords.push( UI.getMirrorNWSE(coords[i][0], coords[i][1]) );
       }
     }
@@ -223,18 +223,18 @@ var UI = (function (mod) {
     }
 
     // Reset the checkboxes to false.
-    for (var i = 0; i <= 8; i++) {
+    for (let i = 0; i <= 8; i++) {
       document.getElementById('birth_' + i).checked = false;
       document.getElementById('survival_' + i).checked = false;
     }
 
     // Turn checkboxes on if needed.
-    for (var i = 0; i < RULES.rules[rt]['birth'].length; i++) {
+    for (let i = 0; i < RULES.rules[rt]['birth'].length; i++) {
       document.getElementById(
         'birth_' + RULES.rules[rt]['birth'][i]
       ).checked = true;
     }
-    for (var i = 0; i < RULES.rules[rt]['survival'].length; i++) {
+    for (let i = 0; i < RULES.rules[rt]['survival'].length; i++) {
       document.getElementById(
         'survival_' + RULES.rules[rt]['survival'][i]
       ).checked = true;
@@ -295,7 +295,7 @@ var UI = (function (mod) {
   }
   mod.updateLoopRules = function() {
     let len = STATE.loopRules().length;
-    for (var i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       UI.updateLoopRule(i);
     }
   }

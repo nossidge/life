@@ -5,13 +5,13 @@
 
 var ANIMATION = ( function(mod) {
 
-  var animation;
-  var paused = false;
-  var frameRate = 8;
-  var stepToNextFrame = false;
-  var globalStateStatic;
-  var now, then, delta;
-  var interval = 1000 / frameRate;
+  let animation;
+  let paused = false;
+  let frameRate = 8;
+  let stepToNextFrame = false;
+  let globalStateStatic;
+  let now, then, delta;
+  let interval = 1000 / frameRate;
 
   // Interfaces to AnimationFrame.
   mod.cancelAnimationFrame = function() {
@@ -56,11 +56,11 @@ var ANIMATION = ( function(mod) {
       // Calculate next state.
       globalStateStatic = true;
       let cc = CELLS.cellCount();
-      for(var i = 0; i < cc.x; i++) {
-        for(var j = 0; j < cc.y; j++) {
-          var state = !CELLS.calcNextState(i, j) ? 0 : 1;
-          if (CELLS.cells(i, j).stateNext() != state) {
-            CELLS.cells(i, j).stateNext(state);
+      for (let x = 0; x < cc.x; x++) {
+        for (let y = 0; y < cc.y; y++) {
+          let state = !CELLS.calcNextState(x, y) ? 0 : 1;
+          if (CELLS.cells(x, y).stateNext() != state) {
+            CELLS.cells(x, y).stateNext(state);
             globalStateStatic = false;
           }
         }
