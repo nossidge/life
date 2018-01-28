@@ -205,24 +205,14 @@
 
               <p>Use left and middle mouse buttons to draw/kill cells.</p>
 
-              <table class="centre">
-                <tr>
-                  <td colspan="4">Mirror Symmetry:</td>
-                </tr>
-                <tr>
-                  <td width="50">N/S</td>
-                  <td width="50">E/W</td>
-                  <td width="70">NE/SW</td>
-                  <td width="70">NW/SE</td>
-                </tr>
-                <tr>
-                  <td><input id="mirror_NS" type="checkbox" onchange="UI.toggleMirrorNS()"></td>
-                  <td><input id="mirror_EW" type="checkbox" onchange="UI.toggleMirrorEW()"></td>
-                  <td><input id="mirror_NESW" type="checkbox" onchange="UI.toggleMirrorNESW()"></td>
-                  <td><input id="mirror_NWSE" type="checkbox" onchange="UI.toggleMirrorNWSE()"></td>
-                </tr>
-              </table>
-
+              <div id="mirror_buttons">
+                <div>Mirror Symmetry:</div>
+                <input type="button" id="mirror_ns" title="vertical" onclick="UI.toggleMirrorNS()">
+                <input type="button" id="mirror_ew" title="horizontal" onclick="UI.toggleMirrorEW()">
+                <input type="button" id="mirror_nesw" title="diagonal" onclick="UI.toggleMirrorNESW()">
+                <input type="button" id="mirror_nwse" title="diagonal" onclick="UI.toggleMirrorNWSE()">
+              </div>
+              <br>
               <input type="button" value="Clear canvas and pause" onclick="CANVAS.clearAndPause()">
               <br>
               <input type="button" value="Randomise cells" onclick="CANVAS.randomise()">

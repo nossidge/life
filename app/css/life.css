@@ -138,3 +138,46 @@ a {
   margin-top: 1px;
   margin-bottom: 7px;
 }
+
+/* Symmetry buttons. */
+/* Change height to ensure proper squares. */
+/* Use borders & outlines to show active & inactive. */
+/* Use gradient to split each button in half. */
+#mirror_buttons input {
+  height: 53px;
+  width: 53px;
+}
+#mirror_buttons .mirror_active {
+  outline: 2px solid #000000;
+}
+#mirror_buttons .mirror_inactive {
+  border: 2px solid #000000;
+}
+#mirror_buttons #mirror_ns {
+  background-image: linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+  background-image: -o-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+  background-image: -moz-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+  background-image: -webkit-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+  background-image: -ms-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+}
+#mirror_buttons #mirror_ew {
+  background-image: linear-gradient(right, #000000 50%, #E0B0FF 50%);
+  background-image: -o-linear-gradient(right, #000000 50%, #E0B0FF 50%);
+  background-image: -moz-linear-gradient(right, #000000 50%, #E0B0FF 50%);
+  background-image: -webkit-linear-gradient(right, #000000 50%, #E0B0FF 50%);
+  background-image: -ms-linear-gradient(right, #000000 50%, #E0B0FF 50%);
+}
+#mirror_buttons #mirror_nesw {
+  background-image: linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+  background-image: -o-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+  background-image: -moz-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+  background-image: -webkit-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+  background-image: -ms-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+}
+#mirror_buttons #mirror_nwse {
+  background-image: linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+  background-image: -o-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+  background-image: -moz-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+  background-image: -webkit-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+  background-image: -ms-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+}

@@ -112,21 +112,35 @@ var UI = (function (mod) {
   mod.mirrorNS = mirrorNS;
   mod.mirrorEW = mirrorEW;
 
+  let toggleMirrorActive = function(elem, bool) {
+    if (bool) {
+      elem.classList.add('mirror_active');
+      elem.classList.remove('mirror_inactive');
+    } else {
+      elem.classList.remove('mirror_active');
+      elem.classList.add('mirror_inactive');
+    }
+  }
+
   mod.toggleMirrorNS = function() {
     mirrorNS = !mirrorNS;
-    document.getElementById('mirror_NS').checked = mirrorNS;
+    let elem = document.getElementById('mirror_ns');
+    toggleMirrorActive(elem, mirrorNS);
   }
   mod.toggleMirrorEW = function() {
     mirrorEW = !mirrorEW;
-    document.getElementById('mirror_EW').checked = mirrorEW;
+    let elem = document.getElementById('mirror_ew');
+    toggleMirrorActive(elem, mirrorEW);
   }
   mod.toggleMirrorNESW = function() {
     mirrorNESW = !mirrorNESW;
-    document.getElementById('mirror_NESW').checked = mirrorNESW;
+    let elem = document.getElementById('mirror_nesw');
+    toggleMirrorActive(elem, mirrorNESW);
   }
   mod.toggleMirrorNWSE = function() {
     mirrorNWSE = !mirrorNWSE;
-    document.getElementById('mirror_NWSE').checked = mirrorNWSE;
+    let elem = document.getElementById('mirror_nwse');
+    toggleMirrorActive(elem, mirrorNWSE);
   }
 
   //######################################
