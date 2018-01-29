@@ -47,6 +47,18 @@ var UI = (function (mod) {
   }
 
   // Colour options.
+  let changeMirrorButtons = function() {
+    let col = CELLS.colour();
+    let common = ', ' + col[0] + ' 50%, ' + col[1] + ' 50% )';
+    changecss('#mirror_buttons #mirror_ns', 'background-image',
+      cssValuePrefix + 'linear-gradient(bottom' + common);
+    changecss('#mirror_buttons #mirror_ew', 'background-image',
+      cssValuePrefix + 'linear-gradient(right' + common);
+    changecss('#mirror_buttons #mirror_nesw', 'background-image',
+      cssValuePrefix + 'linear-gradient(bottom right' + common);
+    changecss('#mirror_buttons #mirror_nwse', 'background-image',
+      cssValuePrefix + 'linear-gradient(bottom left' + common);
+  }
   mod.updateColourLive = function(inputColour) {
     let strCol = String(inputColour);
     if (strCol.charAt(0) != '#') {
@@ -55,6 +67,7 @@ var UI = (function (mod) {
     CELLS.colour(1, strCol);
     document.getElementById('jscolor_live').jscolor.fromString(strCol);
     if (colourLiveIsBackground) {
+      changeMirrorButtons();
       document.body.style.backgroundColor = strCol;
     }
   }
@@ -66,6 +79,7 @@ var UI = (function (mod) {
     CELLS.colour(0, strCol);
     document.getElementById('jscolor_dead').jscolor.fromString(strCol);
     if (colourDeadIsText) {
+      changeMirrorButtons();
       document.body.style.color = strCol;
       FUNCTIONS.css('.border', 'border', '2px solid ' + strCol);
     }
