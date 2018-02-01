@@ -17,15 +17,22 @@ var Cell = ( function() {
     let stateNext = 0;
 
     // Render the cell to the canvas.
-    this.render = function(force) {
+    // {args} has two properties:
+    //   args.force
+    //     Force the render, even on dead cells.
+    //   args.canvasContext
+    //     Render to a canvas other than the main CANVAS element.
+    this.render = function(args) {
       stateNow = stateNext;
 
       // Don't render dead cells, to preserve the blur effect.
       // Or force write, if necessary.
-      if ( (stateNow != 0) || (force) ) {
+      if ( (stateNow != 0) || (args && args.force) ) {
+        let c = CANVAS.c;
+        if (args && args.canvasContext) c = args.canvasContext;
         let cp = CELLS.cellPixels();
-        CANVAS.c.fillStyle = CELLS.colour(stateNow);
-        CANVAS.c.fillRect(x, y, cp.x, cp.y);
+        c.fillStyle = CELLS.colour(stateNow);
+        c.fillRect(x, y, cp.x, cp.y);
       }
     }
 
@@ -33,14 +40,12 @@ var Cell = ( function() {
     this.state = function(value, render) {
       if (typeof value !== 'undefined') {
         stateNext = value;
-        if (render) { this.render(true); }
+        if (render) this.render({force: true});
       }
       return stateNow;
     }
     this.stateNext = function(value) {
-      if (typeof value !== 'undefined') {
-        stateNext = value;
-      }
+      if (typeof value !== 'undefined') stateNext = value;
       return stateNext;
     }
   };
@@ -116,7 +121,7 @@ var Cells = ( function() {
     this.render = function(force = false) {
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
-          CELLS.cells(i, j).render(force);
+          CELLS.cells(i, j).render({force: force});
         }
       }
     }
@@ -178,7 +183,7 @@ var CELLS = ( function(mod) {
   mod.cellPixels = function(value) { return cells.cellPixels(value); }
   mod.centreCell = function() { return cells.centreCell(); }
   mod.colour = function(state, value) { return cells.colour(state, value); }
-  mod.render = function(force = false) { return cells.render(force = false); }
+  mod.render = function(force = false) { return cells.render({force: force}); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
 
   return mod;
