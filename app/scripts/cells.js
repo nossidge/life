@@ -118,10 +118,11 @@ var Cells = ( function() {
     }
 
     // Render all cells to the canvas.
-    this.render = function(force = false) {
+    this.render = function(args) {
+      if (!args) args = {};
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
-          CELLS.cells(i, j).render({force: force});
+          CELLS.cells(i, j).render(args);
         }
       }
     }
@@ -183,7 +184,7 @@ var CELLS = ( function(mod) {
   mod.cellPixels = function(value) { return cells.cellPixels(value); }
   mod.centreCell = function() { return cells.centreCell(); }
   mod.colour = function(state, value) { return cells.colour(state, value); }
-  mod.render = function(force = false) { return cells.render({force: force}); }
+  mod.render = function(args) { return cells.render(args); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
 
   return mod;

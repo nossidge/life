@@ -160,27 +160,27 @@ var UI = (function (mod) {
   //######################################
 
   // Same above as below. (X is the same)
-  mod.getMirrorNS = function(_x, _y) {
-    return [_x , (CELLS.cellCount().y - 1) - _y];
+  mod.getMirrorNS = function(_x, _y, cells = CELLS) {
+    return [_x , (cells.cellCount().y - 1) - _y];
   }
   // Same left as right. (Y is the same)
-  mod.getMirrorEW = function(_x, _y) {
-    return [(CELLS.cellCount().x - 1) - _x , _y];
+  mod.getMirrorEW = function(_x, _y, cells = CELLS) {
+    return [(cells.cellCount().x - 1) - _x , _y];
   }
 
   //######################################
 
   // Diagonals - Works best with square canvas. Will cut off sides if longer.
-  mod.getMirrorNESW = function(_x, _y) {
-    return UI.getMirrorDiagonal(_x, _y, 1);
+  mod.getMirrorNESW = function(_x, _y, cells = CELLS) {
+    return UI.getMirrorDiagonal(_x, _y, 1, cells);
   }
-  mod.getMirrorNWSE = function(_x, _y) {
-    return UI.getMirrorDiagonal(_x, _y, -1);
+  mod.getMirrorNWSE = function(_x, _y, cells = CELLS) {
+    return UI.getMirrorDiagonal(_x, _y, -1, cells);
   }
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
-  mod.getMirrorDiagonal = function(_x, _y, posOrNeg) {
-    let centre = CELLS.centreCell();
+  mod.getMirrorDiagonal = function(_x, _y, posOrNeg, cells = CELLS) {
+    let centre = cells.centreCell();
 
     // Difference between the central cell and input.
     let xDiff = centre.x - _x;
@@ -191,7 +191,7 @@ var UI = (function (mod) {
     let yVal = centre.y + (xDiff * posOrNeg);
 
     // If it's not in a drawable region, then just return the original.
-    let cc = CELLS.cellCount();
+    let cc = cells.cellCount();
     if (xVal >= 0 && xVal < cc.x && yVal >= 0 && yVal < cc.y) {
       return [xVal, yVal];
     } else {
@@ -202,19 +202,19 @@ var UI = (function (mod) {
   //######################################
 
   // This will return an array of cell addresses.
-  mod.getMirrorCellCoords = function(_x, _y) {
+  mod.getMirrorCellCoords = function(_x, _y, cells = CELLS) {
     let coords = new Array();
     coords[0] = [_x, _y];
 
     if (mirrorNS) {
-      coords.push( UI.getMirrorNS(_x, _y) );
+      coords.push( UI.getMirrorNS(_x, _y, cells) );
     }
 
     // There might now be two values in [coords], so loop through.
     if (mirrorEW) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorEW(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorEW(coords[i][0], coords[i][1], cells) );
       }
     }
 
@@ -222,13 +222,13 @@ var UI = (function (mod) {
     if (mirrorNESW) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorNESW(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorNESW(coords[i][0], coords[i][1], cells) );
       }
     }
     if (mirrorNWSE) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorNWSE(coords[i][0], coords[i][1]) );
+        coords.push( UI.getMirrorNWSE(coords[i][0], coords[i][1], cells) );
       }
     }
 
