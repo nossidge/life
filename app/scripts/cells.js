@@ -68,6 +68,7 @@ var Cells = ( function() {
     let cellPixels = {x: 8,  y: 8};   // Size of each cell.
     let centreCell = {x: 49, y: 49};  // Co-ords of central cell.
     let colour = ['#000000', '#E0B0FF'];  // Colours of the cells, by state.
+    let canvasContext = CANVAS.c;  // Canvas DOM object to render to.
 
     // 'cellCount' value should be in the format e.g. {x: 99, y: 99}
     this.initialise = function() {
@@ -116,10 +117,17 @@ var Cells = ( function() {
         return colour;
       }
     }
+    this.canvasContext = function(value) {
+      if (typeof value !== 'undefined') { canvasContext = value; }
+      return canvasContext;
+    }
 
     // Render all cells to the canvas.
     this.render = function(args) {
       if (!args) args = {};
+      if (typeof args.canvasContext === 'undefined') {
+        args.canvasContext = canvasContext;
+      }
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
           CELLS.cells(i, j).render(args);
@@ -184,6 +192,7 @@ var CELLS = ( function(mod) {
   mod.cellPixels = function(value) { return cells.cellPixels(value); }
   mod.centreCell = function() { return cells.centreCell(); }
   mod.colour = function(state, value) { return cells.colour(state, value); }
+  mod.canvasContext = function(value) { return cells.canvasContext(value); }
   mod.render = function(args) { return cells.render(args); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
 
