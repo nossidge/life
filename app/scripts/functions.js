@@ -57,6 +57,14 @@ var FUNCTIONS = (function (mod) {
     document.getElementById(DOMID).value = text;
   }
 
+  // Pad a number with leading zeros in JavaScript.
+  // https://stackoverflow.com/a/10073788/139299
+  mod.pad = function(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
+
   return mod;
 }(FUNCTIONS || {}));
 

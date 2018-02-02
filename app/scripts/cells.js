@@ -48,6 +48,10 @@ var Cell = ( function() {
       if (typeof value !== 'undefined') stateNext = value;
       return stateNext;
     }
+    this.stateNow = function(value) {
+      if (typeof value !== 'undefined') stateNow = value;
+      return stateNow;
+    }
   };
 
   return me;
@@ -174,6 +178,18 @@ var Cells = ( function() {
 
       return true;
     }
+
+    // Output state to console, for dev purposes.
+    this.console = function() {
+      let width = cellCount.y.toString().length;
+      for (let i = 0; i < cellCount.x; i++) {
+        let row = FUNCTIONS.pad(i, width, ' ') + ') ';
+        for (let j = 0; j < cellCount.y; j++) {
+          row += cells[i][j].state();
+        }
+        console.log(row);
+      }
+    }
   }
 
   return me;
@@ -195,6 +211,7 @@ var CELLS = ( function(mod) {
   mod.canvasContext = function(value) { return cells.canvasContext(value); }
   mod.render = function(args) { return cells.render(args); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
+  mod.console = function() { return cells.console(); }
 
   return mod;
 }(CELLS || {}));
