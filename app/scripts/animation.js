@@ -9,7 +9,6 @@ var ANIMATION = ( function(mod) {
   let paused = false;
   let frameRate = 8;
   let stepToNextFrame = false;
-  let globalStateStatic;
   let now, then, delta;
   let interval = 1000 / frameRate;
 
@@ -50,27 +49,11 @@ var ANIMATION = ( function(mod) {
       CANVAS.c.fillStyle = 'rgba(' + rgb + ', ' + STATE.blurAbsolute() + ')';
       CANVAS.c.fillRect(0, 0, CANVAS.a.width, CANVAS.a.height);
 
+      // Calculate next state of all the cells.
+      CELLS.nextPermutation();
+
       // Draw all the non-dead cells.
       CELLS.render();
-
-      // Calculate next state.
-      globalStateStatic = true;
-      let cc = CELLS.cellCount();
-      for (let x = 0; x < cc.x; x++) {
-        for (let y = 0; y < cc.y; y++) {
-          let state = !CELLS.calcNextState(x, y) ? 0 : 1;
-          if (CELLS.cells(x, y).stateNext() != state) {
-            CELLS.cells(x, y).stateNext(state);
-            globalStateStatic = false;
-          }
-        }
-      }
-
-      // Have we reached a no-change state?
-      // (Might use this in the future...)
-      if (globalStateStatic == true) {
-        FUNCTIONS.puts('dead');
-      }
 
       // Move to next rule in the loop, if necessary.
       STATE.frameCountTick();

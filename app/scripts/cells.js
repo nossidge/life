@@ -142,6 +142,7 @@ var Cells = ( function() {
     // Run the neighbour check on a given cell.
     // Considers the 8 surrounding cells.
     //   (Moore neighbourhood, Chebyshev distance 1)
+    // Returns 0 or 1, for off or on.
     this.calcNextState = function(_x, _y) {
       let cc = cellCount;
 
@@ -165,7 +166,7 @@ var Cells = ( function() {
       for (let i = 0; i < RULES.rules[rt]['survival'].length; i++) {
         if (n==RULES.rules[rt]['survival'][i]) { booFound = true; }
       }
-      if (!booFound) { return false; }
+      if (!booFound) { return 0; }
 
       // Birth
       if (cells[_x][_y].state() == 0) {
@@ -173,10 +174,20 @@ var Cells = ( function() {
         for (let i = 0; i < RULES.rules[rt]['birth'].length; i++) {
           if (n==RULES.rules[rt]['birth'][i]) { booFound = true; }
         }
-        if (!booFound) { return false; }
+        if (!booFound) { return 0; }
       }
 
-      return true;
+      return 1;
+    }
+
+    // Move every cell to the next permutation.
+    this.nextPermutation = function() {
+      for (let x = 0; x < cellCount.x; x++) {
+        for (let y = 0; y < cellCount.y; y++) {
+          let nextState = this.calcNextState(x, y);
+          cells[x][y].stateNext(nextState);
+        }
+      }
     }
 
     // Output state to console, for dev purposes.
@@ -211,6 +222,7 @@ var CELLS = ( function(mod) {
   mod.canvasContext = function(value) { return cells.canvasContext(value); }
   mod.render = function(args) { return cells.render(args); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
+  mod.nextPermutation = function() { return cells.nextPermutation(); }
   mod.console = function() { return cells.console(); }
 
   return mod;
