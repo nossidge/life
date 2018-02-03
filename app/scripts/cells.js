@@ -105,7 +105,7 @@ var Cells = ( function() {
       return cellCount;
     }
     this.cellPixels = function(value) {
-      if (typeof value !== 'undefined') { cellPixels = value; }
+      if (typeof value !== 'undefined') cellPixels = value;
       return cellPixels;
     }
     this.centreCell = function() {
@@ -121,7 +121,7 @@ var Cells = ( function() {
       }
     }
     this.canvasContext = function(value) {
-      if (typeof value !== 'undefined') { canvasContext = value; }
+      if (typeof value !== 'undefined') canvasContext = value;
       return canvasContext;
     }
 
@@ -163,7 +163,7 @@ var Cells = ( function() {
       let booFound = false;
       let rt = STATE.currentRuleType();
       for (let i = 0; i < RULES.rules[rt]['survival'].length; i++) {
-        if (n==RULES.rules[rt]['survival'][i]) { booFound = true; }
+        if (n==RULES.rules[rt]['survival'][i]) booFound = true;
       }
       if (!booFound) { return 0; }
 
@@ -171,9 +171,9 @@ var Cells = ( function() {
       if (cells[_x][_y].state(1) == 0) {
         booFound = false;
         for (let i = 0; i < RULES.rules[rt]['birth'].length; i++) {
-          if (n==RULES.rules[rt]['birth'][i]) { booFound = true; }
+          if (n==RULES.rules[rt]['birth'][i]) booFound = true;
         }
-        if (!booFound) { return 0; }
+        if (!booFound) return 0;
       }
 
       return 1;

@@ -32,7 +32,7 @@ var EPILEPSY = (function (mod) {
       }
 
       document.getElementById('range_framerate').max = 10;
-      if (ANIMATION.frameRate() > 10) { ANIMATION.frameRate(10); }
+      if (ANIMATION.frameRate() > 10) ANIMATION.frameRate(10);
 
     } else {
       domObj.value = 'Epilepsy: Unsafe';
@@ -45,7 +45,7 @@ var EPILEPSY = (function (mod) {
 
       // Just a QOL thing.
       // Since a safe 8 is the default, immediately switch to 20 if unchanged.
-      if (ANIMATION.frameRate() == 8) { ANIMATION.frameRate(20); }
+      if (ANIMATION.frameRate() == 8) ANIMATION.frameRate(20);
     }
 
     // Reload the rules to the UI.
@@ -120,8 +120,8 @@ var EPILEPSY = (function (mod) {
     } else {
       for (let loopName in RULES.loops) {
         if (RULES.loops.hasOwnProperty(loopName)) {
-          epil_0 = RULES.rules[ RULES.loops[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
-          epil_1 = RULES.rules[ RULES.loops[loopName]['rules'][1] ].hasOwnProperty('epilepsy');
+          let epil_0 = RULES.rules[ RULES.loops[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
+          let epil_1 = RULES.rules[ RULES.loops[loopName]['rules'][1] ].hasOwnProperty('epilepsy');
           if (!epil_0 && !epil_1) {
             outputHash[loopName] = RULES.loops[loopName];
           }

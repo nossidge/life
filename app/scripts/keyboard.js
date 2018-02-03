@@ -67,7 +67,7 @@ window.onkeydown = function(e) {
 
 // Instead, step to the next frame.
 window.addEventListener('keydown', function(e) {
-  if (e.keyCode == 32) { UI.stepFrame(); }
+  if (e.keyCode == 32) UI.stepFrame();
 });
 
 //##############################################################################

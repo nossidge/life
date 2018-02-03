@@ -14,8 +14,8 @@ var STATE = ( function(mod) {
     if (typeof value !== 'undefined') {
       blurPercent = parseInt(value);
       blurAbsolute = blurMax - (blurMax * blurPercent / 100);
-      if (blurAbsolute == blurMax) { blurAbsolute = 1; }
-      if (UI.enabled) { UI.updateBlur(); }
+      if (blurAbsolute == blurMax) blurAbsolute = 1;
+      if (UI.enabled) UI.updateBlur();
     }
     return blurPercent;
   }
@@ -32,26 +32,26 @@ var STATE = ( function(mod) {
   let loopRates = [];
   let frameCount = 0;
   mod.currentRuleType = function(value) {
-    if (typeof value !== 'undefined') { currentRuleType = value; }
+    if (typeof value !== 'undefined') currentRuleType = value;
     return currentRuleType;
   }
   mod.lastCustomRuleName = function(value) {
-    if (typeof value !== 'undefined') { lastCustomRuleName = value; }
+    if (typeof value !== 'undefined') lastCustomRuleName = value;
     return lastCustomRuleName;
   }
   mod.loopType = function(value) {
-    if (typeof value !== 'undefined') { loopType = value; }
+    if (typeof value !== 'undefined') loopType = value;
     return loopType;
   }
   mod.loopRules = function(value) {
     if (typeof value !== 'undefined') {
       loopRules = value;
-      if (UI.enabled) { UI.updateLoopRules(); }
+      if (UI.enabled) UI.updateLoopRules();
     }
     return loopRules;
   }
   mod.loopRates = function(value) {
-    if (typeof value !== 'undefined') { loopRates = value; }
+    if (typeof value !== 'undefined') loopRates = value;
     return loopRates;
   }
 
@@ -69,7 +69,7 @@ var STATE = ( function(mod) {
 
         // Currently handles just 2 states.
         loopState = (loopState == 0) ? 1 : 0;
-        if (UI.enabled) { UI.updateRuleByName( loopRules[loopState] ); }
+        if (UI.enabled) UI.updateRuleByName( loopRules[loopState] );
       }
     }
   }

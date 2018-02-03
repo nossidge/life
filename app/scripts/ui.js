@@ -61,9 +61,7 @@ var UI = (function (mod) {
   }
   mod.updateColourLive = function(inputColour) {
     let strCol = String(inputColour);
-    if (strCol.charAt(0) != '#') {
-      strCol = '#' + strCol;
-    }
+    if (strCol.charAt(0) != '#') strCol = '#' + strCol;
     CELLS.colour(1, strCol);
     document.getElementById('jscolor_live').jscolor.fromString(strCol);
     if (colourLiveIsBackground) {
@@ -73,9 +71,7 @@ var UI = (function (mod) {
   }
   mod.updateColourDead = function(inputColour) {
     let strCol = String(inputColour);
-    if (strCol.charAt(0) != '#') {
-      strCol = '#' + strCol;
-    }
+    if (strCol.charAt(0) != '#') strCol = '#' + strCol;
     CELLS.colour(0, strCol);
     document.getElementById('jscolor_dead').jscolor.fromString(strCol);
     if (colourDeadIsText) {

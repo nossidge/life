@@ -66,12 +66,12 @@ var ANIMATION = ( function(mod) {
       let fr = parseInt(value);
       frameRate = fr;
       interval = 1000 / fr;
-      if (UI.enabled) { UI.updateFramerate(); }
+      if (UI.enabled) UI.updateFramerate();
     }
     return frameRate;
   }
   mod.stepToNextFrame = function(value) {
-    if (typeof value !== 'undefined') { stepToNextFrame = value; }
+    if (typeof value !== 'undefined') stepToNextFrame = value;
     return stepToNextFrame;
   }
 
