@@ -13,8 +13,7 @@ var Cell = ( function() {
     // Private variables.
     let x = _x * CELLS.cellPixels().x;
     let y = _y * CELLS.cellPixels().y;
-    let stateNow = 0;
-    let stateNext = 0;
+    let states = [0, 0];
 
     // Render the cell to the canvas.
     // {args} has two properties:
@@ -23,34 +22,34 @@ var Cell = ( function() {
     //   args.canvasContext
     //     Render to a canvas other than the main CANVAS element.
     this.render = function(args) {
-      stateNow = stateNext;
 
       // Don't render dead cells, to preserve the blur effect.
       // Or force write, if necessary.
-      if ( (stateNow != 0) || (args && args.force) ) {
+      if ( (states[0] != 0) || (args && args.force) ) {
         let c = CANVAS.c;
         if (args && args.canvasContext) c = args.canvasContext;
         let cp = CELLS.cellPixels();
-        c.fillStyle = CELLS.colour(stateNow);
+        c.fillStyle = CELLS.colour(states[0]);
         c.fillRect(x, y, cp.x, cp.y);
       }
     }
 
-    // 'state' should be 0 or 1 for alive or dead.
-    this.state = function(value, render) {
-      if (typeof value !== 'undefined') {
-        stateNext = value;
-        if (render) this.render({force: true});
+    // State value should be 0 or 1.
+    this.state = function(index, value) {
+      if ((typeof index !== 'undefined') && (typeof value !== 'undefined')) {
+        states[index] = value;
+      } else if (typeof index !== 'undefined') {
+        return states[index];
+      } else {
+        return states;
       }
-      return stateNow;
     }
-    this.stateNext = function(value) {
-      if (typeof value !== 'undefined') stateNext = value;
-      return stateNext;
-    }
-    this.stateNow = function(value) {
-      if (typeof value !== 'undefined') stateNow = value;
-      return stateNow;
+
+    // Move the values of the states downwards in the array.
+    // Unshift an empty value, and pop the oldest value.
+    this.stateUnshift = function() {
+      states.unshift(null);
+      states.pop();
     }
   };
 
@@ -157,7 +156,7 @@ var Cells = ( function() {
       neighbours[7] = cells[ (_x+1) % cc.x      ][ (_y+1) % cc.y ];
       let n = 0;
       for (let i = 0; i < 8; i++) {
-        if (neighbours[i].state() != 0) { n++; }
+        if (neighbours[i].state(1) != 0) n++;
       }
 
       // Survival
@@ -169,7 +168,7 @@ var Cells = ( function() {
       if (!booFound) { return 0; }
 
       // Birth
-      if (cells[_x][_y].state() == 0) {
+      if (cells[_x][_y].state(1) == 0) {
         booFound = false;
         for (let i = 0; i < RULES.rules[rt]['birth'].length; i++) {
           if (n==RULES.rules[rt]['birth'][i]) { booFound = true; }
@@ -184,8 +183,13 @@ var Cells = ( function() {
     this.nextPermutation = function() {
       for (let x = 0; x < cellCount.x; x++) {
         for (let y = 0; y < cellCount.y; y++) {
+          cells[x][y].stateUnshift();
+        }
+      }
+      for (let x = 0; x < cellCount.x; x++) {
+        for (let y = 0; y < cellCount.y; y++) {
           let nextState = this.calcNextState(x, y);
-          cells[x][y].stateNext(nextState);
+          cells[x][y].state(0, nextState);
         }
       }
     }
@@ -196,7 +200,7 @@ var Cells = ( function() {
       for (let i = 0; i < cellCount.x; i++) {
         let row = FUNCTIONS.pad(i, width, ' ') + ') ';
         for (let j = 0; j < cellCount.y; j++) {
-          row += cells[i][j].state();
+          row += cells[i][j].state(0);
         }
         console.log(row);
       }

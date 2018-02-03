@@ -29,7 +29,7 @@ var CANVAS = (function (mod) {
         for (let k = 0; k < coords.length; k++) {
           let x = coords[k][0];
           let y = coords[k][1];
-          cells.cells(x, y).state(state);
+          cells.cells(x, y).state(0, state);
         }
       }
     }
@@ -54,7 +54,7 @@ var CANVAS = (function (mod) {
       for (let j = -r; j <= r; j++) {
         theCell.x = centre.x + parseInt(i);
         theCell.y = centre.y + parseInt(j);
-        cells.cells(theCell.x, theCell.y).stateNext(1);
+        cells.cells(theCell.x, theCell.y).state(0, 1);
         cells.cells(theCell.x, theCell.y).render();
       }
     }
@@ -65,7 +65,7 @@ var CANVAS = (function (mod) {
     let cc = cells.cellCount();
     for (let i = 0; i < cc.x; i++) {
       for (let j = 0; j < cc.y; j++) {
-        cells.cells(i, j).stateNext(state);
+        cells.cells(i, j).state(0, state);
         cells.cells(i, j).render();
       }
     }
