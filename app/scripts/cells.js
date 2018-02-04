@@ -8,11 +8,12 @@
 var Cell = ( function() {
 
   // Instance constructor.
-  let me = function(_x, _y) {
+  let me = function(_x, _y, _cellPixels) {
 
     // Private variables.
-    let x = _x * CELLS.cellPixels().x;
-    let y = _y * CELLS.cellPixels().y;
+    let cellPixels = _cellPixels;
+    let x = _x * _cellPixels.x;
+    let y = _y * _cellPixels.y;
     let states = [0, 0];
 
     // Render the cell to the canvas.
@@ -21,16 +22,19 @@ var Cell = ( function() {
     //     Force the render, even on dead cells.
     //   args.canvasContext
     //     Render to a canvas other than the main CANVAS element.
+    //   args.colour
+    //     What colour to draw with.
     this.render = function(args) {
 
       // Don't render dead cells, to preserve the blur effect.
       // Or force write, if necessary.
       if ( (states[0] != 0) || (args && args.force) ) {
-        let c = CANVAS.c;
-        if (args && args.canvasContext) c = args.canvasContext;
-        let cp = CELLS.cellPixels();
-        c.fillStyle = CELLS.colour(states[0]);
-        c.fillRect(x, y, cp.x, cp.y);
+        let canvas = CANVAS.c;
+        let colour = CELLS.colour();
+        if (args && args.canvasContext) canvas = args.canvasContext;
+        if (args && args.colour) colour = args.colour;
+        canvas.fillStyle = colour[states[0]];
+        canvas.fillRect(x, y, cellPixels.x, cellPixels.y);
       }
     }
 
@@ -81,7 +85,7 @@ var Cells = ( function() {
       }
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
-          cells[i][j] = new Cell(i,j);
+          cells[i][j] = new Cell(i, j, cellPixels);
         }
       }
     }
@@ -133,7 +137,7 @@ var Cells = ( function() {
       }
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
-          CELLS.cells(i, j).render(args);
+          cells[i][j].render(args);
         }
       }
     }
