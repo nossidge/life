@@ -143,11 +143,11 @@ a {
 /* Change height to ensure proper squares. */
 /* Use borders & outlines to show active & inactive. */
 /* Use gradient to split each button in half. */
-#mirror_buttons input {
+#mirror_buttons input, #button_random {
   height: 53px;
   width: 53px;
 }
-#mirror_buttons .mirror_active {
+#mirror_buttons .mirror_active, #button_random {
   outline: 2px solid #000000;
 }
 #mirror_buttons .mirror_inactive {
