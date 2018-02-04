@@ -38,8 +38,8 @@ var KEYBOARD = ( function(mod) {
       case '9': UI.updateRuleByIndex(8); break;
       case '0': UI.updateRuleByIndex(9); break;
 
-      case 'Q': CANVAS.randomise(); break;
-      case 'W': CANVAS.randomiseCentralBlock(); break;
+      case 'Q': CANVAS.randomiseAndRender(); break;
+      case 'W': CANVAS.randomiseCentralBlockAndRender(); break;
 
       case 'Z': CANVAS.setAllCellsToState(1); break;
       case 'X': CANVAS.setAllCellsToState(0); break;

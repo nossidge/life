@@ -33,7 +33,9 @@ var CANVAS = (function (mod) {
         }
       }
     }
-
+  }
+  mod.randomiseAndRender = function(cells = CELLS) {
+    CANVAS.randomise(cells);
     cells.render({force: true});
   }
 
@@ -58,6 +60,10 @@ var CANVAS = (function (mod) {
         cells.cells(theCell.x, theCell.y).render();
       }
     }
+  }
+  mod.randomiseCentralBlockAndRender = function(cells = CELLS) {
+    CANVAS.randomiseCentralBlock(cells);
+    cells.render({force: true});
   }
 
   // Kill them all, or revive them all.

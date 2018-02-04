@@ -30,7 +30,7 @@ var ANIMATION = ( function(mod) {
 
     // Create empty cell object.
     CELLS.initialise();
-    CANVAS.randomiseCentralBlock();
+    CANVAS.randomiseCentralBlockAndRender();
     ANIMATION.drawScene();
   }
 
