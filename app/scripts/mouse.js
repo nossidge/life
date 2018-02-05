@@ -47,7 +47,7 @@ var MOUSE = ( function(mod) {
         let x = coords[i][0];
         let y = coords[i][1];
         CELLS.cells(x, y).state(0, state);
-        CELLS.cells(x, y).render({force: true});
+        CELLS.renderCell(x, y, {force: true});
       }
     }
   }

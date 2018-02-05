@@ -29,10 +29,8 @@ var Cell = ( function() {
       // Don't render dead cells, to preserve the blur effect.
       // Or force write, if necessary.
       if ( (states[0] != 0) || (args && args.force) ) {
-        let canvas = CANVAS.c;
-        let colour = CELLS.colour();
-        if (args && args.canvasContext) canvas = args.canvasContext;
-        if (args && args.colour) colour = args.colour;
+        let canvas = args.canvasContext;
+        let colour = args.colour;
         canvas.fillStyle = colour[states[0]];
         canvas.fillRect(x, y, cellPixels.x, cellPixels.y);
       }
@@ -129,15 +127,23 @@ var Cells = ( function() {
       return canvasContext;
     }
 
-    // Render all cells to the canvas.
-    this.render = function(args) {
+    // Render a specific cell to the canvas.
+    this.renderCell = function(x, y, args) {
       if (!args) args = {};
       if (typeof args.canvasContext === 'undefined') {
         args.canvasContext = canvasContext;
       }
+      if (typeof args.colour === 'undefined') {
+        args.colour = colour;
+      }
+      cells[x][y].render(args);
+    }
+
+    // Render all cells to the canvas.
+    this.render = function(args) {
       for (let i = 0; i < cellCount.x; i++) {
         for (let j = 0; j < cellCount.y; j++) {
-          cells[i][j].render(args);
+          this.renderCell(i, j, args);
         }
       }
     }
@@ -229,6 +235,7 @@ var CELLS = ( function(mod) {
   mod.colour = function(state, value) { return cells.colour(state, value); }
   mod.canvasContext = function(value) { return cells.canvasContext(value); }
   mod.render = function(args) { return cells.render(args); }
+  mod.renderCell = function(x, y, args) { return cells.renderCell(x, y, args); }
   mod.calcNextState = function(_x, _y) { return cells.calcNextState(_x, _y); }
   mod.nextPermutation = function() { return cells.nextPermutation(); }
   mod.console = function() { return cells.console(); }
