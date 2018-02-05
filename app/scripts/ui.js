@@ -384,6 +384,8 @@ var UI = (function (mod) {
     let cells = new Cells();
     cells.cellCount({ x: cc, y: cc });
     cells.cellPixels({ x: cp, y: cp });
+    cells.colour(0, CELLS.colour(0));
+    cells.colour(1, CELLS.colour(1));
     cells.canvasContext(c);
     cells.initialise();
 
@@ -392,9 +394,9 @@ var UI = (function (mod) {
     cells.render({ force: true });
 
     // Write the canvas image to the button background.
-    let imgData = a.toDataURL();
-    changecss('#button_random', 'background',
-              'url(' + imgData + ') no-repeat center');
+    let b = document.getElementById('button_random');
+    b.src = a.toDataURL();
+    b.style.border = '2px solid ' + CELLS.colour(1);
   }
 
   //############################################################################

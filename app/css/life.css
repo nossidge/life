@@ -143,15 +143,19 @@ a {
 /* Change height to ensure proper squares. */
 /* Use borders & outlines to show active & inactive. */
 /* Use gradient to split each button in half. */
-#mirror_buttons input, #button_random {
+#mirror_buttons input {
   height: 53px;
   width: 53px;
 }
-#mirror_buttons .mirror_active, #button_random {
+#mirror_buttons .mirror_active {
   outline: 2px solid #000000;
 }
 #mirror_buttons .mirror_inactive {
   border: 2px solid #000000;
+}
+#button_random {
+  border:  2px solid #E0B0FF;
+  outline: 2px solid #000000;
 }
 #mirror_buttons #mirror_ns {
   background-image: linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
