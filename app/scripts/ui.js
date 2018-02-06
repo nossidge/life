@@ -81,6 +81,7 @@ var UI = (function (mod) {
       FUNCTIONS.css('.border', 'border', '2px solid ' + strCol);
     }
     UI.drawButtonsAll();
+    changecss('a', 'color', strCol);
   }
   mod.setColourLiveIsBackground = function(value) {
     colourLiveIsBackground = value;
