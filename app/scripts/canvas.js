@@ -57,7 +57,6 @@ var CANVAS = (function (mod) {
         theCell.x = centre.x + parseInt(i);
         theCell.y = centre.y + parseInt(j);
         cells.cells(theCell.x, theCell.y).state(0, 1);
-        cells.renderCell(theCell.x, theCell.y);
       }
     }
   }

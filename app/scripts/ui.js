@@ -68,7 +68,7 @@ var UI = (function (mod) {
       changeMirrorButtons();
       document.body.style.backgroundColor = strCol;
     }
-    UI.drawButtonRandom();
+    UI.drawButtonsAll();
   }
   mod.updateColourDead = function(inputColour) {
     let strCol = String(inputColour);
@@ -80,7 +80,7 @@ var UI = (function (mod) {
       document.body.style.color = strCol;
       FUNCTIONS.css('.border', 'border', '2px solid ' + strCol);
     }
-    UI.drawButtonRandom();
+    UI.drawButtonsAll();
   }
   mod.setColourLiveIsBackground = function(value) {
     colourLiveIsBackground = value;
@@ -132,7 +132,7 @@ var UI = (function (mod) {
       elem.classList.remove('mirror_active');
       elem.classList.add('mirror_inactive');
     }
-    UI.drawButtonRandom();
+    UI.drawButtonsMirror();
   }
 
   mod.toggleMirrorNS = function() {
@@ -375,9 +375,10 @@ var UI = (function (mod) {
   //   draw a random pattern of cells,
   //   write to a hidden canvas,
   //   then copy the canvas to the img in the button anchor.
-  mod.drawButtonRandom = function() {
+  let buttonCells = function(noMirror, mirror) {
     let a = document.getElementById('little_hidden_canvas');
     let c = a.getContext('2d');
+    let b;
 
     // Create a new Cells instance.
     let cc = 11, cp = 4;
@@ -389,14 +390,44 @@ var UI = (function (mod) {
     cells.canvasContext(c);
     cells.initialise();
 
-    // Randomise cells according to symmetry and write to the hidden canvas.
-    CANVAS.randomise(cells);
-    cells.render({ force: true });
+    // For 'button_central_rectangle'.
+    if (noMirror) {
 
-    // Write the canvas image to the button background.
-    let b = document.getElementById('button_random');
-    b.src = a.toDataURL();
-    b.style.border = '2px solid ' + CELLS.colour(1);
+      // Draw a rectangle of cells and write to the hidden canvas.
+      let cx = cells.centreCell().x, cy = cells.centreCell().y;
+      for (let x = cx - 2; x <= cx + 2; x++) {
+        for (let y = cy - 2; y <= cy + 2; y++) {
+          cells.cells(x, y).state(0, 1);
+        }
+      }
+      cells.render({ force: true });
+
+      // Write the canvas image to the button background.
+      b = document.getElementById('button_central_rectangle');
+      b.src = a.toDataURL();
+      b.style.border = '2px solid ' + CELLS.colour(1);
+    }
+
+    // For 'button_random'.
+    if (mirror) {
+
+      // Randomise cells according to symmetry and write to the hidden canvas.
+      CANVAS.randomise(cells);
+      cells.render({ force: true });
+
+      // Write the canvas image to the button background.
+      b = document.getElementById('button_random');
+      b.src = a.toDataURL();
+      b.style.border = '2px solid ' + CELLS.colour(1);
+    }
+  }
+
+  // Public functions for the above.
+  mod.drawButtonsMirror = function() {
+    buttonCells(false, true);
+  }
+  mod.drawButtonsAll = function() {
+    buttonCells(true, true);
   }
 
   //############################################################################

@@ -213,14 +213,15 @@
                 <input type="button" id="mirror_nwse" title="diagonal" onclick="UI.toggleMirrorNWSE()">
               </div>
               <br>
-              <a href="#" title="Randomise cells" onclick="CANVAS.randomiseAndRender()">
-                <img id="button_random"></a>
-              <br>
+              <div id="randomise_buttons">
+                <div>Randomise Cells:</div>
+                <a href="#" title="Randomise cells" onclick="CANVAS.randomiseAndRender()">
+                  <img id="button_random"></a>
+                <a href="#" title="Draw central rectangle" onclick="CANVAS.randomiseCentralBlockAndRender()">
+                  <img id="button_central_rectangle"></a>
+              </div>
               <input type="button" value="Clear canvas and pause" onclick="CANVAS.clearAndPause()">
               <br>
-              <input type="button" value="Central rectangle" onclick="CANVAS.randomiseCentralBlockAndRender()">
-              <br>
-
             </details>
           </div>
 

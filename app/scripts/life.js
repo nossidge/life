@@ -84,7 +84,7 @@ function checkLifeRules() {
   UI.toggleMirrorEW();
   UI.toggleMirrorNESW();
   UI.toggleMirrorNWSE();
-  UI.drawButtonRandom();
+  UI.drawButtonsAll();
 })();
 
 //##############################################################################
