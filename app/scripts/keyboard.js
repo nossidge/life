@@ -26,6 +26,7 @@ var KEYBOARD = ( function(mod) {
       case 'A': console.log(window); break;
 
       case 'P': ANIMATION.pausedToggle(); break;
+      case 'O': CANVAS.clearAndPause(); break;
 
       case '1': UI.updateRuleByIndex(0); break;
       case '2': UI.updateRuleByIndex(1); break;

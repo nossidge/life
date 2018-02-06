@@ -14,6 +14,7 @@
           <p hidden>Yet another Life implementation.</p>
         </div>
         <div class="header_left">
+          <input id="button_stop" type="button" title="Keyboard: o" value="&#11035;" onclick="CANVAS.clearAndPause()">
           <input id="button_pause" type="button" title="Keyboard: p" value="&#10073;&#10073;" onclick="ANIMATION.pausedToggle()">
           <input id="button_step" type="button" title="Keyboard: space" value="&#10073;&#9658;" onclick="UI.stepFrame()">
         </div>
@@ -220,8 +221,6 @@
                 <a href="#" title="Draw central rectangle" onclick="CANVAS.randomiseCentralBlockAndRender()">
                   <img id="button_central_rectangle"></a>
               </div>
-              <input type="button" value="Clear canvas and pause" onclick="CANVAS.clearAndPause()">
-              <br>
             </details>
           </div>
 
