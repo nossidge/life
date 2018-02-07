@@ -1,60 +1,6 @@
 
 //##############################################################################
 
-// Check to see if the chosen Birth/Survival checkboxes match an existing rule.
-function checkLifeRules() {
-
-  // Make arrays of each rule type.
-  let birth = [];
-  let survival = [];
-  for (let i = 0; i <= 8; i++) {
-    if (document.getElementById('birth_' + i).checked) {
-      birth.push(i);
-    }
-    if (document.getElementById('survival_' + i).checked) {
-      survival.push(i);
-    }
-  }
-
-  // Convert to string for hacky array comparison.
-  strBirth    = JSON.stringify(birth);
-  strSurvival = JSON.stringify(survival);
-
-  // Check each in { EPILEPSY.validLifeRules() } for a match.
-  let ruleMatched = false;
-  for (let ruleName in EPILEPSY.validLifeRules()) {
-    if (RULES.rules.hasOwnProperty(ruleName)) {
-
-      // Convert to string for hacky array comparison.
-      thisBirth    = JSON.stringify(RULES.rules[ruleName]['birth']);
-      thisSurvival = JSON.stringify(RULES.rules[ruleName]['survival']);
-
-      // Don't match to a 'custom' rule.
-      let isCustom = RULES.rules[ruleName].hasOwnProperty('custom');
-
-      if (!isCustom && strBirth == thisBirth && strSurvival == thisSurvival) {
-        FUNCTIONS.puts('ruleMatched = true');
-
-        // Select the rule.
-        UI.updateRuleByName(ruleName);
-        ruleMatched = true;
-      }
-    }
-  }
-
-  // Select previous 'Custom' if not rule matched.
-  if (!ruleMatched) {
-    ruleName = STATE.lastCustomRuleName();
-
-    // Update custom to the new options.
-    RULES.rules[ruleName]['birth'] = birth;
-    RULES.rules[ruleName]['survival'] = survival;
-    UI.updateRuleByName(ruleName);
-  }
-}
-
-//##############################################################################
-
 // Init function.
 (function() {
   let cc = CELLS.cellCount();
