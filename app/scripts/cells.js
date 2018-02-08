@@ -47,6 +47,11 @@ var Cell = ( function() {
       }
     }
 
+    // Return the state array as a string.
+    this.stateAsString = function() {
+      return states.toString().replace(/\,/g,'');
+    }
+
     // Move the values of the states downwards in the array.
     // Unshift an empty value, and pop the oldest value.
     this.stateUnshift = function() {

@@ -40,26 +40,27 @@ function stateSave() {
   let cc = CELLS.cellCount();
   let cp = CELLS.cellPixels();
 
-  let states = 'cellState=';
+  let variables = 'cellState=';
   for (let i = 0; i < cc.x; i++) {
     for (let j = 0; j < cc.y; j++) {
-      states += CELLS.cells(i, j).state();
+      variables += CELLS.cells(i, j).stateAsString() + ';';
     }
   }
+  variables = variables.slice(0, -1);
 
-  states += ',cellCount.x=' + cc.x;
-  states += ',cellCount.y=' + cc.y;
-  states += ',cellPixels.x=' + cp.x;
-  states += ',cellPixels.y=' + cp.y;
-  states += ',frameRate=' + ANIMATION.frameRate();
-  states += ',blurPercent=' + STATE.blurPercent();
-  states += ',fillColourDead=' + CELLS.colour(0);
-  states += ',fillColourAlive=' + CELLS.colour(1);
-  states += ',currentRuleType=' + STATE.currentRuleType();
+  variables += ',cellCount.x=' + cc.x;
+  variables += ',cellCount.y=' + cc.y;
+  variables += ',cellPixels.x=' + cp.x;
+  variables += ',cellPixels.y=' + cp.y;
+  variables += ',frameRate=' + ANIMATION.frameRate();
+  variables += ',blurPercent=' + STATE.blurPercent();
+  variables += ',fillColourDead=' + CELLS.colour(0);
+  variables += ',fillColourAlive=' + CELLS.colour(1);
+  variables += ',currentRuleType=' + STATE.currentRuleType();
 
-  states = lzw_encode(states);
+  variables = lzw_encode(variables);
 
-  document.getElementById('state_text').value = states;
+  document.getElementById('state_text').value = variables;
   document.getElementById('state_text').select();
 }
 
@@ -72,11 +73,11 @@ function stateLoad() {
   document.getElementById('state_text').value = fullState;
 
   // Load the variables first, before we draw the cells.
-  let states = fullState.split(',');
-  for (let i = 1; i < states.length; i++) {
+  let variables = fullState.split(',');
+  for (let i = 1; i < variables.length; i++) {
 
-    // 'states[i]' is in the form 'variable="value"'
-    let split = states[i].split('=');
+    // 'variables[i]' is in the form 'variable="value"'
+    let split = variables[i].split('=');
     let variable = split[0];
     let value = split[1];
 
@@ -119,21 +120,21 @@ function stateLoad() {
   // Redraw the canvas.
   UI.clickRedrawButton();
 
-  // Load the cell states to the canvas.
-  let cellStateString = String( states[0].split('=')[1] );
+  // Load the cell states from the variables array.
+  let cellStates = variables[0].split('=')[1].split(';');
 
   // Loop through all the cells.
-  let state;
-  let cc = CELLS.cellCount();
+  let counter = 0, cc = CELLS.cellCount();
   for (let i = 0; i < cc.x; i++) {
     for (let j = 0; j < cc.y; j++) {
 
-      // Set the state.
-      state = parseInt( cellStateString.charAt(0) );
-      CELLS.cells(i, j).state(state);
-
-      // Remove the first character of the string.
-      cellStateString = cellStateString.substring(1)
+      // Set the state at each index.
+      let cellState = cellStates[counter];
+      for (let k = 0; k < cellState.length; k++) {
+        let state = parseInt( cellState.charAt(0) );
+        CELLS.cells(i, j).state(0, state);
+      }
+      counter++;
     }
   }
 
