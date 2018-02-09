@@ -123,6 +123,113 @@ var STATE = ( function(mod) {
     FUNCTIONS.puts('updateLoopRate -- index:' + index + '  value:' + value);
   }
 
+  //############################################################################
+
+  // Save the state of the automation.
+  mod.save = function() {
+    let cc = CELLS.cellCount();
+    let cp = CELLS.cellPixels();
+
+    let variables = 'cellState=';
+    for (let i = 0; i < cc.x; i++) {
+      for (let j = 0; j < cc.y; j++) {
+        variables += CELLS.cells(i, j).stateAsString() + ';';
+      }
+    }
+    variables = variables.slice(0, -1);
+
+    variables += ',cellCount.x=' + cc.x;
+    variables += ',cellCount.y=' + cc.y;
+    variables += ',cellPixels.x=' + cp.x;
+    variables += ',cellPixels.y=' + cp.y;
+    variables += ',frameRate=' + ANIMATION.frameRate();
+    variables += ',blurPercent=' + STATE.blurPercent();
+    variables += ',fillColourDead=' + CELLS.colour(0);
+    variables += ',fillColourAlive=' + CELLS.colour(1);
+    variables += ',currentRuleType=' + STATE.currentRuleType();
+
+    variables = lzw_encode(variables);
+
+    document.getElementById('state_text').value = variables;
+    document.getElementById('state_text').select();
+  }
+
+  // Load the state of the automation.
+  mod.load = function() {
+    let fullState = document.getElementById('state_text').value;
+    fullState = lzw_decode(fullState);
+
+    document.getElementById('state_text').value = fullState;
+
+    // Load the variables first, before we draw the cells.
+    let variables = fullState.split(',');
+    for (let i = 1; i < variables.length; i++) {
+
+      // 'variables[i]' is in the form 'variable="value"'
+      let split = variables[i].split('=');
+      let variable = split[0];
+      let value = split[1];
+
+      // Change the required variable.
+      switch( variable ) {
+        case 'cellCount.x':
+          FUNCTIONS.updateDOMValue('range_width',value);
+          FUNCTIONS.updateDOMInnerHTML('span_width',value);
+          break;
+        case 'cellCount.y':
+          FUNCTIONS.updateDOMValue('range_height',value);
+          FUNCTIONS.updateDOMInnerHTML('span_height',value);
+          break;
+        case 'cellPixels.x':
+          FUNCTIONS.updateDOMValue('range_pixels',value);
+          FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
+          break;
+    /*  case 'cellPixels.y':
+          FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
+          break;  */
+        case 'frameRate':
+          ANIMATION.frameRate(value);
+          break;
+        case 'blurPercent':
+          STATE.blurPercent(value);
+          break;
+        case 'fillColourDead':
+          UI.updateColourDead(value);
+          break;
+        case 'fillColourAlive':
+          UI.updateColourLive(value);
+          break;
+        case 'currentRuleType':
+          UI.updateRuleByName(value)
+          break;
+        default: break;
+      }
+    }
+
+    // Redraw the canvas.
+    UI.clickRedrawButton();
+
+    // Load the cell states from the variables array.
+    let cellStates = variables[0].split('=')[1].split(';');
+
+    // Loop through all the cells.
+    let counter = 0, cc = CELLS.cellCount();
+    for (let i = 0; i < cc.x; i++) {
+      for (let j = 0; j < cc.y; j++) {
+
+        // Set the state at each index.
+        let cellState = cellStates[counter];
+        for (let k = 0; k < cellState.length; k++) {
+          let state = parseInt( cellState.charAt(k) );
+          CELLS.cells(i, j).state(k, state);
+        }
+        counter++;
+      }
+    }
+
+    CELLS.render({force: true});
+  }
+
   return mod;
 }(STATE || {}));
 
