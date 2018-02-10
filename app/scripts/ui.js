@@ -345,6 +345,20 @@ var UI = (function (mod) {
     document.getElementById('button_pause').style.background = colour;
   }
 
+  mod.updateCanvasSize = function() {
+    let cc = CELLS.cellCount();
+    document.getElementById('range_width').value = cc.x;
+    document.getElementById('span_width').innerHTML = cc.x;
+    document.getElementById('range_height').value = cc.y;
+    document.getElementById('span_height').innerHTML = cc.y;
+  }
+
+  mod.updatePixelSize = function() {
+    let cp = CELLS.cellPixels();
+    document.getElementById('range_pixels').value = cp.x;
+    document.getElementById('span_pixels').innerHTML = cp.x;
+  }
+
   //############################################################################
 
   // Check to see if the chosen Birth/Survival options match an existing rule.

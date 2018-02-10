@@ -4,7 +4,7 @@
 // Init function.
 (function() {
   let cc = {x: 99, y: 99};
-  let cp = {x: 5,  y: 5};
+  let cp = {x: 8,  y: 8};
   CELLS.cellCount(cc);
   CELLS.cellPixels(cp);
 
@@ -17,10 +17,8 @@
   EPILEPSY.setEpilepsy(true);
   UI.HtmlLifeRulesDropDowns();
   UI.HtmlLoopTypeDropDown();
-  FUNCTIONS.updateDOMInnerHTML('span_width', cc.x);
-  FUNCTIONS.updateDOMInnerHTML('span_height', cc.y);
-  FUNCTIONS.updateDOMInnerHTML('span_pixels', cp.x);
-  FUNCTIONS.updateDOMValue('range_pixels', cp.x);
+  UI.updateCanvasSize();
+  UI.updatePixelSize();
   UI.setColourLiveIsBackground(true);
   UI.setColourDeadIsText(true);
   UI.toggleHtmlLoopTypeDesc();
