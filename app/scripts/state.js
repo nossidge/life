@@ -133,7 +133,7 @@ var STATE = ( function(mod) {
     let variables = 'cellState=';
     for (let i = 0; i < cc.x; i++) {
       for (let j = 0; j < cc.y; j++) {
-        variables += CELLS.cells(i, j).stateAsString() + ';';
+        variables += CELLS.cells(i, j).stateAsString();
       }
     }
     variables = variables.slice(0, -1);
@@ -144,8 +144,8 @@ var STATE = ( function(mod) {
     variables += ',cellPixels.y=' + cp.y;
     variables += ',frameRate=' + ANIMATION.frameRate();
     variables += ',blurPercent=' + STATE.blurPercent();
-    variables += ',fillColourDead=' + CELLS.colour(0);
-    variables += ',fillColourAlive=' + CELLS.colour(1);
+    variables += ',fillColourDead=' + CELLS.colourHexOnly(0);
+    variables += ',fillColourAlive=' + CELLS.colourHexOnly(1);
     variables += ',currentRuleType=' + STATE.currentRuleType();
 
     variables = lzw_encode(variables);
@@ -155,8 +155,10 @@ var STATE = ( function(mod) {
   }
 
   // Load the state of the automation.
-  mod.load = function() {
-    let fullState = document.getElementById('state_text').value;
+  mod.load = function(fullState) {
+    if (typeof fullState === 'undefined') {
+      fullState = document.getElementById('state_text').value;
+    }
     fullState = lzw_decode(fullState);
 
     document.getElementById('state_text').value = fullState;
@@ -194,10 +196,10 @@ var STATE = ( function(mod) {
           STATE.blurPercent(value);
           break;
         case 'fillColourDead':
-          UI.updateColourDead(value);
+          UI.updateColourDead('#' + value);
           break;
         case 'fillColourAlive':
-          UI.updateColourLive(value);
+          UI.updateColourLive('#' + value);
           break;
         case 'currentRuleType':
           UI.updateRuleByName(value)
@@ -210,7 +212,7 @@ var STATE = ( function(mod) {
     UI.clickRedrawButton();
 
     // Load the cell states from the variables array.
-    let cellStates = variables[0].split('=')[1].split(';');
+    let cellStates = variables[0].split('=')[1].match(/.{1,2}/g);
 
     // Loop through all the cells.
     let counter = 0, cc = CELLS.cellCount();

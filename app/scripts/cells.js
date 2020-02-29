@@ -127,6 +127,9 @@ var Cells = ( function() {
         return colour;
       }
     }
+    this.colourHexOnly = function(state) {
+      return this.colour(state).replace('#', '');
+    }
     this.canvasContext = function(value) {
       if (typeof value !== 'undefined') canvasContext = value;
       return canvasContext;
@@ -238,6 +241,7 @@ var CELLS = ( function(mod) {
   mod.cellPixels = function(value) { return cells.cellPixels(value); }
   mod.centreCell = function() { return cells.centreCell(); }
   mod.colour = function(state, value) { return cells.colour(state, value); }
+  mod.colourHexOnly = function(state) { return cells.colourHexOnly(state); }
   mod.canvasContext = function(value) { return cells.canvasContext(value); }
   mod.render = function(args) { return cells.render(args); }
   mod.renderCell = function(x, y, args) { return cells.renderCell(x, y, args); }
