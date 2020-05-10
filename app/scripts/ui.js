@@ -343,6 +343,15 @@ var UI = (function (mod) {
   mod.updatePaused = function() {
     let colour = ANIMATION.paused() ? '#E94E77' : '';
     document.getElementById('button_pause').style.background = colour;
+
+    let icon = document.getElementById('button_pause_icon');
+    if (ANIMATION.paused()) {
+      icon.classList.add('fa-play');
+      icon.classList.remove('fa-pause');
+    } else {
+      icon.classList.remove('fa-play');
+      icon.classList.add('fa-pause');
+    }
   }
 
   mod.updateCanvasSize = function() {

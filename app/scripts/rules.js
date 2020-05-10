@@ -127,6 +127,11 @@ var RULES = (function (mod) {
       "birth": [1,5],
       "survival": [0,3,4,5,7]
     },
+    "Stabilised Amoeba": {
+      "description": 'Stabilises into amoeba-like cells',
+      "birth": [3,4,7],
+      "survival": [4,5,6,7]
+    },
 
     "(custom 1)": {
       "description": "Custom 1.",

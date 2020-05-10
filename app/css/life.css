@@ -64,6 +64,11 @@ input[type=button]{
   margin-top: 5px;
   padding: 8px 25px;
 }
+button[type=button]{
+  font-size: 110%;
+  margin-top: 5px;
+  padding: 8px 25px;
+}
 
 /* Radio button labels */
 .selected         { color: #FFFFFF; }
