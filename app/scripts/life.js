@@ -3,10 +3,11 @@
 
 // Init function.
 (function() {
-  let stateArg = new URLSearchParams(window.location.search).get('s');
+  let stateArg = new URLSearchParams(window.location.search).get('cellState');
   if (stateArg) {
     window.onload = function() {
-      STATE.load(stateArg);
+      let urlParamsObj = FUNCTIONS.serialiseFromURLParams(window.location.search);
+      STATE.load(urlParamsObj);
     };
   } else {
     let cc = {x: 99, y: 99};

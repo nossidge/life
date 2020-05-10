@@ -125,94 +125,73 @@ var STATE = ( function(mod) {
 
   //############################################################################
 
-  // Save the state of the automation.
-  mod.save = function() {
+  mod.toHash = function() {
+    let h = {};
     let cc = CELLS.cellCount();
     let cp = CELLS.cellPixels();
 
-    let variables = 'cellState=';
+    let cellState = '';
     for (let i = 0; i < cc.x; i++) {
       for (let j = 0; j < cc.y; j++) {
-        variables += CELLS.cells(i, j).stateAsString();
+        cellState += CELLS.cells(i, j).stateAsString();
       }
     }
-    variables = variables.slice(0, -1);
 
-    variables += ',cellCount.x=' + cc.x;
-    variables += ',cellCount.y=' + cc.y;
-    variables += ',cellPixels.x=' + cp.x;
-    variables += ',cellPixels.y=' + cp.y;
-    variables += ',frameRate=' + ANIMATION.frameRate();
-    variables += ',blurPercent=' + STATE.blurPercent();
-    variables += ',fillColourDead=' + CELLS.colourHexOnly(0);
-    variables += ',fillColourAlive=' + CELLS.colourHexOnly(1);
-    variables += ',currentRuleType=' + STATE.currentRuleType();
+    h.cellState = lzw_encode(cellState);
+    h.cellCount_x = cc.x;
+    h.cellCount_y = cc.y;
+    h.cellPixels_x = cp.x;
+    h.cellPixels_y = cp.y;
+    h.frameRate = ANIMATION.frameRate();
+    h.blurPercent = STATE.blurPercent();
+    h.fillColourDead = CELLS.colourHexOnly(0);
+    h.fillColourAlive = CELLS.colourHexOnly(1);
+    h.currentRuleType = STATE.currentRuleType();
 
-    variables = lzw_encode(variables);
-
-    document.getElementById('state_text').value = variables;
-    document.getElementById('state_text').select();
+    return h;
   }
 
-  // Load the state of the automation.
-  mod.load = function(fullState) {
+  // Save the state of the automation.
+  mod.save = function() {
+    let variables = FUNCTIONS.serialiseToURLParams(STATE.toHash());
+    let baseURL = location.protocol + '//' + location.host + location.pathname;
+    let stateURL = baseURL + '?' + variables;
+
+    document.getElementById('state_text').value = stateURL;
+    document.getElementById('state_text').select();
+
+    let elemHTML = "<p><a href='" + stateURL + "'>test</a></p>"
+    FUNCTIONS.updateDOMInnerHTML('saved_url', elemHTML);
+  }
+
+  // Load the state of the automation from the passed object.
+  mod.load = function(stateObject) {
+
+    /*
+    TODO: Need to be able to read from String as well.
     if (typeof fullState === 'undefined') {
       fullState = document.getElementById('state_text').value;
     }
-    fullState = lzw_decode(fullState);
+    */
+    stateObject.cellState = lzw_decode(stateObject.cellState);
 
-    document.getElementById('state_text').value = fullState;
-
-    // Load the variables first, before we draw the cells.
-    let variables = fullState.split(',');
-    for (let i = 1; i < variables.length; i++) {
-
-      // 'variables[i]' is in the form 'variable="value"'
-      let split = variables[i].split('=');
-      let variable = split[0];
-      let value = split[1];
-
-      // Change the required variable.
-      switch( variable ) {
-        case 'cellCount.x':
-          FUNCTIONS.updateDOMValue('range_width',value);
-          FUNCTIONS.updateDOMInnerHTML('span_width',value);
-          break;
-        case 'cellCount.y':
-          FUNCTIONS.updateDOMValue('range_height',value);
-          FUNCTIONS.updateDOMInnerHTML('span_height',value);
-          break;
-        case 'cellPixels.x':
-          FUNCTIONS.updateDOMValue('range_pixels',value);
-          FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
-          break;
-    /*  case 'cellPixels.y':
-          FUNCTIONS.updateDOMInnerHTML('span_pixels',value);
-          break;  */
-        case 'frameRate':
-          ANIMATION.frameRate(value);
-          break;
-        case 'blurPercent':
-          STATE.blurPercent(value);
-          break;
-        case 'fillColourDead':
-          UI.updateColourDead('#' + value);
-          break;
-        case 'fillColourAlive':
-          UI.updateColourLive('#' + value);
-          break;
-        case 'currentRuleType':
-          UI.updateRuleByName(value)
-          break;
-        default: break;
-      }
-    }
+    FUNCTIONS.updateDOMValue('range_width', stateObject.cellCount_x);
+    FUNCTIONS.updateDOMInnerHTML('span_width', stateObject.cellCount_x);
+    FUNCTIONS.updateDOMValue('range_height', stateObject.cellCount_y);
+    FUNCTIONS.updateDOMInnerHTML('span_height', stateObject.cellCount_y);
+    FUNCTIONS.updateDOMValue('range_pixels', stateObject.cellPixels_x);
+    FUNCTIONS.updateDOMInnerHTML('span_pixels', stateObject.cellPixels_x);
+    ANIMATION.frameRate(stateObject.frameRate);
+    STATE.blurPercent(stateObject.blurPercent);
+    UI.updateColourDead('#' + stateObject.fillColourDead);
+    UI.updateColourLive('#' + stateObject.fillColourAlive);
+    UI.updateRuleByName(stateObject.currentRuleType)
 
     // Redraw the canvas.
     UI.clickRedrawButton();
 
     // Load the cell states from the variables array.
-    let cellStates = variables[0].split('=')[1].match(/.{1,2}/g);
+    let cellStates = stateObject.cellState.match(/.{1,2}/g);
 
     // Loop through all the cells.
     let counter = 0, cc = CELLS.cellCount();
