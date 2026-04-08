@@ -1,4 +1,3 @@
-
 //##############################################################################
 // Module to store writing to the canvas element.
 //##############################################################################
@@ -12,7 +11,7 @@ var CANVAS = (function (mod) {
   mod.c = c;
 
   // Initialize a fraction of the cells to start in their "alive" state.
-  mod.randomise = function(cells = CELLS) {
+  mod.randomise = function (cells = CELLS) {
     let limit = {
       x: cells.cellCount().x,
       y: cells.cellCount().y
@@ -22,7 +21,7 @@ var CANVAS = (function (mod) {
 
     for (let i = 0; i < limit.x; i++) {
       for (let j = 0; j < limit.y; j++) {
-        let state = FUNCTIONS.rand(0,1,1);
+        let state = FUNCTIONS.rand(0, 1, 1);
 
         // Change based on mirror variables.
         let coords = UI.getMirrorCellCoords(i, j, cells);
@@ -34,14 +33,14 @@ var CANVAS = (function (mod) {
       }
     }
   }
-  mod.randomiseAndRender = function(cells = CELLS) {
+  mod.randomiseAndRender = function (cells = CELLS) {
     CANVAS.randomise(cells);
-    cells.render({force: true});
+    cells.render({ force: true });
   }
 
   // Only works when width & height of the canvas is odd.
   // Currently, use the UI to force an odd value.
-  mod.randomiseCentralBlock = function(cells = CELLS) {
+  mod.randomiseCentralBlock = function (cells = CELLS) {
 
     // Radius of central cells.
     let cc = cells.cellCount();
@@ -50,7 +49,7 @@ var CANVAS = (function (mod) {
     let r = FUNCTIONS.rand(minR, maxR, 1);
 
     // Set all the cells in the radius to live.
-    let theCell = {x: 0,  y: 0};
+    let theCell = { x: 0, y: 0 };
     let centre = cells.centreCell();
     for (let i = -r; i <= r; i++) {
       for (let j = -r; j <= r; j++) {
@@ -60,13 +59,13 @@ var CANVAS = (function (mod) {
       }
     }
   }
-  mod.randomiseCentralBlockAndRender = function(cells = CELLS) {
+  mod.randomiseCentralBlockAndRender = function (cells = CELLS) {
     CANVAS.randomiseCentralBlock(cells);
-    cells.render({force: true});
+    cells.render({ force: true });
   }
 
   // Kill them all, or revive them all.
-  mod.setAllCellsToState = function(state, cells = CELLS) {
+  mod.setAllCellsToState = function (state, cells = CELLS) {
     let cc = cells.cellCount();
     for (let i = 0; i < cc.x; i++) {
       for (let j = 0; j < cc.y; j++) {
@@ -81,7 +80,7 @@ var CANVAS = (function (mod) {
   }
 
   // Pause and get a blank screen.
-  mod.clearAndPause = function(state, cells = CELLS) {
+  mod.clearAndPause = function (state, cells = CELLS) {
     ANIMATION.paused(true);
     CANVAS.setAllCellsToState(0, cells);
   }

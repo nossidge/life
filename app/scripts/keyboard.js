@@ -1,16 +1,15 @@
-
 //##############################################################################
 // Module for keyboard events.
 //##############################################################################
 
-var KEYBOARD = ( function(mod) {
+var KEYBOARD = (function (mod) {
 
   // Get the button being pressed.
   // http://javascript.info/tutorial/keyboard-events
-  mod.getChar = function(e) {
+  mod.getChar = function (e) {
     if (e.which == null) {
       return String.fromCharCode(e.keyCode); // IE
-    } else if (e.which!=0 && e.charCode!=0) {
+    } else if (e.which != 0 && e.charCode != 0) {
       return String.fromCharCode(e.which);   // the rest
     } else {
       return null; // special key
@@ -18,10 +17,10 @@ var KEYBOARD = ( function(mod) {
   }
 
   // Perform different functions based on the key pressed.
-  mod.onkeypress = function(e) {
+  mod.onkeypress = function (e) {
     let char = KEYBOARD.getChar(e || window.event);
     if (!char) return;
-    switch( char.toUpperCase() ) {
+    switch (char.toUpperCase()) {
 
       case 'A': console.log(window); break;
 
@@ -57,17 +56,17 @@ var KEYBOARD = ( function(mod) {
 
 // Handle most of the key press functions.
 // (All except spacebar).
-window.onkeypress = function(e) {
+window.onkeypress = function (e) {
   KEYBOARD.onkeypress(e);
 }
 
 // Disable the spacebar's default scroll down behaviour.
-window.onkeydown = function(e) {
+window.onkeydown = function (e) {
   return !(e.keyCode == 32);
 };
 
 // Instead, step to the next frame.
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
   if (e.keyCode == 32) UI.stepFrame();
 });
 

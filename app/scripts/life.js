@@ -1,20 +1,19 @@
-
 //##############################################################################
 
 // Init function.
-(function() {
+(function () {
   let stateArg = new URLSearchParams(window.location.search).get('cellState');
   if (stateArg) {
-    window.onload = function() {
+    window.onload = function () {
       let urlParamsObj = FUNCTIONS.serialiseFromURLParams(window.location.search);
       STATE.load(urlParamsObj);
     };
   } else {
-    let cc = {x: 99, y: 99};
-    let cp = {x: 8,  y: 8};
+    let cc = { x: 99, y: 99 };
+    let cp = { x: 8, y: 8 };
     CELLS.cellCount(cc);
     CELLS.cellPixels(cp);
-    CANVAS.a.width  = cc.x * cp.x;
+    CANVAS.a.width = cc.x * cp.x;
     CANVAS.a.height = cc.y * cp.y;
 
     UI.updateRuleByName(STATE.currentRuleType());
@@ -25,8 +24,8 @@
     UI.updatePixelSize();
     UI.setColourLiveIsBackground(true);
     UI.setColourDeadIsText(true);
-    UI.toggleHtmlLoopTypeDesc();
-    UI.toggleHtmlRulesDesc();
+    // UI.toggleHtmlLoopTypeDesc();
+    // UI.toggleHtmlRulesDesc();
     STATE.updateLoopRate(0, 20);
     STATE.updateLoopRate(1, 20);
     STATE.updateLoopRule(0, 'Conway');

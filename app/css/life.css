@@ -1,193 +1,417 @@
-/* https://philipwalton.github.io/solved-by-flexbox/demos/holy-grail/ */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+  --ink: #0a0a0a;
+  --paper: #F0EBE0;
+  --panel: #F0EBE0;
+  --grey: #0a0a0a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 0px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Courier Prime', 'Lucida Console', Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
 }
+
+/* ── Header ────────────────────────────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  gap: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.header_title {
+  flex: 1;
+  text-align: center;
+}
+
+.header_title h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0;
+}
+
+.header_left {
+  display: flex;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.header_right {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+/* ── Layout ────────────────────────────────────────────────────── */
+
 .contents {
   display: flex;
   flex-direction: column;
-}
-.col_right {
   flex: 1;
 }
-.col_left {
-  flex: 0 0 12em;
-  order: -1;
-  overflow: auto;
+
+.col_right {
+  flex: 1;
+  padding: 12px;
 }
 
-.border {
-  border: 2px solid #000000;
+.col_left {
+  order: -1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border-right: 2px solid var(--ink);
 }
 
 @media (min-width: 768px) {
   .contents {
     flex-direction: row;
-    flex: 1;
   }
-  .col_right {
-    flex: 1;
-  }
+
   .col_left {
-    flex: 0 0 32em;
+    flex: 0 0 34em;
   }
 }
 
-body {
-  background-color: #E0B0FF;
-  font-family: "Lucida Console", Monaco, monospace;
-  text-align: center;
-  color: #000000;
-}
-.col_left, .col_right {
-  padding: 8px;
-}
 .canvas {
   text-align: left;
   cursor: default;
 }
 
-summary {
-  font-weight: bold;
-  font-size: 1.3em;
-  padding: 5px;
+/* ── .border class (used by JS for dynamic border colour) ──────── */
+
+.border {
+  border: 2px solid var(--ink);
 }
 
-/* Submit button */
-#submit {
-  margin: 20px;
-}
-input[type=button]{
-  font-size: 110%;
-  margin-top: 5px;
-  padding: 8px 25px;
-}
-button[type=button]{
-  font-size: 110%;
-  margin-top: 5px;
-  padding: 8px 25px;
-}
+/* ── Tab navigation ────────────────────────────────────────────── */
 
-/* Radio button labels */
-.selected         { color: #FFFFFF; }
-.unselected       { color: #000000; }
-.unselected:hover { color: #66FFFF; }
-
-/* Flex of the header and footer */
-footer {
-  padding: 0px;
-}
-.header_div, .footer_div {
-  justify-content: flex-start;
+.tab-nav {
   display: flex;
-  flex: 1;
-}
-.header_title, .footer_title {
-  flex: 1;
-  order: 0;
-}
-.header_left, .footer_left {
-  text-align: left;
-  margin-left: 9px;
-  flex: 0 0 260px;
-  order: -1;
-}
-.header_right, .footer_right {
-  text-align: right;
-  margin-right: 9px;
-  flex: 0 0 260px;
-  order: 1;
-}
-.footer_title, .footer_left, .footer_right {
-  margin: 8px;
+  border-bottom: 2px solid var(--ink);
+  flex-shrink: 0;
 }
 
-/* Select option drop down */
-select {
-  font-family: "Lucida Console", Monaco, monospace;
-  font-size: 110%;
-  padding: 4px 2px 2px 2px;
-}
-
-summary {
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--ink);
+  padding: 12px 0;
+  font-size: 16px;
+  color: var(--ink);
   cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  position: relative;
 }
 
-table.centre {
-  margin-left:auto;
-  margin-right:auto;
+.tab-btn:last-child {
+  border-right: none;
+}
+
+.tab-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.tab-btn.active {
+  background: var(--panel);
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--panel);
+}
+
+/* ── Tab panels ────────────────────────────────────────────────── */
+
+.tab-panels {
+  flex: 1;
+  overflow: auto;
+  padding: 18px 20px;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ── Control labels (section titles) ───────────────────────────── */
+
+.ctrl-label {
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.ctrl-hint {
+  font-size: 12px;
+  color: var(--grey);
+  margin-bottom: 10px;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+
+input[type=button],
+button[type=button] {
+  background: none;
+  border: 2px solid var(--ink);
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px;
+  padding: 6px 16px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+input[type=button]:hover,
+button[type=button]:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+input[type=button]:active,
+button[type=button]:active {
+  transform: translateY(1px);
+}
+
+#submit {
+  margin: 12px 0 0;
 }
 
 #button_epilepsy {
-  background: #BAD696
+  background: #BAD696;
+  border-color: var(--ink);
+  color: var(--ink);
 }
+
+#button_epilepsy:hover {
+  background: #a5c47d;
+  color: var(--ink);
+}
+
+/* ── Selects ───────────────────────────────────────────────────── */
+
+select {
+  width: 100%;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  padding: 5px 8px;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+select:focus {
+  border-color: var(--grey);
+}
+
+/* don't force full-width on selects inside tables */
+table select {
+  width: auto;
+}
+
+/* ── Range sliders ─────────────────────────────────────────────── */
+
+input[type=range] {
+  accent-color: var(--ink);
+}
+
+/* ── Checkboxes ────────────────────────────────────────────────── */
+
+input[type=checkbox] {
+  accent-color: var(--ink);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ── Tables ────────────────────────────────────────────────────── */
+
+table.centre {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table td {
+  padding: 3px 4px;
+  vertical-align: middle;
+}
+
+/* ── Textarea ──────────────────────────────────────────────────── */
+
+textarea {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  padding: 7px 9px;
+  color: var(--ink);
+  outline: none;
+  resize: none;
+  transition: border-color 0.15s;
+}
+
+textarea:focus {
+  border-color: var(--grey);
+}
+
+/* ── Links ─────────────────────────────────────────────────────── */
 
 a {
-  color: #000000;
+  color: var(--ink);
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-/* Better vertical centering of title text and top buttons */
-.header_title {
-  height: 57px;
-  line-height: 20px;
-  text-align: center;
-}
-.header_left {
-  margin-top: 1px;
-  margin-bottom: 7px;
-}
-.header_right {
-  margin-top: 1px;
-  margin-bottom: 7px;
+a:hover {
+  opacity: 0.7;
 }
 
-/* Symmetry buttons. */
-/* Change height to ensure proper squares. */
-/* Use borders & outlines to show active & inactive. */
-/* Use gradient to split each button in half. */
+/* ── Rule / loop-type descriptions ─────────────────────────────── */
+
+#rules_desc,
+#loop_type_desc {
+  font-size: 11px;
+  color: var(--grey);
+  padding: 4px 0;
+  margin-top: 12px;
+}
+
+/* ── Radio button labels (used by JS) ──────────────────────────── */
+
+.selected {
+  color: #FFFFFF;
+}
+
+.unselected {
+  color: #000000;
+}
+
+.unselected:hover {
+  color: #66FFFF;
+}
+
+/* ── Symmetry (mirror) buttons ─────────────────────────────────── */
+
+/* Make each div contained within centered */
+#mirror_buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+#mirror_buttons>div {
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
 #mirror_buttons input {
-  height: 53px;
-  width: 53px;
+  height: 48px;
+  width: 48px;
+  padding: 0;
+  border: 2px solid transparent;
 }
+
+#mirror_buttons input:hover {
+  opacity: 0.7;
+}
+
 #mirror_buttons .mirror_active {
-  outline: 2px solid #000000;
+  border: 2px solid #000000;
+  outline: 2px dashed #000000;
+  outline-offset: 2px;
 }
+
 #mirror_buttons .mirror_inactive {
   border: 2px solid #000000;
 }
-#button_random, #button_central_rectangle {
-  border:  2px solid #E0B0FF;
-  outline: 2px solid #000000;
-  margin-top: 5px;
-}
+
+/* Mirror button gradients (legacy-direction syntax for changecss.js compat) */
 #mirror_buttons #mirror_ns {
-  background-image: linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
-  background-image: -o-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
-  background-image: -moz-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
-  background-image: -webkit-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
-  background-image: -ms-linear-gradient(bottom, #000000 50%, #E0B0FF 50%);
+  background-image: linear-gradient(bottom, #000000 50%, #F0EBE0 50%);
+  background-image: -webkit-linear-gradient(bottom, #000000 50%, #F0EBE0 50%);
 }
+
 #mirror_buttons #mirror_ew {
-  background-image: linear-gradient(right, #000000 50%, #E0B0FF 50%);
-  background-image: -o-linear-gradient(right, #000000 50%, #E0B0FF 50%);
-  background-image: -moz-linear-gradient(right, #000000 50%, #E0B0FF 50%);
-  background-image: -webkit-linear-gradient(right, #000000 50%, #E0B0FF 50%);
-  background-image: -ms-linear-gradient(right, #000000 50%, #E0B0FF 50%);
+  background-image: linear-gradient(right, #000000 50%, #F0EBE0 50%);
+  background-image: -webkit-linear-gradient(right, #000000 50%, #F0EBE0 50%);
 }
+
 #mirror_buttons #mirror_nesw {
-  background-image: linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
-  background-image: -o-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
-  background-image: -moz-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
-  background-image: -webkit-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
-  background-image: -ms-linear-gradient(bottom right, #000000 50%, #E0B0FF 50%);
+  background-image: linear-gradient(bottom right, #000000 50%, #F0EBE0 50%);
+  background-image: -webkit-linear-gradient(bottom right, #000000 50%, #F0EBE0 50%);
 }
+
 #mirror_buttons #mirror_nwse {
-  background-image: linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
-  background-image: -o-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
-  background-image: -moz-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
-  background-image: -webkit-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
-  background-image: -ms-linear-gradient(bottom left, #000000 50%, #E0B0FF 50%);
+  background-image: linear-gradient(bottom left, #000000 50%, #F0EBE0 50%);
+  background-image: -webkit-linear-gradient(bottom left, #000000 50%, #F0EBE0 50%);
+}
+
+/* ── Randomise buttons ─────────────────────────────────────────── */
+
+#randomise_buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+#randomise_buttons>div {
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+#button_random,
+#button_central_rectangle {
+  border: 2px solid #F0EBE0;
+  outline: 2px solid #000000;
+  outline-offset: 1px;
+}
+
+#randomise_buttons a:active {
+  transform: translateY(1px);
+}
+
+/* ── Save state section ────────────────────────────────────────── */
+
+.save_state input[type=button] {
+  margin-top: 8px;
+  margin-right: 4px;
 }

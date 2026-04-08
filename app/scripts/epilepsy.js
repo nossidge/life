@@ -1,4 +1,3 @@
-
 //##############################################################################
 // Module for epilepsy functions.
 //##############################################################################
@@ -8,10 +7,10 @@ var EPILEPSY = (function (mod) {
   let epilepsySafe = true;
 
   // Toggle value of 'epilepsySafe' boolean.
-  mod.toggleEpilepsy = function() {
-    EPILEPSY.setEpilepsy( !epilepsySafe );
+  mod.toggleEpilepsy = function () {
+    EPILEPSY.setEpilepsy(!epilepsySafe);
   }
-  mod.setEpilepsy = function(value) {
+  mod.setEpilepsy = function (value) {
     epilepsySafe = value;
     let domObj = document.getElementById('button_epilepsy');
     if (epilepsySafe) {
@@ -38,8 +37,8 @@ var EPILEPSY = (function (mod) {
       domObj.value = 'Epilepsy: Unsafe';
       domObj.style.background = '#E94E77'; // Red
 
-      document.getElementById('survival_0').style.display = 'block';
-      document.getElementById('survival_1').style.display = 'block';
+      document.getElementById('survival_0').style.display = 'inline';
+      document.getElementById('survival_1').style.display = 'inline';
 
       document.getElementById('range_framerate').max = 60;
 
@@ -57,26 +56,26 @@ var EPILEPSY = (function (mod) {
   //########################################
 
   // If epilepsySafe is on, then make sure birth and survival are not both 0.
-  mod.zeroNeighboursB = function() {
+  mod.zeroNeighboursB = function () {
     if (epilepsySafe) {
       if (document.getElementById('birth_0').checked) {
         FUNCTIONS.puts('epilepsySafe = ' + epilepsySafe);
         document.getElementById('survival_0').checked = false;
         document.getElementById('survival_0').style.display = 'none';
       } else {
-        document.getElementById('survival_0').style.display = 'block';
+        document.getElementById('survival_0').style.display = 'inline';
       }
     }
   }
 
-  mod.zeroNeighboursS = function() {
+  mod.zeroNeighboursS = function () {
     if (epilepsySafe) {
       if (document.getElementById('survival_0').checked) {
         FUNCTIONS.puts('epilepsySafe = ' + epilepsySafe);
         document.getElementById('birth_0').checked = false;
         document.getElementById('birth_0').style.display = 'none';
       } else {
-        document.getElementById('birth_0').style.display = 'block';
+        document.getElementById('birth_0').style.display = 'inline';
       }
     }
   }
@@ -86,14 +85,14 @@ var EPILEPSY = (function (mod) {
   // Filter the rules according to what's valid.
   // Mostly just to remove epileptic rules.
   // This should be used instead of the raw [RULES.rules].
-  mod.validLifeRules = function() {
+  mod.validLifeRules = function () {
     let outputHash = {};
 
     // If not epilepsy, then don't worry about flashing rules.
     if (!epilepsySafe) {
       outputHash = RULES.rules;
 
-    // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
+      // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
     } else {
       for (let ruleName in RULES.rules) {
         if (RULES.rules.hasOwnProperty(ruleName)) {
@@ -109,19 +108,19 @@ var EPILEPSY = (function (mod) {
   // Filter the loop types according to what's valid.
   // Removes any with rules that are epileptic.
   // This should be used instead of the raw [RULES.loops].
-  mod.validLoopTypes = function() {
+  mod.validLoopTypes = function () {
     let outputHash = {};
 
     // If not epilepsy, then don't worry about flashing rules.
     if (!epilepsySafe) {
       outputHash = RULES.loops;
 
-    // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
+      // If we are worried about epilepsy, filter out rules with 'epilepsy' tag.
     } else {
       for (let loopName in RULES.loops) {
         if (RULES.loops.hasOwnProperty(loopName)) {
-          let epil_0 = RULES.rules[ RULES.loops[loopName]['rules'][0] ].hasOwnProperty('epilepsy');
-          let epil_1 = RULES.rules[ RULES.loops[loopName]['rules'][1] ].hasOwnProperty('epilepsy');
+          let epil_0 = RULES.rules[RULES.loops[loopName]['rules'][0]].hasOwnProperty('epilepsy');
+          let epil_1 = RULES.rules[RULES.loops[loopName]['rules'][1]].hasOwnProperty('epilepsy');
           if (!epil_0 && !epil_1) {
             outputHash[loopName] = RULES.loops[loopName];
           }

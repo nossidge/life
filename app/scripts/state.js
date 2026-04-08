@@ -1,16 +1,15 @@
-
 //##############################################################################
 // Module to the state of the program.
 //##############################################################################
 
-var STATE = ( function(mod) {
+var STATE = (function (mod) {
 
   // Blur variables.
   // Set blurPercent, and calculate blurAbsolute from that.
   let blurAbsolute = 0;
   let blurPercent = 0;
   let blurMax = 0.6;
-  mod.blurPercent = function(value) {
+  mod.blurPercent = function (value) {
     if (typeof value !== 'undefined') {
       blurPercent = parseInt(value);
       blurAbsolute = blurMax - (blurMax * blurPercent / 100);
@@ -19,7 +18,7 @@ var STATE = ( function(mod) {
     }
     return blurPercent;
   }
-  mod.blurAbsolute = function() {
+  mod.blurAbsolute = function () {
     return blurAbsolute;
   }
 
@@ -28,29 +27,29 @@ var STATE = ( function(mod) {
   let lastCustomRuleName = '(custom 1)';
   let loopType = '(none)';
   let loopState = 0;
-  let loopRules = ['Conway','Conway'];
+  let loopRules = ['Conway', 'Conway'];
   let loopRates = [];
   let frameCount = 0;
-  mod.currentRuleType = function(value) {
+  mod.currentRuleType = function (value) {
     if (typeof value !== 'undefined') currentRuleType = value;
     return currentRuleType;
   }
-  mod.lastCustomRuleName = function(value) {
+  mod.lastCustomRuleName = function (value) {
     if (typeof value !== 'undefined') lastCustomRuleName = value;
     return lastCustomRuleName;
   }
-  mod.loopType = function(value) {
+  mod.loopType = function (value) {
     if (typeof value !== 'undefined') loopType = value;
     return loopType;
   }
-  mod.loopRules = function(value) {
+  mod.loopRules = function (value) {
     if (typeof value !== 'undefined') {
       loopRules = value;
       if (UI.enabled) UI.updateLoopRules();
     }
     return loopRules;
   }
-  mod.loopRates = function(value) {
+  mod.loopRates = function (value) {
     if (typeof value !== 'undefined') loopRates = value;
     return loopRates;
   }
@@ -58,10 +57,10 @@ var STATE = ( function(mod) {
   // Framecount is the number of frames in the current loop.
   // Not used if there is no loop in progress ( loopType == '(none)' ).
   // Framecount can either be reset, or ticked.
-  mod.frameCountReset = function() {
+  mod.frameCountReset = function () {
     frameCount = 0;
   }
-  mod.frameCountTick = function() {
+  mod.frameCountTick = function () {
     if (loopType != '(none)') {
       frameCount = frameCount + 1;
       if (frameCount >= loopRates[loopState]) {
@@ -69,13 +68,13 @@ var STATE = ( function(mod) {
 
         // Currently handles just 2 states.
         loopState = (loopState == 0) ? 1 : 0;
-        if (UI.enabled) UI.updateRuleByName( loopRules[loopState] );
+        if (UI.enabled) UI.updateRuleByName(loopRules[loopState]);
       }
     }
   }
 
   // Search to see if the selected rules match any of the named loops.
-  mod.updateLoopRule = function(index, value) {
+  mod.updateLoopRule = function (index, value) {
 
     // Update the STATE.
     let lr = STATE.loopRules();
@@ -115,7 +114,7 @@ var STATE = ( function(mod) {
   }
 
   // Change the loop rates.
-  mod.updateLoopRate = function(index, value) {
+  mod.updateLoopRate = function (index, value) {
     let lr = STATE.loopRates();
     lr[index] = value;
     STATE.loopRates(lr);
@@ -125,7 +124,7 @@ var STATE = ( function(mod) {
 
   //############################################################################
 
-  mod.toHash = function() {
+  mod.toHash = function () {
     let h = {};
     let cc = CELLS.cellCount();
     let cp = CELLS.cellPixels();
@@ -152,7 +151,7 @@ var STATE = ( function(mod) {
   }
 
   // Save the state of the automation.
-  mod.save = function() {
+  mod.save = function () {
     let variables = FUNCTIONS.serialiseToURLParams(STATE.toHash());
     let baseURL = location.protocol + '//' + location.host + location.pathname;
     let stateURL = baseURL + '?' + variables;
@@ -165,7 +164,7 @@ var STATE = ( function(mod) {
   }
 
   // Load the state of the automation from the passed object.
-  mod.load = function(stateObject) {
+  mod.load = function (stateObject) {
 
     /*
     TODO: Need to be able to read from String as well.
@@ -201,14 +200,14 @@ var STATE = ( function(mod) {
         // Set the state at each index.
         let cellState = cellStates[counter];
         for (let k = 0; k < cellState.length; k++) {
-          let state = parseInt( cellState.charAt(k) );
+          let state = parseInt(cellState.charAt(k));
           CELLS.cells(i, j).state(k, state);
         }
         counter++;
       }
     }
 
-    CELLS.render({force: true});
+    CELLS.render({ force: true });
   }
 
   return mod;

@@ -1,22 +1,21 @@
-
 //##############################################################################
 // Module for mouse events.
 //##############################################################################
 
-var MOUSE = ( function(mod) {
+var MOUSE = (function (mod) {
 
-  let pos = {x: 0, y: 0};
+  let pos = { x: 0, y: 0 };
   let mouseDown = false;
   let clickType = 'LEFT';
 
   // Set mouse down bool.
-  mod.mouseDown = function(value) {
+  mod.mouseDown = function (value) {
     mouseDown = value;
   }
 
   // Determine which mouse click was performed.
   // http://www.javascripter.net/faq/leftvsrightmousebutton.htm
-  mod.setClickType = function(e) {
+  mod.setClickType = function (e) {
     let evt = (e == null ? event : e);
     clickType = 'LEFT';
     if (evt.which) {
@@ -29,7 +28,7 @@ var MOUSE = ( function(mod) {
   }
 
   // Draw a cell to the canvas if the mouse is pressed.
-  mod.drawCellFromMousePos = function(e) {
+  mod.drawCellFromMousePos = function (e) {
     if (mouseDown) {
 
       // Left click for live, middle click for dead.
@@ -47,7 +46,7 @@ var MOUSE = ( function(mod) {
         let x = coords[i][0];
         let y = coords[i][1];
         CELLS.cells(x, y).state(0, state);
-        CELLS.renderCell(x, y, {force: true});
+        CELLS.renderCell(x, y, { force: true });
       }
     }
   }
@@ -61,22 +60,22 @@ var MOUSE = ( function(mod) {
 //##############################################################################
 
 // Draw if clicked, or if mouse dragged while clicked.
-CANVAS.a.addEventListener('mousedown', function(e) {
+CANVAS.a.addEventListener('mousedown', function (e) {
   MOUSE.mouseDown(true);
   MOUSE.setClickType(e);
   MOUSE.drawCellFromMousePos(e);
 }, false);
 
-CANVAS.a.addEventListener('mouseup', function(e) {
+CANVAS.a.addEventListener('mouseup', function (e) {
   MOUSE.mouseDown(false);
 }, false);
 
-CANVAS.a.addEventListener('mousemove', function(e) {
+CANVAS.a.addEventListener('mousemove', function (e) {
   MOUSE.drawCellFromMousePos(e);
 }, false);
 
 // Disable canvas doubleclick selection.
-CANVAS.a.onmousedown = function() {
+CANVAS.a.onmousedown = function () {
   return false;
 };
 

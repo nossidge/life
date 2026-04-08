@@ -1,25 +1,22 @@
-
 //##############################################################################
 // Module for UI functions.
 //##############################################################################
 
 var UI = (function (mod) {
 
-  let loopTypeDesc = true;
-  let rulesDesc = true;
   let colourLiveIsBackground = true;
   let colourDeadIsText = true;
 
   mod.enabled = true;
 
-  mod.resizeCanvas = function() {
+  mod.resizeCanvas = function () {
     let cc = CELLS.cellCount();
-    CANVAS.a.width  = cc.x * CELLS.cellPixels().x;
+    CANVAS.a.width = cc.x * CELLS.cellPixels().x;
     CANVAS.a.height = cc.y * CELLS.cellPixels().y;
   }
 
   // Load JSON stuff to html objects.
-  mod.HtmlLifeRulesDropDowns = function() {
+  mod.HtmlLifeRulesDropDowns = function () {
     let finalHtml = '';
     for (let property in EPILEPSY.validLifeRules()) {
       if (RULES.rules.hasOwnProperty(property)) {
@@ -34,7 +31,7 @@ var UI = (function (mod) {
     document.getElementById('loop_rule_0').value = STATE.loopRules()[0];
     document.getElementById('loop_rule_1').value = STATE.loopRules()[1];
   }
-  mod.HtmlLoopTypeDropDown = function() {
+  mod.HtmlLoopTypeDropDown = function () {
     let finalHtml = '<option value="(none)">(none)</option>';
     finalHtml += '<option value="(custom)">(custom)</option>';
     for (let property in EPILEPSY.validLoopTypes()) {
@@ -47,7 +44,7 @@ var UI = (function (mod) {
   }
 
   // Colour options.
-  let changeMirrorButtons = function() {
+  let changeMirrorButtons = function () {
     let col = CELLS.colour();
     let common = ', ' + col[0] + ' 50%, ' + col[1] + ' 50% )';
     changecss('#mirror_buttons #mirror_ns', 'background-image',
@@ -59,7 +56,7 @@ var UI = (function (mod) {
     changecss('#mirror_buttons #mirror_nwse', 'background-image',
       cssValuePrefix + 'linear-gradient(bottom left' + common);
   }
-  mod.updateColourLive = function(inputColour) {
+  mod.updateColourLive = function (inputColour) {
     let strCol = String(inputColour);
     if (strCol.charAt(0) != '#') strCol = '#' + strCol;
     CELLS.colour(1, strCol);
@@ -70,7 +67,7 @@ var UI = (function (mod) {
     }
     UI.drawButtonsAll();
   }
-  mod.updateColourDead = function(inputColour) {
+  mod.updateColourDead = function (inputColour) {
     let strCol = String(inputColour);
     if (strCol.charAt(0) != '#') strCol = '#' + strCol;
     CELLS.colour(0, strCol);
@@ -83,35 +80,13 @@ var UI = (function (mod) {
     UI.drawButtonsAll();
     changecss('a', 'color', strCol);
   }
-  mod.setColourLiveIsBackground = function(value) {
+  mod.setColourLiveIsBackground = function (value) {
     colourLiveIsBackground = value;
     document.getElementById('colour_live').checked = value;
   }
-  mod.setColourDeadIsText = function(value) {
+  mod.setColourDeadIsText = function (value) {
     colourDeadIsText = value;
     document.getElementById('colour_dead').checked = value;
-  }
-
-  // Show/hide the description of the loop type and rules.
-  mod.toggleHtmlLoopTypeDesc = function() {
-    loopTypeDesc = !loopTypeDesc;
-    if (loopTypeDesc) {
-      document.getElementById('loop_type_desc_toggle').innerHTML = '&nbsp;▼&nbsp;';
-      document.getElementById('loop_type_desc').style.display = 'block';
-    } else {
-      document.getElementById('loop_type_desc_toggle').innerHTML = '&nbsp;▶&nbsp;';
-      document.getElementById('loop_type_desc').style.display = 'none';
-    }
-  }
-  mod.toggleHtmlRulesDesc = function() {
-    rulesDesc = !rulesDesc;
-    if (rulesDesc) {
-      document.getElementById('rules_desc_toggle').innerHTML = '&nbsp;▼&nbsp;';
-      document.getElementById('rules_desc').style.display = 'block';
-    } else {
-      document.getElementById('rules_desc_toggle').innerHTML = '&nbsp;▶&nbsp;';
-      document.getElementById('rules_desc').style.display = 'none';
-    }
   }
 
   //############################################################################
@@ -125,7 +100,7 @@ var UI = (function (mod) {
   mod.mirrorNS = mirrorNS;
   mod.mirrorEW = mirrorEW;
 
-  let toggleMirrorActive = function(elem, bool) {
+  let toggleMirrorActive = function (elem, bool) {
     if (bool) {
       elem.classList.add('mirror_active');
       elem.classList.remove('mirror_inactive');
@@ -136,22 +111,22 @@ var UI = (function (mod) {
     UI.drawButtonsMirror();
   }
 
-  mod.toggleMirrorNS = function() {
+  mod.toggleMirrorNS = function () {
     mirrorNS = !mirrorNS;
     let elem = document.getElementById('mirror_ns');
     toggleMirrorActive(elem, mirrorNS);
   }
-  mod.toggleMirrorEW = function() {
+  mod.toggleMirrorEW = function () {
     mirrorEW = !mirrorEW;
     let elem = document.getElementById('mirror_ew');
     toggleMirrorActive(elem, mirrorEW);
   }
-  mod.toggleMirrorNESW = function() {
+  mod.toggleMirrorNESW = function () {
     mirrorNESW = !mirrorNESW;
     let elem = document.getElementById('mirror_nesw');
     toggleMirrorActive(elem, mirrorNESW);
   }
-  mod.toggleMirrorNWSE = function() {
+  mod.toggleMirrorNWSE = function () {
     mirrorNWSE = !mirrorNWSE;
     let elem = document.getElementById('mirror_nwse');
     toggleMirrorActive(elem, mirrorNWSE);
@@ -160,26 +135,26 @@ var UI = (function (mod) {
   //######################################
 
   // Same above as below. (X is the same)
-  mod.getMirrorNS = function(_x, _y, cells = CELLS) {
-    return [_x , (cells.cellCount().y - 1) - _y];
+  mod.getMirrorNS = function (_x, _y, cells = CELLS) {
+    return [_x, (cells.cellCount().y - 1) - _y];
   }
   // Same left as right. (Y is the same)
-  mod.getMirrorEW = function(_x, _y, cells = CELLS) {
-    return [(cells.cellCount().x - 1) - _x , _y];
+  mod.getMirrorEW = function (_x, _y, cells = CELLS) {
+    return [(cells.cellCount().x - 1) - _x, _y];
   }
 
   //######################################
 
   // Diagonals - Works best with square canvas. Will cut off sides if longer.
-  mod.getMirrorNESW = function(_x, _y, cells = CELLS) {
+  mod.getMirrorNESW = function (_x, _y, cells = CELLS) {
     return UI.getMirrorDiagonal(_x, _y, 1, cells);
   }
-  mod.getMirrorNWSE = function(_x, _y, cells = CELLS) {
+  mod.getMirrorNWSE = function (_x, _y, cells = CELLS) {
     return UI.getMirrorDiagonal(_x, _y, -1, cells);
   }
 
   // posOrNeg is 1 if NESW, -1 if NWSE.
-  mod.getMirrorDiagonal = function(_x, _y, posOrNeg, cells = CELLS) {
+  mod.getMirrorDiagonal = function (_x, _y, posOrNeg, cells = CELLS) {
     let centre = cells.centreCell();
 
     // Difference between the central cell and input.
@@ -202,19 +177,19 @@ var UI = (function (mod) {
   //######################################
 
   // This will return an array of cell addresses.
-  mod.getMirrorCellCoords = function(_x, _y, cells = CELLS) {
+  mod.getMirrorCellCoords = function (_x, _y, cells = CELLS) {
     let coords = new Array();
     coords[0] = [_x, _y];
 
     if (mirrorNS) {
-      coords.push( UI.getMirrorNS(_x, _y, cells) );
+      coords.push(UI.getMirrorNS(_x, _y, cells));
     }
 
     // There might now be two values in [coords], so loop through.
     if (mirrorEW) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorEW(coords[i][0], coords[i][1], cells) );
+        coords.push(UI.getMirrorEW(coords[i][0], coords[i][1], cells));
       }
     }
 
@@ -222,13 +197,13 @@ var UI = (function (mod) {
     if (mirrorNESW) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorNESW(coords[i][0], coords[i][1], cells) );
+        coords.push(UI.getMirrorNESW(coords[i][0], coords[i][1], cells));
       }
     }
     if (mirrorNWSE) {
       let loopMax = coords.length;
       for (let i = 0; i < loopMax; i++) {
-        coords.push( UI.getMirrorNWSE(coords[i][0], coords[i][1], cells) );
+        coords.push(UI.getMirrorNWSE(coords[i][0], coords[i][1], cells));
       }
     }
 
@@ -237,11 +212,11 @@ var UI = (function (mod) {
 
   //############################################################################
 
-  mod.updateRuleByIndex = function(index) {
-    UI.updateRuleByName( Object.keys(RULES.rules)[index] );
+  mod.updateRuleByIndex = function (index) {
+    UI.updateRuleByName(Object.keys(RULES.rules)[index]);
   }
 
-  mod.updateRuleByName = function(rt) {
+  mod.updateRuleByName = function (rt) {
     STATE.currentRuleType(rt);
     document.getElementById('rules_select').value = rt;
 
@@ -285,7 +260,7 @@ var UI = (function (mod) {
 
   //######################################
 
-  mod.updateLoopType = function(loopType) {
+  mod.updateLoopType = function (loopType) {
     STATE.loopType(loopType);
     document.getElementById('loop_type').value = loopType;
 
@@ -311,36 +286,36 @@ var UI = (function (mod) {
       // Change the rule, if it is not one of the loop rules.
       let rt = STATE.currentRuleType();
       if (rt != lr[0] && rt != lr[1]) {
-        UI.updateRuleByName( lr[0] );
+        UI.updateRuleByName(lr[0]);
       }
       FUNCTIONS.puts('Loop Type = ' + loopType);
     }
   }
 
-  mod.updateLoopRule = function(index) {
+  mod.updateLoopRule = function (index) {
     let val = STATE.loopRules()[index];
     document.getElementById('loop_rule_' + index).value = val;
   }
-  mod.updateLoopRules = function() {
+  mod.updateLoopRules = function () {
     let len = STATE.loopRules().length;
     for (let i = 0; i < len; i++) {
       UI.updateLoopRule(i);
     }
   }
 
-  mod.updateBlur = function() {
+  mod.updateBlur = function () {
     let bp = STATE.blurPercent();
     document.getElementById('range_blur').value = bp;
     document.getElementById('span_blur').innerHTML = bp + '%';
   }
 
-  mod.updateFramerate = function() {
+  mod.updateFramerate = function () {
     let fr = ANIMATION.frameRate();
     document.getElementById('range_framerate').value = fr;
     document.getElementById('span_framerate').innerHTML = fr;
   }
 
-  mod.updatePaused = function() {
+  mod.updatePaused = function () {
     let colour = ANIMATION.paused() ? '#E94E77' : '';
     document.getElementById('button_pause').style.background = colour;
 
@@ -354,7 +329,7 @@ var UI = (function (mod) {
     }
   }
 
-  mod.updateCanvasSize = function() {
+  mod.updateCanvasSize = function () {
     let cc = CELLS.cellCount();
     document.getElementById('range_width').value = cc.x;
     document.getElementById('span_width').innerHTML = cc.x;
@@ -362,7 +337,7 @@ var UI = (function (mod) {
     document.getElementById('span_height').innerHTML = cc.y;
   }
 
-  mod.updatePixelSize = function() {
+  mod.updatePixelSize = function () {
     let cp = CELLS.cellPixels();
     document.getElementById('range_pixels').value = cp.x;
     document.getElementById('span_pixels').innerHTML = cp.x;
@@ -371,7 +346,7 @@ var UI = (function (mod) {
   //############################################################################
 
   // Check to see if the chosen Birth/Survival options match an existing rule.
-  mod.checkLifeRules = function() {
+  mod.checkLifeRules = function () {
 
     // Make arrays of each rule type.
     let birth = [];
@@ -386,7 +361,7 @@ var UI = (function (mod) {
     }
 
     // Convert to string for hacky array comparison.
-    let strBirth    = JSON.stringify(birth);
+    let strBirth = JSON.stringify(birth);
     let strSurvival = JSON.stringify(survival);
 
     // Check each in { EPILEPSY.validLifeRules() } for a match.
@@ -395,7 +370,7 @@ var UI = (function (mod) {
       if (RULES.rules.hasOwnProperty(ruleName)) {
 
         // Convert to string for hacky array comparison.
-        let thisBirth    = JSON.stringify(RULES.rules[ruleName]['birth']);
+        let thisBirth = JSON.stringify(RULES.rules[ruleName]['birth']);
         let thisSurvival = JSON.stringify(RULES.rules[ruleName]['survival']);
 
         // Don't match to a 'custom' rule.
@@ -425,8 +400,8 @@ var UI = (function (mod) {
   //############################################################################
 
   // Redraw the whole canvas.
-  mod.clickRedrawButton = function() {
-    let width  = parseInt(document.getElementById('range_width').value);
+  mod.clickRedrawButton = function () {
+    let width = parseInt(document.getElementById('range_width').value);
     let height = parseInt(document.getElementById('range_height').value);
     let pixels = parseInt(document.getElementById('range_pixels').value);
     CELLS.cellCount({
@@ -441,7 +416,7 @@ var UI = (function (mod) {
   }
 
   // Step frames individually.
-  mod.stepFrame = function() {
+  mod.stepFrame = function () {
     ANIMATION.paused(true);
     ANIMATION.stepToNextFrame(true);
   }
@@ -453,7 +428,7 @@ var UI = (function (mod) {
   //   draw a random pattern of cells,
   //   write to a hidden canvas,
   //   then copy the canvas to the img in the button anchor.
-  let buttonCells = function(noMirror, mirror) {
+  let buttonCells = function (noMirror, mirror) {
     let a = document.getElementById('little_hidden_canvas');
     let c = a.getContext('2d');
     let b;
@@ -501,10 +476,10 @@ var UI = (function (mod) {
   }
 
   // Public functions for the above.
-  mod.drawButtonsMirror = function() {
+  mod.drawButtonsMirror = function () {
     buttonCells(false, true);
   }
-  mod.drawButtonsAll = function() {
+  mod.drawButtonsAll = function () {
     buttonCells(true, true);
   }
 
